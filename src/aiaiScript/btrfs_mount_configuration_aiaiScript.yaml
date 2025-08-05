@@ -1,0 +1,323 @@
+metadata:
+  id: btrfs_mount_configuration-verification
+  intent: BTRFS Mount Configuration for Ubuntu AI/ML Installation
+  technicalProficiency: Intermediate
+  context:
+    designPrinciples:
+    - Verify system state before proceeding
+    - Fail fast and safe
+    - Provide clear validation feedback
+    dependencies:
+    - Shell command execution
+    - System state validation
+    compatibility:
+    - Linux systems with shell access
+    - Ubuntu/Debian package management
+body:
+- type: command
+  id: phase-filesystem_uuid_retrieval-start
+  intent: 'Starting phase: Retrieve filesystem UUIDs for mount configuration'
+  shellCommand: 'echo ''Starting phase: Retrieve filesystem UUIDs for mount configuration'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_partition_uuid
+  intent: Get system BTRFS partition UUID
+  command: if [ -b "/dev/nvme0n1p3" ]; then SYSTEM_UUID=$(blkid -s UUID -o value /dev/nvme0n1p3)
+    && echo "system_uuid:$SYSTEM_UUID"; else echo 'system_partition_not_found'; fi
+  expected_output: 'system_uuid:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-ml_partition_uuid
+  intent: Get ML BTRFS partition UUID for reference
+  command: if [ -b "/dev/nvme0n1p4" ]; then ML_UUID=$(blkid -s UUID -o value /dev/nvme0n1p4)
+    && echo "ml_uuid:$ML_UUID"; else echo 'ml_partition_not_found'; fi
+  expected_output: (ml_uuid:|ml_partition_not_found)
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-data_partition_uuid
+  intent: Get data EXT4 partition UUID for reference
+  command: if [ -b "/dev/nvme0n1p5" ]; then DATA_UUID=$(blkid -s UUID -o value /dev/nvme0n1p5)
+    && echo "data_uuid:$DATA_UUID"; else echo 'data_partition_not_found'; fi
+  expected_output: (data_uuid:|data_partition_not_found)
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-uuid_validation
+  intent: Validate system UUID is valid and not empty
+  command: SYSTEM_UUID=$(blkid -s UUID -o value /dev/nvme0n1p3 2>/dev/null) && if
+    [ -n "$SYSTEM_UUID" ]; then echo 'system_uuid_valid'; else echo 'system_uuid_invalid';
+    fi
+  expected_output: system_uuid_valid
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-filesystem_uuid_retrieval-end
+  intent: 'Completed phase: Retrieve filesystem UUIDs for mount configuration'
+  shellCommand: 'echo ''Completed phase: Retrieve filesystem UUIDs for mount configuration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_backup_creation-start
+  intent: 'Starting phase: Backup current fstab before modification'
+  shellCommand: 'echo ''Starting phase: Backup current fstab before modification'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-fstab_backup_creation
+  intent: Create backup of current filesystem table
+  command: BACKUP_NAME="/etc/fstab.backup.$(date +%Y%m%d-%H%M)" && cp /etc/fstab "$BACKUP_NAME"
+    && echo "backup_created:$BACKUP_NAME"
+  expected_output: 'backup_created:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-backup_verification
+  intent: Verify backup file was created successfully
+  command: BACKUP_NAME="/etc/fstab.backup.$(date +%Y%m%d-%H%M)" && ls -la "$BACKUP_NAME"
+    && echo 'backup_verified'
+  expected_output: backup_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-backup_content_check
+  intent: Verify backup contains original fstab content
+  command: BACKUP_NAME="/etc/fstab.backup.$(date +%Y%m%d-%H%M)" && wc -l "$BACKUP_NAME"
+    && echo 'backup_content_verified'
+  expected_output: backup_content_verified
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-fstab_backup_creation-end
+  intent: 'Completed phase: Backup current fstab before modification'
+  shellCommand: 'echo ''Completed phase: Backup current fstab before modification'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_update_preparation-start
+  intent: 'Starting phase: Prepare S1-compliant mount entries for fstab'
+  shellCommand: 'echo ''Starting phase: Prepare S1-compliant mount entries for fstab'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-system_uuid_retrieval_for_config
+  intent: Retrieve system UUID for mount configuration
+  shellCommand: 'SYSTEM_UUID=$(blkid -s UUID -o value /dev/nvme0n1p3) && echo "System
+    BTRFS UUID: $SYSTEM_UUID"'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-ml_uuid_retrieval_for_config
+  intent: Retrieve ML UUID for mount configuration
+  shellCommand: 'if [ -b "/dev/nvme0n1p4" ]; then ML_UUID=$(blkid -s UUID -o value
+    /dev/nvme0n1p4) && echo "ML BTRFS UUID: $ML_UUID"; else echo ''ML partition not
+    found - will be configured in Section S5''; fi'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-data_uuid_retrieval_for_config
+  intent: Retrieve data UUID for mount configuration
+  shellCommand: 'if [ -b "/dev/nvme0n1p5" ]; then DATA_UUID=$(blkid -s UUID -o value
+    /dev/nvme0n1p5) && echo "Data EXT4 UUID: $DATA_UUID"; else echo ''Data partition
+    not found - will be configured in Section S6''; fi'
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_update_preparation-end
+  intent: 'Completed phase: Prepare S1-compliant mount entries for fstab'
+  shellCommand: 'echo ''Completed phase: Prepare S1-compliant mount entries for fstab'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_update_execution-start
+  intent: 'Starting phase: Update fstab with S1-compliant mount entries'
+  shellCommand: 'echo ''Starting phase: Update fstab with S1-compliant mount entries'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-fstab_entries_creation
+  intent: Create S1-compliant mount entries and append to fstab
+  command: SYSTEM_UUID=$(blkid -s UUID -o value /dev/nvme0n1p3) && ML_UUID=$(blkid
+    -s UUID -o value /dev/nvme0n1p4 2>/dev/null) && DATA_UUID=$(blkid -s UUID -o value
+    /dev/nvme0n1p5 2>/dev/null) && FSTAB_ENTRIES="\n# System BTRFS subvolumes (200GB
+    partition) - S1 Strategy Implementation\n# Core system with preserved /var/lib
+    (included in snapshots)\nUUID=$SYSTEM_UUID  /            btrfs  subvol=@,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    1\n\n# Independent user data snapshots\nUUID=$SYSTEM_UUID  /home        btrfs  subvol=@home,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\n\n# Excluded volatile data subvolumes (prevent snapshot pollution)\nUUID=$SYSTEM_UUID  /var/log     btrfs  subvol=@var-log,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\nUUID=$SYSTEM_UUID  /var/cache   btrfs  subvol=@var-cache,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\nUUID=$SYSTEM_UUID  /var/tmp     btrfs  subvol=@var-tmp,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\nUUID=$SYSTEM_UUID  /var/spool   btrfs  subvol=@var-spool,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\nUUID=$SYSTEM_UUID  /var/backups btrfs  subvol=@var-backups,defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2\n\n# Snapshot storage (manual mount only)\nUUID=$SYSTEM_UUID  /.snapshots  btrfs  subvol=@snapshots,defaults,noatime,compress=zstd:3,space_cache=v2,noauto  0
+    0" && if [ -n "$ML_UUID" ]; then FSTAB_ENTRIES="$FSTAB_ENTRIES\n# ML and Data
+    partitions (configured in subsequent sections)\nUUID=$ML_UUID      /ml          btrfs  defaults,noatime,compress=zstd:3,space_cache=v2,discard=async  0
+    2"; fi && if [ -n "$DATA_UUID" ]; then FSTAB_ENTRIES="$FSTAB_ENTRIES\nUUID=$DATA_UUID    /data        ext4   defaults,noatime  0
+    2"; fi && echo "$FSTAB_ENTRIES" >> /etc/fstab && echo 'fstab_updated'
+  expected_output: fstab_updated
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-fstab_update_verification
+  intent: Verify fstab was updated successfully
+  command: grep -q 'subvol=@' /etc/fstab && echo 'fstab_update_verified' || echo 'fstab_update_failed'
+  expected_output: fstab_update_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-fstab_update_execution-end
+  intent: 'Completed phase: Update fstab with S1-compliant mount entries'
+  shellCommand: 'echo ''Completed phase: Update fstab with S1-compliant mount entries'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_validation-start
+  intent: 'Starting phase: Validate fstab syntax and configuration'
+  shellCommand: 'echo ''Starting phase: Validate fstab syntax and configuration'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-fstab_syntax_validation
+  intent: Validate fstab syntax using mount -fav
+  command: mount -fav && echo 'fstab_syntax_valid' || echo 'fstab_syntax_invalid'
+  expected_output: fstab_syntax_valid
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-fstab_content_display
+  intent: Display current fstab contents for verification
+  shellCommand: echo 'Current fstab contents:' && cat /etc/fstab
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-fstab_validation-end
+  intent: 'Completed phase: Validate fstab syntax and configuration'
+  shellCommand: 'echo ''Completed phase: Validate fstab syntax and configuration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-mount_options_explanation-start
+  intent: 'Starting phase: Display BTRFS mount options explanation'
+  shellCommand: 'echo ''Starting phase: Display BTRFS mount options explanation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-mount_options_summary
+  intent: Display BTRFS mount options explanation for AI/ML optimization
+  shellCommand: echo 'BTRFS Mount Options Explanation (AI/ML Optimized):' && echo
+    'subvol=@ - Specify subvolume to mount - enables subvolume snapshots' && echo
+    'noatime - Disable access time updates - improves performance for frequent file
+    access during ML training' && echo 'compress=zstd:3 - Enable ZSTD compression
+    level 3 - saves space on code/config files without impacting performance' && echo
+    'space_cache=v2 - Enable space cache version 2 - improves filesystem performance
+    for large datasets' && echo 'discard=async - Enable async SSD TRIM - maintains
+    SSD performance over time with frequent writes' && echo 'noauto - Manual mount
+    only (snapshots) - allows manual management'
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-mount_options_explanation-end
+  intent: 'Completed phase: Display BTRFS mount options explanation'
+  shellCommand: 'echo ''Completed phase: Display BTRFS mount options explanation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-configuration_verification-start
+  intent: 'Starting phase: Verify all required mount entries are present in fstab'
+  shellCommand: 'echo ''Starting phase: Verify all required mount entries are present
+    in fstab'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-required_mount_entries_verification
+  intent: Check that all required mount entries are present in fstab
+  command: 'REQUIRED_MOUNTS=(''/'' ''/home'' ''/var/log'' ''/var/cache'' ''/var/tmp''
+    ''/var/spool'' ''/var/backups'' ''/.snapshots'') && MISSING_MOUNTS=0 && for mount_point
+    in "${REQUIRED_MOUNTS[@]}"; do if grep -q "subvol=@.*$mount_point" /etc/fstab;
+    then echo "VERIFIED: Mount entry for $mount_point found in fstab"; else echo "ERROR:
+    Mount entry for $mount_point missing in fstab"; MISSING_MOUNTS=$((MISSING_MOUNTS
+    + 1)); fi; done && if [ $MISSING_MOUNTS -eq 0 ]; then echo ''all_mount_entries_verified'';
+    else echo "missing_mount_entries:$MISSING_MOUNTS"; fi'
+  expected_output: all_mount_entries_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-subvolume_mount_entries_check
+  intent: Verify specific subvolume mount entries
+  command: echo 'Subvolume mount entries verification:' && grep 'subvol=@' /etc/fstab
+    && echo 'subvolume_entries_verified'
+  expected_output: subvolume_entries_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-snapshot_mount_entry_check
+  intent: Verify snapshot mount entry with noauto option
+  command: grep -q 'subvol=@snapshots.*noauto' /etc/fstab && echo 'snapshot_mount_verified'
+    || echo 'snapshot_mount_missing'
+  expected_output: snapshot_mount_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-configuration_verification-end
+  intent: 'Completed phase: Verify all required mount entries are present in fstab'
+  shellCommand: 'echo ''Completed phase: Verify all required mount entries are present
+    in fstab'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-configuration_summary-start
+  intent: 'Starting phase: Generate configuration summary and next steps'
+  shellCommand: 'echo ''Starting phase: Generate configuration summary and next steps'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-configuration_completion_summary
+  intent: Display configuration completion summary
+  shellCommand: echo 'MOUNT CONFIGURATION COMPLETED SUCCESSFULLY' && echo 'Filesystem
+    UUIDs retrieved successfully' && echo 'Original fstab backed up' && echo 'S1-compliant
+    subvolume mount entries added' && echo 'fstab syntax validation completed' &&
+    echo 'All required mount entries verified'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-recovery_information
+  intent: Display recovery information
+  shellCommand: 'BACKUP_NAME="/etc/fstab.backup.$(date +%Y%m%d-%H%M)" && echo ''RECOVERY
+    INFORMATION:'' && echo "Original fstab available at $BACKUP_NAME if rollback needed"
+    && echo ''To restore: sudo cp $BACKUP_NAME /etc/fstab'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-next_steps_guidance
+  intent: Provide next steps guidance
+  shellCommand: 'echo ''READY FOR NEXT STEP: Section 4.7 - System Boot Configuration
+    Updates'' && echo ''IMPORTANT: System will require reboot after configuration''
+    && echo ''After reboot, verify all subvolumes mount correctly'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-configuration_summary-end
+  intent: 'Completed phase: Generate configuration summary and next steps'
+  shellCommand: 'echo ''Completed phase: Generate configuration summary and next steps'''
+  destructive: false
+  conditional: false
+- type: command
+  id: verification-complete
+  intent: Verification completed successfully
+  shellCommand: echo 'All verification checks completed successfully'
+  destructive: false
+  conditional: false

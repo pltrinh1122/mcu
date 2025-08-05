@@ -1,0 +1,383 @@
+metadata:
+  id: btrfs_boot_configuration-verification
+  intent: BTRFS Boot Configuration for Ubuntu AI/ML Installation
+  technicalProficiency: Intermediate
+  context:
+    designPrinciples:
+    - Verify system state before proceeding
+    - Fail fast and safe
+    - Provide clear validation feedback
+    dependencies:
+    - Shell command execution
+    - System state validation
+    compatibility:
+    - Linux systems with shell access
+    - Ubuntu/Debian package management
+body:
+- type: command
+  id: phase-prerequisite_verification-start
+  intent: 'Starting phase: Verify all prerequisites for boot configuration'
+  shellCommand: 'echo ''Starting phase: Verify all prerequisites for boot configuration'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-fstab_btrfs_entries_verification
+  intent: Verify fstab contains BTRFS subvolume entries
+  command: grep -q 'subvol=@' /etc/fstab && echo 'fstab_btrfs_entries_found' || echo
+    'fstab_btrfs_entries_missing'
+  expected_output: fstab_btrfs_entries_found
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-grub_configuration_check
+  intent: Check current GRUB configuration
+  shellCommand: echo 'Current GRUB configuration:' && grep -E '(GRUB_CMDLINE_LINUX_DEFAULT|GRUB_PRELOAD_MODULES)'
+    /etc/default/grub || echo 'No GRUB configuration found'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-initramfs_modules_check
+  intent: Check current initramfs modules configuration
+  shellCommand: echo 'Current initramfs modules:' && cat /etc/initramfs-tools/modules
+    | grep -v '^#' | grep -v '^$' || echo 'No initramfs modules found'
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-prerequisite_verification-end
+  intent: 'Completed phase: Verify all prerequisites for boot configuration'
+  shellCommand: 'echo ''Completed phase: Verify all prerequisites for boot configuration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-grub_configuration_backup-start
+  intent: 'Starting phase: Backup current GRUB configuration before modification'
+  shellCommand: 'echo ''Starting phase: Backup current GRUB configuration before modification'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-grub_backup_creation
+  intent: Create backup of current GRUB configuration
+  command: GRUB_BACKUP="/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)" && cp /etc/default/grub
+    "$GRUB_BACKUP" && echo "grub_backup_created:$GRUB_BACKUP"
+  expected_output: 'grub_backup_created:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_backup_verification
+  intent: Verify GRUB backup was created successfully
+  command: GRUB_BACKUP="/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)" && ls -la
+    "$GRUB_BACKUP" && echo 'grub_backup_verified'
+  expected_output: grub_backup_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-grub_configuration_backup-end
+  intent: 'Completed phase: Backup current GRUB configuration before modification'
+  shellCommand: 'echo ''Completed phase: Backup current GRUB configuration before
+    modification'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-grub_configuration_update-start
+  intent: 'Starting phase: Update GRUB configuration for BTRFS subvolume support'
+  shellCommand: 'echo ''Starting phase: Update GRUB configuration for BTRFS subvolume
+    support'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-grub_command_line_update
+  intent: Add rootflags=subvol=@ to GRUB command line
+  command: sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& rootflags=subvol=@/' /etc/default/grub
+    && echo 'grub_command_line_updated'
+  expected_output: grub_command_line_updated
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_modules_addition
+  intent: Add BTRFS module to GRUB preload modules
+  command: echo 'GRUB_PRELOAD_MODULES="btrfs"' >> /etc/default/grub && echo 'grub_modules_added'
+  expected_output: grub_modules_added
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_configuration_verification
+  intent: Verify GRUB configuration changes
+  command: echo 'GRUB configuration changes verification:' && grep -E '(GRUB_CMDLINE_LINUX_DEFAULT|GRUB_PRELOAD_MODULES)'
+    /etc/default/grub && echo 'grub_configuration_verified'
+  expected_output: grub_configuration_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-grub_configuration_update-end
+  intent: 'Completed phase: Update GRUB configuration for BTRFS subvolume support'
+  shellCommand: 'echo ''Completed phase: Update GRUB configuration for BTRFS subvolume
+    support'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-initramfs_configuration_backup-start
+  intent: 'Starting phase: Backup current initramfs configuration before modification'
+  shellCommand: 'echo ''Starting phase: Backup current initramfs configuration before
+    modification'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-initramfs_backup_creation
+  intent: Create backup of current initramfs modules
+  command: INITRAMFS_BACKUP="/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)"
+    && cp /etc/initramfs-tools/modules "$INITRAMFS_BACKUP" && echo "initramfs_backup_created:$INITRAMFS_BACKUP"
+  expected_output: 'initramfs_backup_created:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-initramfs_backup_verification
+  intent: Verify initramfs backup was created successfully
+  command: INITRAMFS_BACKUP="/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)"
+    && ls -la "$INITRAMFS_BACKUP" && echo 'initramfs_backup_verified'
+  expected_output: initramfs_backup_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-initramfs_configuration_backup-end
+  intent: 'Completed phase: Backup current initramfs configuration before modification'
+  shellCommand: 'echo ''Completed phase: Backup current initramfs configuration before
+    modification'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-initramfs_configuration_update-start
+  intent: 'Starting phase: Update initramfs configuration for BTRFS support'
+  shellCommand: 'echo ''Starting phase: Update initramfs configuration for BTRFS support'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-btrfs_module_addition
+  intent: Add BTRFS module to initramfs
+  command: echo 'btrfs' >> /etc/initramfs-tools/modules && echo 'btrfs_module_added'
+  expected_output: btrfs_module_added
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-initramfs_module_verification
+  intent: Verify BTRFS module was added to initramfs
+  command: grep btrfs /etc/initramfs-tools/modules && echo 'initramfs_module_verified'
+  expected_output: initramfs_module_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-initramfs_configuration_update-end
+  intent: 'Completed phase: Update initramfs configuration for BTRFS support'
+  shellCommand: 'echo ''Completed phase: Update initramfs configuration for BTRFS
+    support'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-critical_checkpoint-start
+  intent: 'Starting phase: Critical checkpoint before boot configuration regeneration'
+  shellCommand: 'echo ''Starting phase: Critical checkpoint before boot configuration
+    regeneration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-configuration_summary_display
+  intent: Display configuration changes summary before regeneration
+  shellCommand: 'echo ''CRITICAL CHECKPOINT: Boot Configuration Regeneration'' &&
+    echo ''======================================='' && echo ''WARNING: The following
+    operations will commit the system to BTRFS subvolume boot process.'' && echo ''This
+    is the POINT OF NO RETURN.'' && echo '''' && echo ''Configuration changes to be
+    applied:'' && echo ''- GRUB command line: rootflags=subvol=@'' && echo ''- GRUB
+    modules: GRUB_PRELOAD_MODULES="btrfs"'' && echo ''- initramfs modules: btrfs''
+    && echo ''- GRUB configuration regeneration'' && echo ''- GRUB bootloader reinstallation'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-user_confirmation_check
+  intent: Check for user confirmation to proceed
+  command: echo 'Press Enter to proceed with boot configuration regeneration or Ctrl+C
+    to abort' && read -r && echo 'user_confirmed_proceed'
+  expected_output: user_confirmed_proceed
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-critical_checkpoint-end
+  intent: 'Completed phase: Critical checkpoint before boot configuration regeneration'
+  shellCommand: 'echo ''Completed phase: Critical checkpoint before boot configuration
+    regeneration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-boot_configuration_regeneration-start
+  intent: 'Starting phase: Regenerate boot configuration with BTRFS support'
+  shellCommand: 'echo ''Starting phase: Regenerate boot configuration with BTRFS support'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-initramfs_update
+  intent: Update initramfs with BTRFS support
+  command: update-initramfs -u && echo 'initramfs_updated'
+  expected_output: initramfs_updated
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_configuration_update
+  intent: Update GRUB configuration
+  command: update-grub && echo 'grub_configuration_updated'
+  expected_output: grub_configuration_updated
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_bootloader_reinstallation
+  intent: Reinstall GRUB bootloader
+  command: grub-install /dev/nvme0n1 && echo 'grub_bootloader_reinstalled'
+  expected_output: grub_bootloader_reinstalled
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-boot_configuration_regeneration-end
+  intent: 'Completed phase: Regenerate boot configuration with BTRFS support'
+  shellCommand: 'echo ''Completed phase: Regenerate boot configuration with BTRFS
+    support'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-boot_configuration_verification-start
+  intent: 'Starting phase: Verify boot configuration was updated successfully'
+  shellCommand: 'echo ''Starting phase: Verify boot configuration was updated successfully'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-initramfs_verification
+  intent: Verify initramfs was updated
+  command: LATEST_INITRAMFS=$(ls -t /boot/initrd.img-* | head -1) && if [ -f "$LATEST_INITRAMFS"
+    ]; then echo "initramfs_verified:$LATEST_INITRAMFS"; else echo 'initramfs_verification_failed';
+    fi
+  expected_output: 'initramfs_verified:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_configuration_verification
+  intent: Verify GRUB configuration contains subvolume flags
+  command: grep -q 'rootflags=subvol=@' /boot/grub/grub.cfg && echo 'grub_subvolume_flags_verified'
+    || echo 'grub_subvolume_flags_missing'
+  expected_output: grub_subvolume_flags_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-grub_configuration_display
+  intent: Display GRUB configuration for verification
+  shellCommand: echo 'GRUB configuration verification:' && grep -A 5 -B 5 'rootflags=subvol=@'
+    /boot/grub/grub.cfg || echo 'No subvolume flags found in GRUB configuration'
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-boot_configuration_verification-end
+  intent: 'Completed phase: Verify boot configuration was updated successfully'
+  shellCommand: 'echo ''Completed phase: Verify boot configuration was updated successfully'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-configuration_changes_summary-start
+  intent: 'Starting phase: Generate configuration changes summary'
+  shellCommand: 'echo ''Starting phase: Generate configuration changes summary'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-changes_summary_display
+  intent: Display boot configuration changes summary
+  shellCommand: "echo 'Boot Configuration Changes Applied:' && echo '\u250C\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252C\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510' && echo '\u2502\
+    \ Component            \u2502 Modification                                   \
+    \     \u2502' && echo '\u251C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u253C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2524' && echo '\u2502 GRUB Command Line    \u2502 Added \"rootflags=subvol=@\"\
+    \                         \u2502' && echo '\u2502 GRUB Modules         \u2502\
+    \ Added \"GRUB_PRELOAD_MODULES=\\\"btrfs\\\"\"               \u2502' && echo '\u2502\
+    \ initramfs Modules    \u2502 Added \"btrfs\" module                         \
+    \      \u2502' && echo '\u2502 GRUB Configuration   \u2502 Regenerated with update-grub\
+    \                       \u2502' && echo '\u2502 GRUB Bootloader      \u2502 Reinstalled\
+    \ with grub-install                      \u2502' && echo '\u2514\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518'"
+  destructive: false
+  conditional: false
+- type: command
+  id: check-recovery_information
+  intent: Display recovery information
+  shellCommand: 'GRUB_BACKUP="/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)" &&
+    INITRAMFS_BACKUP="/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)"
+    && echo ''Recovery backups available:'' && echo "  GRUB: $GRUB_BACKUP" && echo
+    "  initramfs: $INITRAMFS_BACKUP" && echo ''To restore GRUB: sudo cp $GRUB_BACKUP
+    /etc/default/grub && sudo update-grub'' && echo ''To restore initramfs: sudo cp
+    $INITRAMFS_BACKUP /etc/initramfs-tools/modules && sudo update-initramfs -u'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-configuration_changes_summary-end
+  intent: 'Completed phase: Generate configuration changes summary'
+  shellCommand: 'echo ''Completed phase: Generate configuration changes summary'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-completion_summary-start
+  intent: 'Starting phase: Generate completion summary and next steps'
+  shellCommand: 'echo ''Starting phase: Generate completion summary and next steps'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-completion_summary_display
+  intent: Display completion summary
+  shellCommand: echo 'BOOT CONFIGURATION COMPLETED SUCCESSFULLY' && echo 'GRUB configuration
+    updated successfully' && echo 'initramfs updated with BTRFS support' && echo 'Boot
+    configuration regenerated' && echo 'GRUB bootloader reinstalled'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-next_steps_guidance
+  intent: Provide next steps guidance
+  shellCommand: 'echo ''READY FOR NEXT STEP: Section 4.8 - Pre-Reboot Validation''
+    && echo ''CRITICAL: Complete Section 4.8 validation before rebooting'' && echo
+    ''After validation, reboot system to test BTRFS subvolume boot'' && echo ''Monitor
+    boot process for any errors'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-completion_summary-end
+  intent: 'Completed phase: Generate completion summary and next steps'
+  shellCommand: 'echo ''Completed phase: Generate completion summary and next steps'''
+  destructive: false
+  conditional: false
+- type: command
+  id: verification-complete
+  intent: Verification completed successfully
+  shellCommand: echo 'All verification checks completed successfully'
+  destructive: false
+  conditional: false

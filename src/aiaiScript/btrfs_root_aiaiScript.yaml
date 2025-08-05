@@ -1,0 +1,310 @@
+metadata:
+  id: btrfs_root-verification
+  intent: BTRFS Root Partition Installation Verification
+  technicalProficiency: Intermediate
+  context:
+    designPrinciples:
+    - Verify system state before proceeding
+    - Fail fast and safe
+    - Provide clear validation feedback
+    dependencies:
+    - Shell command execution
+    - System state validation
+    compatibility:
+    - Linux systems with shell access
+    - Ubuntu/Debian package management
+body:
+- type: command
+  id: phase-boot_verification-start
+  intent: 'Starting phase: Verify system booted successfully from BTRFS root subvolumes'
+  shellCommand: 'echo ''Starting phase: Verify system booted successfully from BTRFS
+    root subvolumes'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-root_filesystem
+  intent: Root filesystem running from BTRFS subvolumes
+  command: mount | grep 'on / '
+  expected_output: btrfs.*subvol=/@
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-btrfs_mounts
+  intent: All BTRFS mount points are active
+  command: mount | grep btrfs | wc -l
+  expected_output: '[1-9]'
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-boot_verification-end
+  intent: 'Completed phase: Verify system booted successfully from BTRFS root subvolumes'
+  shellCommand: 'echo ''Completed phase: Verify system booted successfully from BTRFS
+    root subvolumes'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-mount_verification-start
+  intent: 'Starting phase: Verify expected mount points and subvolumes'
+  shellCommand: 'echo ''Starting phase: Verify expected mount points and subvolumes'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-home_mount
+  intent: /home mounted with correct subvolume
+  command: mount | grep 'on /home '
+  expected_output: subvol=/@home
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_log_mount
+  intent: /var/log mounted with correct subvolume
+  command: mount | grep 'on /var/log '
+  expected_output: subvol=/@var-log
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-var_cache_mount
+  intent: /var/cache mounted with correct subvolume
+  command: mount | grep 'on /var/cache '
+  expected_output: subvol=/@var-cache
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-var_tmp_mount
+  intent: /var/tmp mounted with correct subvolume
+  command: mount | grep 'on /var/tmp '
+  expected_output: subvol=/@var-tmp
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-var_spool_mount
+  intent: /var/spool mounted with correct subvolume
+  command: mount | grep 'on /var/spool '
+  expected_output: subvol=/@var-spool
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-var_backups_mount
+  intent: /var/backups mounted with correct subvolume
+  command: mount | grep 'on /var/backups '
+  expected_output: subvol=/@var-backups
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-mount_verification-end
+  intent: 'Completed phase: Verify expected mount points and subvolumes'
+  shellCommand: 'echo ''Completed phase: Verify expected mount points and subvolumes'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-functionality_testing-start
+  intent: 'Starting phase: Test BTRFS functionality including snapshots'
+  shellCommand: 'echo ''Starting phase: Test BTRFS functionality including snapshots'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-snapshot_creation
+  intent: Create test system snapshot
+  shellCommand: btrfs subvolume snapshot / /.snapshots/verification-test-$(date +%Y%m%d-%H%M)
+  destructive: false
+  conditional: false
+- type: command
+  id: check-snapshot_cleanup
+  intent: Remove test system snapshot
+  shellCommand: btrfs subvolume delete /.snapshots/verification-test-$(date +%Y%m%d-%H%M)
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-functionality_testing-end
+  intent: 'Completed phase: Test BTRFS functionality including snapshots'
+  shellCommand: 'echo ''Completed phase: Test BTRFS functionality including snapshots'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-performance_analysis-start
+  intent: 'Starting phase: Analyze BTRFS performance and compression'
+  shellCommand: 'echo ''Starting phase: Analyze BTRFS performance and compression'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-compression_analysis
+  intent: Analyze compression effectiveness
+  shellCommand: compsize /
+  destructive: false
+  conditional: false
+- type: command
+  id: check-filesystem_performance
+  intent: Check filesystem performance
+  shellCommand: btrfs filesystem df / && btrfs filesystem usage /
+  destructive: false
+  conditional: false
+- type: command
+  id: check-space_efficiency
+  intent: Verify space efficiency
+  shellCommand: df -h / /home /var/log /var/cache /var/tmp /var/spool /var/backups
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-performance_analysis-end
+  intent: 'Completed phase: Analyze BTRFS performance and compression'
+  shellCommand: 'echo ''Completed phase: Analyze BTRFS performance and compression'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_services-start
+  intent: 'Starting phase: Verify critical system services'
+  shellCommand: 'echo ''Starting phase: Verify critical system services'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-systemd_resolved
+  intent: systemd-resolved service is active
+  command: systemctl is-active systemd-resolved
+  expected_output: active
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-network_manager
+  intent: NetworkManager service is active
+  command: systemctl is-active NetworkManager
+  expected_output: active
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-boot_performance
+  intent: Analyze boot performance
+  shellCommand: systemd-analyze blame | head -10
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_services-end
+  intent: 'Completed phase: Verify critical system services'
+  shellCommand: 'echo ''Completed phase: Verify critical system services'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-filesystem_integrity-start
+  intent: 'Starting phase: Verify filesystem integrity and error checking'
+  shellCommand: 'echo ''Starting phase: Verify filesystem integrity and error checking'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-scrub_start
+  intent: Start BTRFS scrub for data integrity
+  shellCommand: btrfs scrub start /
+  destructive: false
+  conditional: false
+- type: command
+  id: check-scrub_status
+  intent: Check BTRFS scrub status
+  shellCommand: btrfs scrub status /
+  destructive: false
+  conditional: false
+- type: command
+  id: check-filesystem_errors
+  intent: Check for recent filesystem errors
+  shellCommand: dmesg | grep -i error | tail -5
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-filesystem_integrity-end
+  intent: 'Completed phase: Verify filesystem integrity and error checking'
+  shellCommand: 'echo ''Completed phase: Verify filesystem integrity and error checking'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-user_environment-start
+  intent: 'Starting phase: Verify user environment and permissions'
+  shellCommand: 'echo ''Starting phase: Verify user environment and permissions'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-home_directory_access
+  intent: User home directory is accessible
+  command: test -d $HOME && test -r $HOME && echo 'accessible'
+  expected_output: accessible
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-home_directory_writable
+  intent: Home directory is writable
+  command: touch $HOME/.test_write_$(date +%s) && rm $HOME/.test_write_$(date +%s)
+    && echo 'writable'
+  expected_output: writable
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-user_environment-end
+  intent: 'Completed phase: Verify user environment and permissions'
+  shellCommand: 'echo ''Completed phase: Verify user environment and permissions'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-subvolume_structure-start
+  intent: 'Starting phase: Verify BTRFS subvolume structure'
+  shellCommand: 'echo ''Starting phase: Verify BTRFS subvolume structure'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-system_subvolumes
+  intent: List system partition subvolumes
+  shellCommand: btrfs subvolume list /
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-required_subvolumes
+  intent: All required system subvolumes exist
+  command: btrfs subvolume list / | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)'
+    | wc -l
+  expected_output: '[7-9]'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-subvolume_structure-end
+  intent: 'Completed phase: Verify BTRFS subvolume structure'
+  shellCommand: 'echo ''Completed phase: Verify BTRFS subvolume structure'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-final_assessment-start
+  intent: 'Starting phase: Final system health assessment'
+  shellCommand: 'echo ''Starting phase: Final system health assessment'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-filesystem_overview
+  intent: Display BTRFS filesystem overview
+  shellCommand: btrfs filesystem show
+  destructive: false
+  conditional: false
+- type: command
+  id: check-space_usage
+  intent: Overall system space usage
+  shellCommand: df -h
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-final_assessment-end
+  intent: 'Completed phase: Final system health assessment'
+  shellCommand: 'echo ''Completed phase: Final system health assessment'''
+  destructive: false
+  conditional: false
+- type: command
+  id: verification-complete
+  intent: Verification completed successfully
+  shellCommand: echo 'All verification checks completed successfully'
+  destructive: false
+  conditional: false

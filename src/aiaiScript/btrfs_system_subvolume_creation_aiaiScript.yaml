@@ -1,0 +1,361 @@
+metadata:
+  id: btrfs_subvolume_creation-verification
+  intent: BTRFS Subvolume Creation for Ubuntu AI/ML Installation
+  technicalProficiency: Intermediate
+  context:
+    designPrinciples:
+    - Verify system state before proceeding
+    - Fail fast and safe
+    - Provide clear validation feedback
+    dependencies:
+    - Shell command execution
+    - System state validation
+    compatibility:
+    - Linux systems with shell access
+    - Ubuntu/Debian package management
+body:
+- type: command
+  id: phase-system_preparation-start
+  intent: 'Starting phase: Prepare system for BTRFS subvolume creation'
+  shellCommand: 'echo ''Starting phase: Prepare system for BTRFS subvolume creation'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_device_verification
+  intent: Verify system BTRFS device exists
+  command: SYSTEM_DEVICE="/dev/nvme0n1p3" && [ -b "$SYSTEM_DEVICE" ] && echo 'system_device_found'
+    || echo 'system_device_missing'
+  expected_output: system_device_found
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-btrfs_tools_availability
+  intent: Check BTRFS tools are available
+  shellCommand: which btrfs >/dev/null 2>&1 && btrfs --version 2>/dev/null | head
+    -1 || echo 'btrfs_tools_missing'
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-sudo_privileges_check
+  intent: Verify sudo privileges for subvolume operations
+  command: sudo -n true 2>/dev/null && echo 'sudo_privileges_available' || echo 'sudo_privileges_required'
+  expected_output: sudo_privileges_available
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-system_preparation-end
+  intent: 'Completed phase: Prepare system for BTRFS subvolume creation'
+  shellCommand: 'echo ''Completed phase: Prepare system for BTRFS subvolume creation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-mount_point_preparation-start
+  intent: 'Starting phase: Prepare mount point for system BTRFS root access'
+  shellCommand: 'echo ''Starting phase: Prepare mount point for system BTRFS root
+    access'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-mount_point_creation
+  intent: Create mount point for system BTRFS root access
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo mkdir -p "$MOUNT_POINT" && echo
+    'mount_point_created'
+  expected_output: mount_point_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-mount_point_permissions
+  intent: Verify mount point permissions
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && ls -la "$MOUNT_POINT"
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-mount_point_preparation-end
+  intent: 'Completed phase: Prepare mount point for system BTRFS root access'
+  shellCommand: 'echo ''Completed phase: Prepare mount point for system BTRFS root
+    access'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_btrfs_mount-start
+  intent: 'Starting phase: Mount system BTRFS root for subvolume access'
+  shellCommand: 'echo ''Starting phase: Mount system BTRFS root for subvolume access'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_btrfs_mount_operation
+  intent: Mount the system BTRFS partition directly
+  command: SYSTEM_DEVICE="/dev/nvme0n1p3" && MOUNT_POINT="/mnt/system-btrfs" && sudo
+    mount "$SYSTEM_DEVICE" "$MOUNT_POINT" && echo 'system_btrfs_mounted'
+  expected_output: system_btrfs_mounted
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-mount_verification
+  intent: Verify system BTRFS root is mounted
+  command: MOUNT_POINT="/mnt/system-btrfs" && mount | grep -q "$MOUNT_POINT" && echo
+    'mount_verified' || echo 'mount_not_found'
+  expected_output: mount_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-mount_details
+  intent: Display mount details for verification
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && mount | grep "$MOUNT_POINT"
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_btrfs_mount-end
+  intent: 'Completed phase: Mount system BTRFS root for subvolume access'
+  shellCommand: 'echo ''Completed phase: Mount system BTRFS root for subvolume access'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-core_system_subvolume_creation-start
+  intent: 'Starting phase: Create core system subvolumes according to S1 strategy'
+  shellCommand: 'echo ''Starting phase: Create core system subvolumes according to
+    S1 strategy'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_root_subvolume
+  intent: Create system root subvolume (@)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@"
+    && echo 'system_root_subvolume_created'
+  expected_output: system_root_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-home_subvolume
+  intent: Create home directory subvolume (@home)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@home"
+    && echo 'home_subvolume_created'
+  expected_output: home_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_log_subvolume
+  intent: Create log data subvolume (@var-log)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@var-log"
+    && echo 'var_log_subvolume_created'
+  expected_output: var_log_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_cache_subvolume
+  intent: Create cache data subvolume (@var-cache)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@var-cache"
+    && echo 'var_cache_subvolume_created'
+  expected_output: var_cache_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_tmp_subvolume
+  intent: Create temporary data subvolume (@var-tmp)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@var-tmp"
+    && echo 'var_tmp_subvolume_created'
+  expected_output: var_tmp_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_spool_subvolume
+  intent: Create spool data subvolume (@var-spool)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@var-spool"
+    && echo 'var_spool_subvolume_created'
+  expected_output: var_spool_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_backups_subvolume
+  intent: Create backup data subvolume (@var-backups)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@var-backups"
+    && echo 'var_backups_subvolume_created'
+  expected_output: var_backups_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-snapshots_subvolume
+  intent: Create snapshots storage subvolume (@snapshots)
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume create "$MOUNT_POINT/@snapshots"
+    && echo 'snapshots_subvolume_created'
+  expected_output: snapshots_subvolume_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-core_system_subvolume_creation-end
+  intent: 'Completed phase: Create core system subvolumes according to S1 strategy'
+  shellCommand: 'echo ''Completed phase: Create core system subvolumes according to
+    S1 strategy'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-subvolume_verification-start
+  intent: 'Starting phase: Verify all subvolumes were created successfully'
+  shellCommand: 'echo ''Starting phase: Verify all subvolumes were created successfully'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-subvolume_listing
+  intent: List all created subvolumes
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume list "$MOUNT_POINT"
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-subvolume_count_verification
+  intent: Verify expected number of subvolumes created
+  command: MOUNT_POINT="/mnt/system-btrfs" && EXPECTED_SUBVOLUMES=8 && CREATED_SUBVOLUMES=$(sudo
+    btrfs subvolume list "$MOUNT_POINT" | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)'
+    | wc -l) && if [ "$CREATED_SUBVOLUMES" -eq "$EXPECTED_SUBVOLUMES" ]; then echo
+    "subvolume_count_correct:$CREATED_SUBVOLUMES"; else echo "subvolume_count_mismatch:expected_$EXPECTED_SUBVOLUMES_created_$CREATED_SUBVOLUMES";
+    fi
+  expected_output: subvolume_count_correct:8
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: check-subvolume_details
+  intent: Get detailed subvolume information
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && echo 'Subvolume Details:' && sudo
+    btrfs subvolume list "$MOUNT_POINT" | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)'
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-subvolume_verification-end
+  intent: 'Completed phase: Verify all subvolumes were created successfully'
+  shellCommand: 'echo ''Completed phase: Verify all subvolumes were created successfully'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-subvolume_strategy_validation-start
+  intent: 'Starting phase: Validate subvolume strategy implementation'
+  shellCommand: 'echo ''Starting phase: Validate subvolume strategy implementation'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-core_subvolume_verification
+  intent: Verify core system subvolume (@) exists
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume list "$MOUNT_POINT"
+    | grep -q '@ ' && echo 'core_subvolume_exists' || echo 'core_subvolume_missing'
+  expected_output: core_subvolume_exists
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-home_subvolume_verification
+  intent: Verify home subvolume (@home) exists
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume list "$MOUNT_POINT"
+    | grep -q '@home ' && echo 'home_subvolume_exists' || echo 'home_subvolume_missing'
+  expected_output: home_subvolume_exists
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-excluded_subvolumes_verification
+  intent: Verify excluded volatile data subvolumes exist
+  command: MOUNT_POINT="/mnt/system-btrfs" && EXCLUDED_COUNT=$(sudo btrfs subvolume
+    list "$MOUNT_POINT" | grep -E '(@var-log|@var-cache|@var-tmp|@var-spool|@var-backups)'
+    | wc -l) && if [ "$EXCLUDED_COUNT" -eq 5 ]; then echo "excluded_subvolumes_correct:$EXCLUDED_COUNT";
+    else echo "excluded_subvolumes_missing:found_$EXCLUDED_COUNT"; fi
+  expected_output: excluded_subvolumes_correct:5
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-snapshots_subvolume_verification
+  intent: Verify snapshots storage subvolume (@snapshots) exists
+  command: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs subvolume list "$MOUNT_POINT"
+    | grep -q '@snapshots ' && echo 'snapshots_subvolume_exists' || echo 'snapshots_subvolume_missing'
+  expected_output: snapshots_subvolume_exists
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-subvolume_strategy_validation-end
+  intent: 'Completed phase: Validate subvolume strategy implementation'
+  shellCommand: 'echo ''Completed phase: Validate subvolume strategy implementation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-filesystem_integrity_check-start
+  intent: 'Starting phase: Check BTRFS filesystem integrity after subvolume creation'
+  shellCommand: 'echo ''Starting phase: Check BTRFS filesystem integrity after subvolume
+    creation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-btrfs_filesystem_status
+  intent: Check BTRFS filesystem status
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs filesystem show "$MOUNT_POINT"
+  destructive: false
+  conditional: false
+- type: command
+  id: check-btrfs_space_usage
+  intent: Check BTRFS space usage after subvolume creation
+  shellCommand: MOUNT_POINT="/mnt/system-btrfs" && sudo btrfs filesystem df "$MOUNT_POINT"
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-filesystem_integrity_check-end
+  intent: 'Completed phase: Check BTRFS filesystem integrity after subvolume creation'
+  shellCommand: 'echo ''Completed phase: Check BTRFS filesystem integrity after subvolume
+    creation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-strategy_summary-start
+  intent: 'Starting phase: Generate S1 strategy implementation summary'
+  shellCommand: 'echo ''Starting phase: Generate S1 strategy implementation summary'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-subvolume_strategy_summary
+  intent: Display subvolume strategy summary
+  shellCommand: echo 'S1 Three-Partition Storage Strategy Implementation:' && echo
+    'Subvolume Strategy Summary:' && echo '@ - INCLUDED (Core system state, OS, /var/lib)'
+    && echo '@home - INDEPENDENT (Personal data separate lifecycle)' && echo '@var-log
+    - EXCLUDED (Ephemeral log data)' && echo '@var-cache - EXCLUDED (Regenerable cache
+    data)' && echo '@var-tmp - EXCLUDED (Temporary files)' && echo '@var-spool - EXCLUDED
+    (Mail/print queues)' && echo '@var-backups - EXCLUDED (System backup files)' &&
+    echo '@snapshots - EXCLUDED (Prevents recursive snapshots)'
+  destructive: false
+  conditional: false
+- type: command
+  id: check-critical_design_note
+  intent: Display critical design information
+  shellCommand: 'echo ''Critical Design: @ subvolume preserves essential /var/lib
+    data while excluding volatile data through dedicated subvolumes.'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-next_steps_guidance
+  intent: Provide next steps guidance
+  shellCommand: 'echo ''READY FOR NEXT STEP: Section 4.5 - Migrate System Data to
+    Subvolumes'' && echo ''IMPORTANT: Do NOT unmount /mnt/system-btrfs - required
+    for data migration'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-strategy_summary-end
+  intent: 'Completed phase: Generate S1 strategy implementation summary'
+  shellCommand: 'echo ''Completed phase: Generate S1 strategy implementation summary'''
+  destructive: false
+  conditional: false
+- type: command
+  id: verification-complete
+  intent: Verification completed successfully
+  shellCommand: echo 'All verification checks completed successfully'
+  destructive: false
+  conditional: false

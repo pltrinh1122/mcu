@@ -1,0 +1,335 @@
+metadata:
+  id: btrfs_pre_reboot_validation-verification
+  intent: BTRFS Pre-Reboot Validation for Ubuntu AI/ML Installation
+  technicalProficiency: Intermediate
+  context:
+    designPrinciples:
+    - Verify system state before proceeding
+    - Fail fast and safe
+    - Provide clear validation feedback
+    dependencies:
+    - Shell command execution
+    - System state validation
+    compatibility:
+    - Linux systems with shell access
+    - Ubuntu/Debian package management
+body:
+- type: command
+  id: phase-mount_configuration_validation-start
+  intent: 'Starting phase: Validate mount configuration and test filesystem mounting'
+  shellCommand: 'echo ''Starting phase: Validate mount configuration and test filesystem
+    mounting'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-fstab_syntax_validation
+  intent: Validate fstab syntax using mount -fav
+  command: mount -fav && echo 'fstab_syntax_valid' || echo 'fstab_syntax_invalid'
+  expected_output: fstab_syntax_valid
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-test_mount_all_filesystems
+  intent: Test mounting all filesystems specified in fstab
+  command: mount -av && echo 'mount_test_successful' || echo 'mount_test_failed'
+  expected_output: mount_test_successful
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-current_mount_status
+  intent: Display current mount status for verification
+  command: echo 'Current mount status:' && mount | grep -E '(btrfs|ext4)' && echo
+    'mount_status_displayed'
+  expected_output: mount_status_displayed
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-mount_configuration_validation-end
+  intent: 'Completed phase: Validate mount configuration and test filesystem mounting'
+  shellCommand: 'echo ''Completed phase: Validate mount configuration and test filesystem
+    mounting'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-required_mount_points_creation-start
+  intent: 'Starting phase: Create required mount points for BTRFS subvolume system'
+  shellCommand: 'echo ''Starting phase: Create required mount points for BTRFS subvolume
+    system'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-snapshots_directory_creation
+  intent: Create snapshots directory for BTRFS snapshots
+  command: mkdir -p /.snapshots && echo 'snapshots_directory_created'
+  expected_output: snapshots_directory_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-volatile_var_mount_points
+  intent: Create volatile /var mount points for excluded subvolumes
+  command: mkdir -p /var/log /var/cache /var/tmp /var/spool /var/backups && echo 'var_mount_points_created'
+  expected_output: var_mount_points_created
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-ml_partition_mount_points
+  intent: Create ML partition mount points
+  command: mkdir -p /ml/.snapshots && echo 'ml_mount_points_created'
+  expected_output: ml_mount_points_created
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-additional_system_directories
+  intent: Create additional system directories
+  command: mkdir -p /var/lib/docker /srv && echo 'additional_directories_created'
+  expected_output: additional_directories_created
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-snapshots_permissions_setting
+  intent: Set snapshots directory permissions
+  command: chmod 755 /.snapshots /ml/.snapshots && echo 'snapshots_permissions_set'
+  expected_output: snapshots_permissions_set
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-var_subdirectory_permissions
+  intent: Set /var subdirectory permissions
+  command: chmod 755 /var/log /var/cache /var/tmp /var/spool /var/backups && echo
+    'var_permissions_set'
+  expected_output: var_permissions_set
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-required_mount_points_creation-end
+  intent: 'Completed phase: Create required mount points for BTRFS subvolume system'
+  shellCommand: 'echo ''Completed phase: Create required mount points for BTRFS subvolume
+    system'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-temporary_mounts_cleanup-start
+  intent: 'Starting phase: Clean up temporary mounts used during installation'
+  shellCommand: 'echo ''Starting phase: Clean up temporary mounts used during installation'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_btrfs_unmount
+  intent: Unmount temporary system BTRFS root
+  command: if umount /mnt/system-btrfs 2>/dev/null; then echo 'temporary_system_mount_unmounted';
+    else echo 'temporary_mount_already_removed'; fi
+  expected_output: (temporary_system_mount_unmounted|temporary_mount_already_removed)
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-temporary_mount_point_removal
+  intent: Remove temporary mount point directory
+  command: if rmdir /mnt/system-btrfs 2>/dev/null; then echo 'temporary_mount_point_removed';
+    else echo 'temporary_directory_already_cleaned'; fi
+  expected_output: (temporary_mount_point_removed|temporary_directory_already_cleaned)
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-temporary_mounts_cleanup-end
+  intent: 'Completed phase: Clean up temporary mounts used during installation'
+  shellCommand: 'echo ''Completed phase: Clean up temporary mounts used during installation'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_state_verification-start
+  intent: 'Starting phase: Verify system state before reboot'
+  shellCommand: 'echo ''Starting phase: Verify system state before reboot'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-final_fstab_validation
+  intent: Final fstab syntax validation
+  command: mount -fav && echo 'final_fstab_validation_passed' || echo 'final_fstab_validation_failed'
+  expected_output: final_fstab_validation_passed
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-grub_root_filesystem_detection
+  intent: Verify GRUB can detect root filesystem
+  command: grub-probe --target=fs_uuid / && echo 'grub_root_detection_successful'
+    || echo 'grub_root_detection_failed'
+  expected_output: grub_root_detection_successful
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-initramfs_generation_verification
+  intent: Verify initramfs was generated successfully
+  command: ls -la /boot/initrd.img-* | tail -1 && echo 'initramfs_generation_verified'
+  expected_output: initramfs_generation_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: command
+  id: phase-system_state_verification-end
+  intent: 'Completed phase: Verify system state before reboot'
+  shellCommand: 'echo ''Completed phase: Verify system state before reboot'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_subvolumes_verification-start
+  intent: 'Starting phase: Verify all system subvolumes exist and are accessible'
+  shellCommand: 'echo ''Starting phase: Verify all system subvolumes exist and are
+    accessible'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-system_device_detection
+  intent: Detect system BTRFS device for subvolume verification
+  command: SUBVOL_CHECK=$(mount | grep 'system-btrfs' | head -1 | awk '{print $1}')
+    && if [ -n "$SUBVOL_CHECK" ]; then DEVICE="$SUBVOL_CHECK"; elif [ -b "/dev/nvme0n1p3"
+    ]; then DEVICE="/dev/nvme0n1p3"; else echo 'system_device_detection_failed'; exit
+    1; fi && echo "system_device_detected:$DEVICE"
+  expected_output: 'system_device_detected:'
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-temporary_btrfs_mount
+  intent: Mount system BTRFS temporarily for subvolume verification
+  command: mkdir -p /tmp/btrfs-check && mount "$DEVICE" /tmp/btrfs-check 2>/dev/null
+    && echo 'temporary_btrfs_mount_successful' || echo 'temporary_btrfs_mount_failed'
+  expected_output: temporary_btrfs_mount_successful
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-subvolume_count_verification
+  intent: Verify all 8 system subvolumes exist
+  command: SUBVOLUMES_FOUND=$(btrfs subvolume list /tmp/btrfs-check | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)'
+    | wc -l) && umount /tmp/btrfs-check && rmdir /tmp/btrfs-check && if [ "$SUBVOLUMES_FOUND"
+    -eq 8 ]; then echo 'all_subvolumes_verified'; else echo "subvolume_count_mismatch:$SUBVOLUMES_FOUND";
+    fi
+  expected_output: all_subvolumes_verified
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-subvolume_list_display
+  intent: Display list of found subvolumes for verification
+  command: mkdir -p /tmp/btrfs-check && mount "$DEVICE" /tmp/btrfs-check 2>/dev/null
+    && echo 'System subvolumes found:' && btrfs subvolume list /tmp/btrfs-check |
+    grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)'
+    && umount /tmp/btrfs-check && rmdir /tmp/btrfs-check && echo 'subvolume_list_displayed'
+  expected_output: subvolume_list_displayed
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-system_subvolumes_verification-end
+  intent: 'Completed phase: Verify all system subvolumes exist and are accessible'
+  shellCommand: 'echo ''Completed phase: Verify all system subvolumes exist and are
+    accessible'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-system_health_checks-start
+  intent: 'Starting phase: Perform final system health checks before reboot'
+  shellCommand: 'echo ''Starting phase: Perform final system health checks before
+    reboot'''
+  destructive: false
+  conditional: false
+- type: validation
+  id: validate-btrfs_tools_availability
+  intent: Verify BTRFS tools are available
+  command: which btrfs && echo 'btrfs_tools_available' || echo 'btrfs_tools_missing'
+  expected_output: btrfs_tools_available
+  critical: true
+  on_fail: abort
+  timeout: 30
+- type: validation
+  id: validate-available_disk_space
+  intent: Check available disk space on root filesystem
+  command: df -h / && echo 'disk_space_checked'
+  expected_output: disk_space_checked
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-critical_filesystem_errors
+  intent: Check for critical filesystem errors in dmesg
+  command: dmesg | grep -i 'error\|fail' | grep -i 'btrfs\|nvme' | tail -5 || echo
+    'No critical filesystem errors found' && echo 'filesystem_errors_checked'
+  expected_output: filesystem_errors_checked
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: validation
+  id: validate-system_memory_status
+  intent: Check system memory status
+  command: free -h && echo 'memory_status_checked'
+  expected_output: memory_status_checked
+  critical: false
+  on_fail: skip
+  timeout: 30
+- type: command
+  id: phase-system_health_checks-end
+  intent: 'Completed phase: Perform final system health checks before reboot'
+  shellCommand: 'echo ''Completed phase: Perform final system health checks before
+    reboot'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-final_validation_summary-start
+  intent: 'Starting phase: Generate final validation summary and reboot readiness'
+  shellCommand: 'echo ''Starting phase: Generate final validation summary and reboot
+    readiness'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-validation_summary_display
+  intent: Display comprehensive validation summary
+  shellCommand: "echo 'VALIDATION SUMMARY:' && echo 'Timestamp: $(date)' && echo '\u2713\
+    \ Mount configuration validated' && echo '\u2713 Required mount points created'\
+    \ && echo '\u2713 Temporary mounts cleaned up' && echo '\u2713 Boot configuration\
+    \ verified' && echo '\u2713 System subvolumes confirmed (8/8)' && echo '\u2713\
+    \ System health checks passed' && echo '' && echo 'SYSTEM READY FOR REBOOT TO\
+    \ BTRFS SUBVOLUMES'"
+  destructive: false
+  conditional: false
+- type: command
+  id: check-reboot_instructions
+  intent: Provide reboot instructions and recovery information
+  shellCommand: 'echo ''Next step: sudo reboot'' && echo ''Recovery: If boot fails,
+    use Ubuntu Live USB to restore from backup'' && echo ''Monitor boot process for
+    any errors'' && echo ''Expected: System should boot to BTRFS subvolume root'''
+  destructive: false
+  conditional: false
+- type: command
+  id: check-final_checkpoint
+  intent: Final checkpoint before reboot
+  shellCommand: 'echo ''FINAL CHECKPOINT: System ready for BTRFS subvolume boot''
+    && echo ''All validations completed successfully'' && echo ''System configuration
+    verified'' && echo ''Ready to commit to BTRFS subvolume boot process'''
+  destructive: false
+  conditional: false
+- type: command
+  id: phase-final_validation_summary-end
+  intent: 'Completed phase: Generate final validation summary and reboot readiness'
+  shellCommand: 'echo ''Completed phase: Generate final validation summary and reboot
+    readiness'''
+  destructive: false
+  conditional: false
+- type: command
+  id: verification-complete
+  intent: Verification completed successfully
+  shellCommand: echo 'All verification checks completed successfully'
+  destructive: false
+  conditional: false
