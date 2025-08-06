@@ -4,7 +4,7 @@
 
 The Ubuntu-BTRFS AIAI Package provides a complete, self-contained installation solution for Ubuntu 24.04 LTS with a three-partition BTRFS strategy optimized for AI/ML development workstations. This package implements the AIAI (AI Augmented Installation) framework, enabling AI-augmented installation execution with human operator oversight.
 
-**Development Version Note**: This is the development version of the package. The specification files (`aiai_spec.md` and `aiai_schema.json`) are soft-linked to the main AIAI specification in the `../aiai/` directory. For distribution versions, these will be replaced with actual files to ensure package independence.
+**Development Version Note**: This is the development version of the package. The specification files (`aiai_spec.md` and `aiai_schema.json`) are now actual files in the framework. For distribution versions, these will be included as actual files to ensure package independence.
 
 ## AIAI Package Structure
 
@@ -99,28 +99,24 @@ Replace `[PACKAGE_PATH]` with the filesystem path to the Ubuntu-BTRFS AIAI Packa
 ## Development vs Distribution Workflow
 
 ### Development Version (Current)
-- **Soft Links**: `aiai_spec.md` and `aiai_schema.json` are soft-linked to `../aiai/`
+- **Actual Files**: `aiai_spec.md` and `aiai_schema.json` are actual files in the framework
 - **Purpose**: Enables rapid development and testing with centralized specification management
-- **Benefits**: Automatic synchronization with main AIAI specification updates
+- **Benefits**: Direct access to specification files with version control
 - **Usage**: Ideal for development, testing, and iterative improvement
 
 ### Distribution Version (Future)
-- **Actual Files**: `aiai_spec.md` and `aiai_schema.json` will be actual files, not soft links
+- **Actual Files**: `aiai_spec.md` and `aiai_schema.json` are actual files, not soft links
 - **Purpose**: Self-contained package for distribution and deployment
 - **Benefits**: Package independence, version control, and deployment reliability
 - **Usage**: Production deployments, distribution to end users, and version-specific installations
 
 ### Conversion Process
-When ready for distribution, the soft links will be replaced with actual files:
+When ready for distribution, the files are already actual files:
 
-**Manual Process:**
+**Current Status:**
 ```bash
-# Remove soft links
-rm ubuntu-btrfs-aiai/aiai_spec.md ubuntu-btrfs-aiai/aiai_schema.json
-
-# Copy actual files
-cp aiai/aiai_spec.md ubuntu-btrfs-aiai/
-cp aiai/aiai_schema.json ubuntu-btrfs-aiai/
+# Files are already actual files in framework/docs/
+ls framework/docs/aiai_spec.md framework/docs/aiai_schema.json
 ```
 
 **Automated Process:**

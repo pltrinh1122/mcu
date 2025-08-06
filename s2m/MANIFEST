@@ -1,1 +1,21 @@
-AIAI Component: s2m
+# AIAI Component: s2m
+# Script to Manual Converter
+
+# Core Files
+README.md
+
+# Source Code
+src/script2manual.py
+src/__init__.py
+
+# Source Modules
+src/converter/
+src/generator/
+src/templates/
+
+# Documentation
+docs/
+
+# Tests
+tests/
+unit-tests/

@@ -1,0 +1,43 @@
+Migration Log - Wed Aug  6 04:25:58 PM PDT 2025
+Backup directory: backup/20250806_162524_migration_backup
+Files backed up:
+backup/20250806_162524_migration_backup/aiailint/docs/USAGE.md
+backup/20250806_162524_migration_backup/aiailint/README.md
+backup/20250806_162524_migration_backup/aiailint/src/formatter/__init__.py
+backup/20250806_162524_migration_backup/aiailint/src/__init__.py
+backup/20250806_162524_migration_backup/aiailint/src/linter/__init__.py
+backup/20250806_162524_migration_backup/aiailint/src/validator/__init__.py
+backup/20250806_162524_migration_backup/aiailint/src/validator.py
+backup/20250806_162524_migration_backup/framework/docs/aiai_schema.json
+backup/20250806_162524_migration_backup/framework/docs/aiai_spec.md
+backup/20250806_162524_migration_backup/framework/README.md
+backup/20250806_162524_migration_backup/s2m/docs/USAGE.md
+backup/20250806_162524_migration_backup/s2m/src/converter/__init__.py
+backup/20250806_162524_migration_backup/s2m/src/generator/__init__.py
+backup/20250806_162524_migration_backup/s2m/src/__init__.py
+backup/20250806_162524_migration_backup/s2m/src/templates/__init__.py
+Generating diffs...
+Phase 2: Framework Migration - Wed Aug  6 04:27:25 PM PDT 2025
+Framework files migrated:
+-rw-rw-r-- 1 pt pt 16898 Aug  6 16:27 aiai_schema_documentation.md
+-rw-rw-r-- 1 pt pt 23900 Aug  6 16:27 aiai_schema.json
+-rw-rw-r-- 1 pt pt 46638 Aug  6 16:27 aiai_spec.md
+-rw-rw-r-- 1 pt pt 16547 Aug  6 16:07 OPERATOR_GUIDE.md
+-rw-rw-r-- 1 pt pt 1267 Aug  6 16:27 framework/README.md
+Phase 3: Tool Migration - Wed Aug  6 04:28:04 PM PDT 2025
+Starting aiailint migration...
+Starting s2m migration...
+Tool migration verification:
+Phase 4: Documentation Migration - Wed Aug  6 04:29:35 PM PDT 2025
+Migrating design documentation...
+Documentation migration verification:
+Phase 5: Soft Link Resolution - Wed Aug  6 04:30:24 PM PDT 2025
+Scanning for soft links...
+Updating soft link references in documentation...
+Verifying soft link resolution...
+Phase 6: Update and Validation - Wed Aug  6 04:31:36 PM PDT 2025
+Step 1: Updating MANIFEST files...
+Step 2: Updating README files with new repository references...
+Step 3: Validating AIAI Script syntax...
+Step 4: Running tests to ensure functionality...
+Step 5: Final validation summary...

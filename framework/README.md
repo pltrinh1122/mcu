@@ -1,99 +1,48 @@
-# [Component Name] - README Template
+# AIAI Core Specification
 
-## Overview
+This directory contains the core AIAI (AI Augmented Installation) specification and schema for module developers and implementers.
 
-Brief description of this component and its purpose within the AIAI ecosystem.
+## Contents
 
-## Purpose
+### `aiai_spec.md`
+The main AIAI specification defining:
+- Runtime behavior patterns
+- Human-AI interaction model
+- Execution semantics
+- Error handling and recovery
+- Security considerations
+- Validation requirements
 
-What this component does and why it exists.
+### `aiai_schema.json`
+Machine-readable JSON Schema defining:
+- Script structure and validation rules
+- Command and validation element definitions
+- Metadata requirements
+- Cross-reference constraints
 
-## Structure
+### `aiai_schema_documentation.md`
+Human-readable schema documentation including:
+- Detailed property descriptions
+- Usage examples
+- Validation rules
+- Best practices
 
-```
-[component-name]/
-├── README.md              # This file
-├── docs/                  # Component documentation
-├── src/ or scripts/       # Source code or AIAI Scripts
-└── tests/                 # Test suites
-```
+## Audience
 
-## Key Features
-
-- Feature 1: Description
-- Feature 2: Description
-- Feature 3: Description
-
-## Dependencies
-
-- Dependency 1: Version requirement
-- Dependency 2: Version requirement
-
-## Installation
-
-```bash
-# Installation steps specific to this component
-cd [component-name]
-pip install -r requirements.txt
-```
+This content is intended for:
+- **Module Developers**: Implementing AIAI-compatible systems
+- **AI Agent Developers**: Creating AI agents that follow the specification
+- **System Integrators**: Building tools that work with AIAI packages
 
 ## Usage
 
-```bash
-# Basic usage example
-python src/main.py
+Reference these documents when:
+- Implementing AIAI script parsers
+- Building AI agents for installation execution
+- Creating validation tools
+- Developing AIAI-compatible systems
 
-# Or for AIAI Scripts
-python -m aiai.validator scripts/*.yaml
-```
+## Version
 
-## Development
-
-### Running Tests
-```bash
-python -m pytest tests/
-```
-
-### Code Style
-This component follows the project's coding standards and uses:
-- Black for code formatting
-- Flake8 for linting
-- MyPy for type checking
-
-### Contributing
-1. Follow the main project's contributing guidelines
-2. Add tests for new functionality
-3. Update documentation
-4. Ensure all tests pass
-
-## Documentation
-
-- `docs/` - Component-specific documentation
-- API reference (if applicable)
-- Usage examples and tutorials
-
-## Testing
-
-- Unit tests in `tests/`
-- Integration tests (if applicable)
-- Test data in `tests/test_data/`
-
-## Release Notes
-
-### Version History
-- v1.0.0: Initial release
-- v1.1.0: Feature additions
-- v1.2.0: Bug fixes and improvements
-
-## License
-
-This component is part of the AIAI Packages project and follows the same license terms.
-
-## Related Components
-
-- Links to related components in the repository
-- Dependencies and integration points
-
----
-
-**Note:** Replace all placeholder text (in brackets) with actual component-specific information. 
+Current version: 1.4
+Last updated: August 5, 2025 
