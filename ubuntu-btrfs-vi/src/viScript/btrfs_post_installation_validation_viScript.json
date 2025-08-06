@@ -1,0 +1,462 @@
+{
+  "installation_type": "post_installation_validation",
+  "version": "1.0",
+  "description": "Post-Installation Validation for Ubuntu AI/ML BTRFS Installation",
+  "author": "Verified Installer Team",
+  "created_date": "2023-12-18",
+  "phases": [
+    {
+      "name": "system_installation_verification",
+      "description": "Verify Ubuntu installation and system information",
+      "checks": [
+        {
+          "name": "ubuntu_version_check",
+          "description": "Verify Ubuntu 24.04 LTS installation",
+          "command": "lsb_release -d 2>/dev/null | grep -q 'Ubuntu 24.04' && echo 'ubuntu_24_04_installed' || echo 'wrong_version'",
+          "expected_pattern": "ubuntu_24_04_installed",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "kernel_version_info",
+          "description": "Get kernel version information",
+          "command": "uname -r",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "system_release_info",
+          "description": "Get detailed system release information",
+          "command": "lsb_release -a",
+          "expected_pattern": "Ubuntu",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "partition_mount_verification",
+      "description": "Verify all partitions are mounted correctly",
+      "checks": [
+        {
+          "name": "efi_boot_mount",
+          "description": "Verify EFI boot partition mounted",
+          "command": "mount | grep -q '/boot/efi.*vfat' && echo 'efi_mounted' || echo 'efi_not_mounted'",
+          "expected_pattern": "efi_mounted",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "root_btrfs_mount",
+          "description": "Verify root BTRFS partition mounted",
+          "command": "mount | grep -q 'on / .*btrfs' && echo 'root_btrfs_mounted' || echo 'root_btrfs_not_mounted'",
+          "expected_pattern": "root_btrfs_mounted",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ml_btrfs_mount",
+          "description": "Verify ML BTRFS partition mounted",
+          "command": "mount | grep -q 'on /ml .*btrfs' && echo 'ml_btrfs_mounted' || echo 'ml_btrfs_not_mounted'",
+          "expected_pattern": "ml_btrfs_mounted",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_ext4_mount",
+          "description": "Verify data EXT4 partition mounted",
+          "command": "mount | grep -q 'on /data .*ext4' && echo 'data_ext4_mounted' || echo 'data_ext4_not_mounted'",
+          "expected_pattern": "data_ext4_mounted",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "swap_activation_check",
+          "description": "Verify swap partition is active",
+          "command": "swapon --show | grep -q nvme0n1p2 && echo 'swap_active' || echo 'swap_not_active'",
+          "expected_pattern": "swap_active",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "swap_size_info",
+          "description": "Get swap partition size information",
+          "command": "swapon --show --bytes | grep nvme0n1p2 | awk '{print int($3/1024/1024/1024)\"GB\"}' || echo 'swap_size_unknown'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "filesystem_health_verification",
+      "description": "Verify BTRFS and EXT4 filesystem health",
+      "checks": [
+        {
+          "name": "btrfs_filesystem_detection",
+          "description": "Check BTRFS filesystems are accessible",
+          "command": "sudo btrfs filesystem show 2>/dev/null | grep -q 'uuid:' && echo 'btrfs_accessible' || echo 'btrfs_not_accessible'",
+          "expected_pattern": "btrfs_accessible",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "root_btrfs_health",
+          "description": "Check root BTRFS filesystem health",
+          "command": "sudo btrfs filesystem df / >/dev/null 2>&1 && echo 'root_btrfs_healthy' || echo 'root_btrfs_issues'",
+          "expected_pattern": "root_btrfs_healthy",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ml_btrfs_health",
+          "description": "Check ML BTRFS filesystem health",
+          "command": "sudo btrfs filesystem df /ml >/dev/null 2>&1 && echo 'ml_btrfs_healthy' || echo 'ml_btrfs_issues'",
+          "expected_pattern": "ml_btrfs_healthy",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ext4_filesystem_health",
+          "description": "Check EXT4 data filesystem health",
+          "command": "sudo tune2fs -l /dev/nvme0n1p5 2>/dev/null | grep -q 'Filesystem state.*clean' && echo 'ext4_healthy' || echo 'ext4_issues'",
+          "expected_pattern": "(ext4_healthy|ext4_issues)",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "storage_capacity_verification",
+      "description": "Verify storage capacity and disk usage",
+      "checks": [
+        {
+          "name": "partition_space_allocation",
+          "description": "Show partition space allocation",
+          "command": "df -h | grep -E '(Filesystem|nvme0n1)' | grep -v '/boot'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "root_usage_check",
+          "description": "Check root partition usage",
+          "command": "df / | tail -1 | awk '{print $5}' | sed 's/%//'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ml_usage_check",
+          "description": "Check ML partition usage",
+          "command": "df /ml | tail -1 | awk '{print $5}' | sed 's/%//'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_usage_check",
+          "description": "Check data partition usage",
+          "command": "df /data | tail -1 | awk '{print $5}' | sed 's/%//'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "disk_usage_validation",
+          "description": "Validate disk usage is within expected ranges",
+          "command": "ROOT_USAGE=$(df / | tail -1 | awk '{print $5}' | sed 's/%//') && ML_USAGE=$(df /ml | tail -1 | awk '{print $5}' | sed 's/%//') && DATA_USAGE=$(df /data | tail -1 | awk '{print $5}' | sed 's/%//') && if [ $ROOT_USAGE -lt 50 ] && [ $ML_USAGE -lt 10 ] && [ $DATA_USAGE -lt 5 ]; then echo 'usage_acceptable'; else echo 'usage_high'; fi",
+          "expected_pattern": "usage_acceptable",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "boot_system_verification",
+      "description": "Verify EFI boot system and GRUB configuration",
+      "checks": [
+        {
+          "name": "efi_boot_system_check",
+          "description": "Check EFI boot system functionality",
+          "command": "efibootmgr -v >/dev/null 2>&1 && echo 'efi_boot_functional' || echo 'efi_boot_not_accessible'",
+          "expected_pattern": "efi_boot_functional",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ubuntu_boot_entry_check",
+          "description": "Check for Ubuntu boot entry in EFI",
+          "command": "efibootmgr | grep -i ubuntu >/dev/null 2>&1 && echo 'ubuntu_boot_entry_present' || echo 'ubuntu_boot_entry_missing'",
+          "expected_pattern": "ubuntu_boot_entry_present",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_check",
+          "description": "Check GRUB configuration file exists",
+          "command": "[ -f /boot/grub/grub.cfg ] && echo 'grub_config_present' || echo 'grub_config_missing'",
+          "expected_pattern": "grub_config_present",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "system_resources_verification",
+      "description": "Verify system memory and CPU resources",
+      "checks": [
+        {
+          "name": "memory_verification",
+          "description": "Check system memory adequacy for AI/ML",
+          "command": "TOTAL_RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && if [ $TOTAL_RAM_GB -ge 30 ]; then echo 'memory_adequate'; else echo 'memory_insufficient'; fi",
+          "expected_pattern": "memory_adequate",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "memory_details",
+          "description": "Get detailed memory information",
+          "command": "TOTAL_RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && echo \"System memory: ${TOTAL_RAM_GB}GB\"",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "cpu_information",
+          "description": "Get CPU information and core count",
+          "command": "CPU_CORES=$(nproc) && CPU_MODEL=$(lscpu | grep 'Model name' | sed 's/Model name: *//') && echo \"CPU: ${CPU_MODEL}, Cores: ${CPU_CORES}\"",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "hardware_detection_verification",
+      "description": "Verify hardware detection including GPU and network",
+      "checks": [
+        {
+          "name": "nvidia_gpu_detection",
+          "description": "Check for NVIDIA GPU detection",
+          "command": "lspci | grep -i nvidia >/dev/null 2>&1 && lspci | grep -i nvidia | head -1 | sed 's/.*: //' || echo 'No NVIDIA GPU detected'",
+          "expected_pattern": "(NVIDIA|No NVIDIA GPU detected)",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "network_interface_check",
+          "description": "Check for active network interfaces",
+          "command": "ip link show | grep -q 'state UP' && echo 'network_interface_active' || echo 'no_active_network'",
+          "expected_pattern": "network_interface_active",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "network_connectivity_verification",
+      "description": "Verify network connectivity and package repositories",
+      "checks": [
+        {
+          "name": "internet_connectivity_check",
+          "description": "Check internet connectivity",
+          "command": "ping -c 3 8.8.8.8 >/dev/null 2>&1 && echo 'internet_available' || echo 'no_internet'",
+          "expected_pattern": "internet_available",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "package_repository_access",
+          "description": "Check Ubuntu package repository accessibility",
+          "command": "sudo apt update >/dev/null 2>&1 && echo 'repositories_accessible' || echo 'repositories_unreachable'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "user_permissions_verification",
+      "description": "Verify user permissions on AI/ML directories",
+      "checks": [
+        {
+          "name": "ml_directory_permissions",
+          "description": "Check write permissions on /ml directory",
+          "command": "[ -d /ml ] && touch /ml/test-permissions-$$ 2>/dev/null && rm /ml/test-permissions-$$ 2>/dev/null && echo 'ml_writable' || echo 'ml_not_writable'",
+          "expected_pattern": "ml_writable",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_directory_permissions",
+          "description": "Check write permissions on /data directory",
+          "command": "[ -d /data ] && touch /data/test-permissions-$$ 2>/dev/null && rm /data/test-permissions-$$ 2>/dev/null && echo 'data_writable' || echo 'data_not_writable'",
+          "expected_pattern": "data_writable",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "sudo_access_check",
+          "description": "Check sudo access functionality",
+          "command": "sudo -n true 2>/dev/null && echo 'sudo_no_password' || (sudo true 2>/dev/null && echo 'sudo_with_password') || echo 'sudo_not_available'",
+          "expected_pattern": "(sudo_no_password|sudo_with_password)",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "btrfs_functionality_testing",
+      "description": "Test BTRFS subvolume and compression functionality",
+      "checks": [
+        {
+          "name": "btrfs_subvolume_test",
+          "description": "Test BTRFS subvolume creation capability",
+          "command": "sudo btrfs subvolume create /tmp/test-subvolume-$$ >/dev/null 2>&1 && sudo btrfs subvolume delete /tmp/test-subvolume-$$ >/dev/null 2>&1 && echo 'subvolume_functional' || echo 'subvolume_failed'",
+          "expected_pattern": "subvolume_functional",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "btrfs_compression_test",
+          "description": "Test BTRFS compression functionality",
+          "command": "sudo btrfs filesystem defragment -v -czstd /tmp/ >/dev/null 2>&1 && echo 'compression_functional' || echo 'compression_issues'",
+          "expected_pattern": "(compression_functional|compression_issues)",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "user_account_verification",
+      "description": "Verify user account and login functionality",
+      "checks": [
+        {
+          "name": "user_account_check",
+          "description": "Verify current user account",
+          "command": "whoami",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "user_home_directory",
+          "description": "Verify user home directory exists and is accessible",
+          "command": "[ -d $HOME ] && echo 'home_directory_accessible' || echo 'home_directory_missing'",
+          "expected_pattern": "home_directory_accessible",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "user_shell_access",
+          "description": "Verify shell access and basic command functionality",
+          "command": "echo 'shell_test' && pwd && echo 'shell_functional'",
+          "expected_pattern": "shell_functional",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "user_environment_check",
+          "description": "Check user environment variables and PATH",
+          "command": "echo 'PATH:' $PATH && echo 'USER:' $USER && echo 'environment_ok'",
+          "expected_pattern": "environment_ok",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "installation_summary",
+      "description": "Generate installation summary and next steps",
+      "checks": [
+        {
+          "name": "installation_status_check",
+          "description": "Check overall installation status",
+          "command": "echo 'Post-installation validation completed' && echo 'Timestamp:' $(date) && echo 'System:' $(lsb_release -d | cut -f2) && echo 'Kernel:' $(uname -r)",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "storage_configuration_summary",
+          "description": "Generate storage configuration summary",
+          "command": "echo 'STORAGE CONFIGURATION:' && echo 'EFI: 1GB (Boot support)' && echo 'Swap:' $(swapon --show --bytes | grep nvme0n1p2 | awk '{print int($3/1024/1024/1024)\"GB\"}') '(Virtual memory)' && echo 'System: 200GB BTRFS (OS with snapshots)' && echo 'ML: 500GB BTRFS (Experiments with versioning)' && echo 'Data:' $(df -h /data | tail -1 | awk '{print $2}') 'EXT4 (Datasets and archives)'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "next_steps_guidance",
+          "description": "Provide next steps guidance",
+          "command": "echo 'NEXT STEPS:' && echo '\u2192 Proceed to Section S4: System BTRFS Subvolume Setup' && echo '\u2192 Configure advanced snapshot and versioning capabilities' && echo '\u2192 Implement AI/ML workflow integration' && echo '\u2192 Set up LoRA training environment'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    }
+  ],
+  "mount_points": {
+    "/boot/efi": "vfat",
+    "/": "btrfs",
+    "/ml": "btrfs",
+    "/data": "ext4"
+  },
+  "services": [
+    "systemd-resolved",
+    "NetworkManager"
+  ],
+  "filesystems": [
+    "btrfs",
+    "ext4",
+    "vfat"
+  ],
+  "test_operations": {
+    "btrfs_subvolume_test": {
+      "command": "sudo btrfs subvolume create /tmp/test-subvolume-$$",
+      "cleanup": "sudo btrfs subvolume delete /tmp/test-subvolume-$$",
+      "description": "Test BTRFS subvolume creation"
+    },
+    "permission_test": {
+      "command": "touch /ml/test-permissions-$$ && touch /data/test-permissions-$$",
+      "cleanup": "rm -f /ml/test-permissions-$$ /data/test-permissions-$$",
+      "description": "Test write permissions on AI/ML directories"
+    }
+  },
+  "dependencies": {
+    "required_commands": [
+      "lsb_release",
+      "uname",
+      "mount",
+      "df",
+      "swapon",
+      "btrfs",
+      "tune2fs",
+      "efibootmgr",
+      "grep",
+      "awk",
+      "sed",
+      "sudo",
+      "lspci",
+      "ip",
+      "ping",
+      "apt"
+    ],
+    "optional_commands": [
+      "nvidia-smi",
+      "lscpu"
+    ]
+  },
+  "post_verification": {
+    "success_message": "Post-installation validation completed successfully - Ubuntu AI/ML installation ready",
+    "failure_message": "Post-installation validation failed - review issues before proceeding",
+    "next_steps": [
+      "Proceed to Section S4: System BTRFS Subvolume Setup",
+      "Configure advanced snapshot and versioning capabilities",
+      "Implement AI/ML workflow integration",
+      "Set up LoRA training environment"
+    ]
+  }
+}

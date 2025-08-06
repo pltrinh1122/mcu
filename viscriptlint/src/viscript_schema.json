@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "viScript Schema",
+  "description": "Schema for Verified Installer (VI) viScript files",
+  "type": "object",
+  "required": ["installation_type", "version", "phases"],
+  "properties": {
+    "installation_type": {
+      "type": "string",
+      "description": "Type of installation being verified (e.g., 'system_validation', 'btrfs_root', 'docker')",
+      "examples": ["system_validation", "btrfs_root", "btrfs_ml", "btrfs_data", "docker"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the viScript schema",
+      "pattern": "^\\d+\\.\\d+$",
+      "examples": ["1.0", "2.0"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the installation verification"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author of the viScript"
+    },
+    "created_date": {
+      "type": "string",
+      "description": "Date when the viScript was created (YYYY-MM-DD format)",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "phases": {
+      "type": "array",
+      "description": "Array of verification phases",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "checks"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Unique identifier for the phase"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of what this phase verifies"
+          },
+          "checks": {
+            "type": "array",
+            "description": "Array of verification checks in this phase",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["name", "description", "command", "validation_type", "severity"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Unique identifier for the check within the phase"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Human-readable description of what this check verifies"
+                },
+                "command": {
+                  "type": "string",
+                  "description": "Shell command to execute for verification",
+                  "minLength": 1
+                },
+                "validation_type": {
+                  "type": "string",
+                  "enum": ["return_value", "output_pattern", "both", "none"],
+                  "description": "Type of validation to perform on the command output"
+                },
+                "expected_return": {
+                  "type": "integer",
+                  "description": "Expected return code for return_value validation",
+                  "default": 0
+                },
+                "expected_pattern": {
+                  "type": "string",
+                  "description": "Regex pattern to match in command output for output_pattern validation"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": ["critical", "informational"],
+                  "description": "Importance level of the check"
+                },
+                "optional": {
+                  "type": "boolean",
+                  "description": "Whether the check is optional (default: false)",
+                  "default": false
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": { "validation_type": { "enum": ["return_value", "both"] } }
+                  },
+                  "then": {
+                    "properties": {
+                      "expected_return": { "type": "integer" }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": { "validation_type": { "enum": ["output_pattern", "both"] } }
+                  },
+                  "then": {
+                    "properties": {
+                      "expected_pattern": { "type": "string", "minLength": 1 }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "next_step": {
+      "type": "string",
+      "description": "Filename of the next viScript to execute in the installation sequence"
+    },
+    "prerequisites": {
+      "type": "object",
+      "description": "Prerequisites that must be completed before this viScript",
+      "properties": {
+        "required_viScripts": {
+          "type": "array",
+          "description": "List of viScript files that must be completed successfully",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "description": "List of warnings to display to the user",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "validation_types": {
+      "type": "object",
+      "description": "Available validation types and their requirements",
+      "properties": {
+        "return_value": {
+          "description": "Validate that command returns expected exit code",
+          "required_fields": ["expected_return"]
+        },
+        "output_pattern": {
+          "description": "Validate that command output matches expected pattern",
+          "required_fields": ["expected_pattern"]
+        },
+        "both": {
+          "description": "Validate both return value and output pattern",
+          "required_fields": ["expected_return", "expected_pattern"]
+        },
+        "none": {
+          "description": "Execute command without validation (always succeeds if command runs)"
+        }
+      }
+    },
+    "severity_levels": {
+      "type": "object",
+      "description": "Available severity levels and their impact",
+      "properties": {
+        "critical": {
+          "description": "Critical checks - failure causes overall verification to fail"
+        },
+        "informational": {
+          "description": "Informational checks - failure creates warning but doesn't fail overall verification"
+        }
+      }
+    }
+  }
+} 

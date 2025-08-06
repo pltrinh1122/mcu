@@ -1,0 +1,348 @@
+{
+  "installation_type": "btrfs_data",
+  "version": "1.0",
+  "description": "BTRFS Data Partition Installation Verification",
+  "author": "Verified Installer Team",
+  "created_date": "2023-12-18",
+  "phases": [
+    {
+      "name": "mount_verification",
+      "description": "Verify data partition is properly mounted",
+      "checks": [
+        {
+          "name": "data_mount",
+          "description": "/data partition mounted as BTRFS",
+          "command": "mount | grep 'on /data '",
+          "expected_pattern": "btrfs",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_mount_point",
+          "description": "/data directory exists and is accessible",
+          "command": "test -d /data && test -r /data && echo 'accessible'",
+          "expected_pattern": "accessible",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_permissions",
+          "description": "/data directory has correct permissions",
+          "command": "ls -ld /data",
+          "expected_pattern": "drwxr-xr-x",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "subvolume_structure",
+      "description": "Verify data partition subvolume structure",
+      "checks": [
+        {
+          "name": "data_subvolumes",
+          "description": "List data partition subvolumes",
+          "command": "btrfs subvolume list /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_snapshots_dir",
+          "description": "Data snapshots directory exists",
+          "command": "test -d /data/.snapshots && echo 'exists'",
+          "expected_pattern": "exists",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_backups_dir",
+          "description": "Data backups directory exists",
+          "command": "test -d /data/backups && echo 'exists'",
+          "expected_pattern": "exists",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_archives_dir",
+          "description": "Data archives directory exists",
+          "command": "test -d /data/archives && echo 'exists'",
+          "expected_pattern": "exists",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_shared_dir",
+          "description": "Data shared directory exists",
+          "command": "test -d /data/shared && echo 'exists'",
+          "expected_pattern": "exists",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "functionality_testing",
+      "description": "Test BTRFS functionality for data storage",
+      "checks": [
+        {
+          "name": "data_snapshot_creation",
+          "description": "Create test data snapshot",
+          "command": "btrfs subvolume snapshot /data /data/.snapshots/data-verification-test-$(date +%Y%m%d-%H%M)",
+          "expected_pattern": "",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_snapshot_cleanup",
+          "description": "Remove test data snapshot",
+          "command": "btrfs subvolume delete /data/.snapshots/data-verification-test-$(date +%Y%m%d-%H%M)",
+          "expected_pattern": "",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_write_test",
+          "description": "Test write performance to data partition",
+          "command": "dd if=/dev/zero of=/data/test_write_$(date +%s) bs=1M count=100 2>/dev/null && rm /data/test_write_$(date +%s) && echo 'write_test_passed'",
+          "expected_pattern": "write_test_passed",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_read_test",
+          "description": "Test read performance from data partition",
+          "command": "dd if=/data/test_read_$(date +%s) of=/dev/null bs=1M count=100 2>/dev/null && echo 'read_test_passed'",
+          "expected_pattern": "read_test_passed",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "performance_analysis",
+      "description": "Analyze data partition performance",
+      "checks": [
+        {
+          "name": "data_compression_analysis",
+          "description": "Analyze compression effectiveness for data",
+          "command": "compsize /data",
+          "expected_pattern": "",
+          "optional": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_filesystem_performance",
+          "description": "Check data filesystem performance",
+          "command": "btrfs filesystem df /data && btrfs filesystem usage /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_space_usage",
+          "description": "Data partition space usage",
+          "command": "df -h /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "data_optimization",
+      "description": "Verify data-specific optimizations",
+      "checks": [
+        {
+          "name": "data_compression_settings",
+          "description": "Check compression settings for data workloads",
+          "command": "btrfs property get /data compression",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_noatime_mount",
+          "description": "Check if noatime is set for performance",
+          "command": "mount | grep 'on /data ' | grep -q noatime && echo 'noatime_set'",
+          "expected_pattern": "noatime_set",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_ssd_optimization",
+          "description": "Check for SSD optimization settings",
+          "command": "btrfs property get /data ssd",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_quota_enabled",
+          "description": "Check if quotas are enabled for data management",
+          "command": "btrfs qgroup show /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "filesystem_integrity",
+      "description": "Verify data partition integrity",
+      "checks": [
+        {
+          "name": "data_scrub_start",
+          "description": "Start BTRFS scrub for data partition",
+          "command": "btrfs scrub start /data",
+          "expected_pattern": "",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_scrub_status",
+          "description": "Check BTRFS scrub status for data partition",
+          "command": "btrfs scrub status /data",
+          "expected_pattern": "",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_filesystem_errors",
+          "description": "Check for data partition filesystem errors",
+          "command": "dmesg | grep -i error | grep -i data | tail -3",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "data_environment",
+      "description": "Verify data environment setup",
+      "checks": [
+        {
+          "name": "data_directory_structure",
+          "description": "Verify data directory structure",
+          "command": "find /data -maxdepth 2 -type d | sort",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_permissions_check",
+          "description": "Check data directory permissions",
+          "command": "ls -la /data/",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_ownership_check",
+          "description": "Check data directory ownership",
+          "command": "ls -ld /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "backup_verification",
+      "description": "Verify backup and recovery capabilities",
+      "checks": [
+        {
+          "name": "backup_directory_exists",
+          "description": "Backup directory exists and is writable",
+          "command": "test -d /data/backups && test -w /data/backups && echo 'backup_ready'",
+          "expected_pattern": "backup_ready",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "archive_directory_exists",
+          "description": "Archive directory exists and is writable",
+          "command": "test -d /data/archives && test -w /data/archives && echo 'archive_ready'",
+          "expected_pattern": "archive_ready",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "snapshot_backup_test",
+          "description": "Test snapshot backup functionality",
+          "command": "btrfs subvolume snapshot /data /data/backups/test_backup_$(date +%Y%m%d-%H%M) && echo 'backup_test_passed'",
+          "expected_pattern": "backup_test_passed",
+          "test_mode": true,
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "final_assessment",
+      "description": "Final data partition health assessment",
+      "checks": [
+        {
+          "name": "data_filesystem_overview",
+          "description": "Display data BTRFS filesystem overview",
+          "command": "btrfs filesystem show /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "data_overall_health",
+          "description": "Overall data partition health",
+          "command": "btrfs filesystem usage /data && df -h /data",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    }
+  ],
+  "mount_points": {
+    "/data": "btrfs"
+  },
+  "services": [],
+  "filesystems": [
+    "btrfs"
+  ],
+  "test_operations": {
+    "data_snapshot_test": {
+      "command": "btrfs subvolume snapshot /data",
+      "cleanup": "btrfs subvolume delete",
+      "description": "Test data snapshot functionality"
+    },
+    "data_scrub_test": {
+      "command": "btrfs scrub start /data",
+      "status": "btrfs scrub status /data",
+      "description": "Test data partition integrity"
+    }
+  },
+  "dependencies": {
+    "required_commands": [
+      "btrfs",
+      "mount",
+      "df"
+    ],
+    "optional_commands": [
+      "compsize"
+    ]
+  },
+  "post_verification": {
+    "success_message": "BTRFS data partition installation verified successfully",
+    "failure_message": "BTRFS data partition installation verification failed",
+    "next_steps": [
+      "Section S9: Data Backup Strategy",
+      "Section S10: Data Recovery Procedures"
+    ]
+  }
+}

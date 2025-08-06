@@ -1,0 +1,289 @@
+{
+  "installation_type": "btrfs_ml",
+  "version": "1.0",
+  "description": "BTRFS ML Partition Installation Verification",
+  "author": "Verified Installer Team",
+  "created_date": "2023-12-18",
+  "phases": [
+    {
+      "name": "mount_verification",
+      "description": "Verify ML partition is properly mounted",
+      "checks": [
+        {
+          "name": "ml_mount",
+          "description": "/ml partition mounted as BTRFS",
+          "command": "mount | grep 'on /ml '",
+          "validation_type": "output_pattern",
+          "expected_pattern": "btrfs",
+          "severity": "critical"
+        },
+        {
+          "name": "ml_mount_point",
+          "description": "/ml directory exists and is accessible",
+          "command": "test -d /ml && test -r /ml && echo 'accessible'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "accessible",
+          "severity": "critical"
+        },
+        {
+          "name": "ml_permissions",
+          "description": "/ml directory has correct permissions",
+          "command": "ls -ld /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "drwxr-xr-x",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "subvolume_structure",
+      "description": "Verify ML partition subvolume structure",
+      "checks": [
+        {
+          "name": "ml_subvolumes",
+          "description": "List ML partition subvolumes",
+          "command": "btrfs subvolume list /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_snapshots_dir",
+          "description": "ML snapshots directory exists",
+          "command": "test -d /ml/.snapshots && echo 'exists'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "exists",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_models_dir",
+          "description": "ML models directory exists",
+          "command": "test -d /ml/models && echo 'exists'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "exists",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_datasets_dir",
+          "description": "ML datasets directory exists",
+          "command": "test -d /ml/datasets && echo 'exists'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "exists",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "functionality_testing",
+      "description": "Test BTRFS functionality for ML workloads",
+      "checks": [
+        {
+          "name": "ml_snapshot_creation",
+          "description": "Create test ML snapshot",
+          "command": "btrfs subvolume snapshot /ml /ml/.snapshots/ml-verification-test-$(date +%Y%m%d-%H%M)",
+          "validation_type": "none",
+          "severity": "informational",
+          "test_mode": true
+        },
+        {
+          "name": "ml_snapshot_cleanup",
+          "description": "Remove test ML snapshot",
+          "command": "btrfs subvolume delete /ml/.snapshots/ml-verification-test-$(date +%Y%m%d-%H%M)",
+          "validation_type": "none",
+          "severity": "informational",
+          "test_mode": true
+        },
+        {
+          "name": "ml_write_test",
+          "description": "Test write performance to ML partition",
+          "command": "dd if=/dev/zero of=/ml/test_write_$(date +%s) bs=1M count=100 2>/dev/null && rm /ml/test_write_$(date +%s) && echo 'write_test_passed'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "write_test_passed",
+          "severity": "informational",
+          "test_mode": true
+        }
+      ]
+    },
+    {
+      "name": "performance_analysis",
+      "description": "Analyze ML partition performance",
+      "checks": [
+        {
+          "name": "ml_compression_analysis",
+          "description": "Analyze compression effectiveness for ML data",
+          "command": "compsize /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational",
+          "optional": true
+        },
+        {
+          "name": "ml_filesystem_performance",
+          "description": "Check ML filesystem performance",
+          "command": "btrfs filesystem df /ml && btrfs filesystem usage /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_space_usage",
+          "description": "ML partition space usage",
+          "command": "df -h /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "ml_optimization",
+      "description": "Verify ML-specific optimizations",
+      "checks": [
+        {
+          "name": "ml_compression_settings",
+          "description": "Check compression settings for ML workloads",
+          "command": "btrfs property get /ml compression",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_noatime_mount",
+          "description": "Check if noatime is set for performance",
+          "command": "mount | grep 'on /ml ' | grep -q noatime && echo 'noatime_set'",
+          "validation_type": "output_pattern",
+          "expected_pattern": "noatime_set",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_ssd_optimization",
+          "description": "Check for SSD optimization settings",
+          "command": "btrfs property get /ml ssd",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "filesystem_integrity",
+      "description": "Verify ML partition integrity",
+      "checks": [
+        {
+          "name": "ml_scrub_start",
+          "description": "Start BTRFS scrub for ML partition",
+          "command": "btrfs scrub start /ml",
+          "validation_type": "none",
+          "severity": "informational",
+          "test_mode": true
+        },
+        {
+          "name": "ml_scrub_status",
+          "description": "Check BTRFS scrub status for ML partition",
+          "command": "btrfs scrub status /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational",
+          "test_mode": true
+        },
+        {
+          "name": "ml_filesystem_errors",
+          "description": "Check for ML partition filesystem errors",
+          "command": "dmesg | grep -i error | grep -i ml | tail -3",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "ml_environment",
+      "description": "Verify ML environment setup",
+      "checks": [
+        {
+          "name": "ml_directory_structure",
+          "description": "Verify ML directory structure",
+          "command": "find /ml -maxdepth 2 -type d | sort",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_permissions_check",
+          "description": "Check ML directory permissions",
+          "command": "ls -la /ml/",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_quota_check",
+          "description": "Check if quotas are enabled for ML partition",
+          "command": "btrfs qgroup show /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        }
+      ]
+    },
+    {
+      "name": "final_assessment",
+      "description": "Final ML partition health assessment",
+      "checks": [
+        {
+          "name": "ml_filesystem_overview",
+          "description": "Display ML BTRFS filesystem overview",
+          "command": "btrfs filesystem show /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        },
+        {
+          "name": "ml_overall_health",
+          "description": "Overall ML partition health",
+          "command": "btrfs filesystem usage /ml && df -h /ml",
+          "validation_type": "output_pattern",
+          "expected_pattern": "",
+          "severity": "informational"
+        }
+      ]
+    }
+  ],
+  "mount_points": {
+    "/ml": "btrfs"
+  },
+  "services": [],
+  "filesystems": [
+    "btrfs"
+  ],
+  "test_operations": {
+    "ml_snapshot_test": {
+      "command": "btrfs subvolume snapshot /ml",
+      "cleanup": "btrfs subvolume delete",
+      "description": "Test ML snapshot functionality"
+    },
+    "ml_scrub_test": {
+      "command": "btrfs scrub start /ml",
+      "status": "btrfs scrub status /ml",
+      "description": "Test ML partition integrity"
+    }
+  },
+  "dependencies": {
+    "required_commands": [
+      "btrfs",
+      "mount",
+      "df"
+    ],
+    "optional_commands": [
+      "compsize"
+    ]
+  },
+  "post_verification": {
+    "success_message": "BTRFS ML partition installation verified successfully",
+    "failure_message": "BTRFS ML partition installation verification failed",
+    "next_steps": [
+      "Section S7: ML Framework Installation",
+      "Section S8: Model Training Environment Setup"
+    ]
+  }
+} 

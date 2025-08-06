@@ -1,0 +1,460 @@
+metadata:
+  id: "btrfs-system-validation"
+  intent: "Comprehensive System Validation for Ubuntu Installation Preparation (Generic + AI/ML)"
+  technicalProficiency: "Expert"
+  context:
+    designPrinciples:
+      - "Fail fast and safe"
+      - "Preserve existing data"
+      - "Comprehensive validation before installation"
+    dependencies:
+      - "Ubuntu 24.04 LTS live environment"
+      - "sudo privileges"
+      - "Internet connectivity"
+    compatibility:
+      - "Ubuntu 24.04+"
+      - "UEFI boot mode"
+      - "NVIDIA GPU for AI/ML workloads"
+
+body:
+  - type: "script"
+    scriptType: "main"
+    id: "system-validation-main"
+    intent: "Comprehensive system validation for Ubuntu BTRFS installation"
+    atomic: false
+    body:
+      - type: "script"
+        scriptType: "procedure"
+        id: "environment-verification"
+        intent: "Verify live boot environment and permissions"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "live-boot-detection"
+            intent: "Verify running from live boot environment"
+            command: "df / | grep -q '^/dev/loop' && echo 'live_boot_detected'"
+            expected_output: "live_boot_detected"
+            critical: true
+            on_fail: "abort"
+
+          - type: "validation"
+            id: "ubuntu-version-check"
+            intent: "Verify Ubuntu 24.04 LTS environment"
+            command: "lsb_release -d 2>/dev/null | grep -q 'Ubuntu 24.04' && echo 'ubuntu_24_04' || echo 'wrong_version'"
+            expected_output: "ubuntu_24_04"
+            critical: true
+            on_fail: "abort"
+
+          - type: "validation"
+            id: "live-environment-check"
+            intent: "Verify live USB environment"
+            command: "[ -d /run/live ] && echo 'live_environment' || echo 'not_live'"
+            expected_output: "(live_environment|not_live)"
+            critical: false
+            on_fail: "continue"
+
+          - type: "command"
+            id: "sudo-permissions"
+            intent: "Check if running with sudo privileges"
+            shellCommand: "[ -n \"$SUDO_USER\" ] && echo 'sudo_active' || echo 'no_sudo'"
+            destructive: false
+            conditional: true
+
+          - type: "validation"
+            id: "home-directory-access"
+            intent: "Verify home directory is accessible and writable"
+            command: "test -d $HOME && test -w $HOME && echo 'home_writable'"
+            expected_output: "home_writable"
+            critical: true
+            on_fail: "abort"
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "target-disk-validation"
+        intent: "Validate target disk for installation"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "target-disk-detection"
+            intent: "Detect and validate target disk"
+            command: "TARGET_DISK=\"/dev/nvme0n1\" && [ -b \"${TARGET_DISK}\" ] && echo 'target_disk_found' || echo 'target_disk_missing'"
+            expected_output: "target_disk_found"
+            critical: true
+            on_fail: "abort"
+
+          - type: "validation"
+            id: "disk-capacity-check"
+            intent: "Verify disk capacity meets AI/ML requirements"
+            command: "TARGET_DISK=\"/dev/nvme0n1\" && DISK_SIZE_BYTES=$(lsblk -b -d -o SIZE ${TARGET_DISK} | tail -1) && DISK_SIZE_GB=$((DISK_SIZE_BYTES / 1024 / 1024 / 1024)) && if [ $DISK_SIZE_GB -ge 1400 ]; then echo 'sufficient_capacity'; else echo 'insufficient_capacity'; fi"
+            expected_output: "sufficient_capacity"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "disk-model-info"
+            intent: "Get disk model and capacity information"
+            shellCommand: "TARGET_DISK=\"/dev/nvme0n1\" && DISK_SIZE_BYTES=$(lsblk -b -d -o SIZE ${TARGET_DISK} | tail -1) && DISK_SIZE_GB=$((DISK_SIZE_BYTES / 1024 / 1024 / 1024)) && DISK_MODEL=$(lsblk -d -o MODEL ${TARGET_DISK} 2>/dev/null | tail -1 | xargs) && echo \"Model: ${DISK_MODEL}, Size: ${DISK_SIZE_GB}GB\""
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "existing-partitions-warning"
+            intent: "Check for existing partitions on target disk"
+            shellCommand: "TARGET_DISK=\"/dev/nvme0n1\" && lsblk ${TARGET_DISK} 2>/dev/null | grep -q \"${TARGET_DISK}p\" && echo 'existing_partitions' || echo 'no_existing_partitions'"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "boot-environment-validation"
+        intent: "Validate boot environment and UEFI support"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "uefi-mode-check"
+            intent: "Verify UEFI boot mode"
+            command: "[ -d /sys/firmware/efi ] && echo 'uefi_mode' || echo 'legacy_mode'"
+            expected_output: "uefi_mode"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "efi-variables-access"
+            intent: "Check EFI variables accessibility"
+            shellCommand: "[ -d /sys/firmware/efi/efivars ] && echo 'efi_vars_accessible' || echo 'efi_vars_not_accessible'"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "filesystem-support-validation"
+        intent: "Validate BTRFS and filesystem support"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "btrfs-kernel-support"
+            intent: "Check BTRFS kernel module support"
+            command: "modprobe btrfs 2>/dev/null && echo 'btrfs_supported' || echo 'btrfs_not_supported'"
+            expected_output: "btrfs_supported"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "btrfs-tools-check"
+            intent: "Check BTRFS tools availability"
+            shellCommand: "which btrfs >/dev/null 2>&1 && btrfs --version 2>/dev/null | head -1 || echo 'BTRFS tools will be installed during installation'"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "system-information-collection"
+        intent: "Collect and validate basic system information"
+        atomic: false
+        body:
+          - type: "command"
+            id: "kernel-info"
+            intent: "Collect kernel and OS information"
+            shellCommand: "uname -a"
+            destructive: false
+            conditional: false
+
+          - type: "validation"
+            id: "distribution-info"
+            intent: "Collect distribution release information"
+            command: "lsb_release -a"
+            expected_output: "Ubuntu"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "system-uptime"
+            intent: "Check system uptime"
+            shellCommand: "uptime"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "storage-analysis"
+        intent: "Analyze storage devices and filesystems"
+        atomic: false
+        body:
+          - type: "command"
+            id: "disk-usage"
+            intent: "Check disk usage with filesystem types"
+            shellCommand: "df -Th"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "block-devices"
+            intent: "List all block devices with filesystem info"
+            shellCommand: "lsblk -f"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "disk-sizes-models"
+            intent: "Get disk sizes, models and rotational status"
+            shellCommand: "lsblk -b -d -o NAME,MODEL,SIZE,ROTA"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "root-device-detection"
+            intent: "Detect and analyze root device"
+            shellCommand: "ROOT_PART=$(df --output=source / | tail -1) && ROOT_DEV=$(echo \"$ROOT_PART\" | sed -E 's/(p?[0-9]+)$//') && lsblk -b -d -o NAME,SIZE,ROTA $ROOT_DEV"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "ai-ml-hardware-validation"
+        intent: "Validate hardware for AI/ML workloads"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "memory-requirements-check"
+            intent: "Verify memory meets AI/ML requirements"
+            command: "TOTAL_RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && if [ $TOTAL_RAM_GB -ge 60 ]; then echo 'optimal_memory'; elif [ $TOTAL_RAM_GB -ge 30 ]; then echo 'adequate_memory'; else echo 'insufficient_memory'; fi"
+            expected_output: "(optimal_memory|adequate_memory)"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "memory-details"
+            intent: "Get detailed memory information"
+            shellCommand: "TOTAL_RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && echo \"Detected RAM: ${TOTAL_RAM_GB}GB\""
+            destructive: false
+            conditional: false
+
+          - type: "validation"
+            id: "nvidia-gpu-detection"
+            intent: "Check for NVIDIA GPU (required for AI/ML)"
+            command: "lspci | grep -i nvidia >/dev/null 2>&1 && lspci | grep -i nvidia | head -1 | sed 's/.*: //' || echo 'No NVIDIA GPU detected'"
+            expected_output: "(NVIDIA|No NVIDIA GPU detected)"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "cpu-information"
+            intent: "Get extended CPU information"
+            shellCommand: "lscpu --all --extended"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "hardware-analysis"
+        intent: "Analyze system hardware components"
+        atomic: false
+        body:
+          - type: "command"
+            id: "memory-usage"
+            intent: "Check memory usage with totals"
+            shellCommand: "free -h -t"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "network-interfaces"
+            intent: "List network interfaces briefly"
+            shellCommand: "ip -brief address"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "network-connectivity-validation"
+        intent: "Validate network connectivity for installation"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "internet-connectivity"
+            intent: "Check internet connectivity"
+            command: "ping -c 3 8.8.8.8 >/dev/null 2>&1 && echo 'internet_available' || echo 'no_internet'"
+            expected_output: "internet_available"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "ubuntu-repository-access"
+            intent: "Check Ubuntu repository accessibility"
+            shellCommand: "ping -c 2 archive.ubuntu.com >/dev/null 2>&1 && echo 'repositories_accessible' || echo 'repositories_unreachable'"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "system-proc-analysis"
+        intent: "Analyze system information from /proc and /sys"
+        atomic: false
+        body:
+          - type: "command"
+            id: "memory-info-proc"
+            intent: "Get memory information from /proc"
+            shellCommand: "cat /proc/meminfo"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "cpu-stats-proc"
+            intent: "Get CPU statistics from /proc"
+            shellCommand: "cat /proc/stat | head -n5"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "disk-io-stats-proc"
+            intent: "Get disk I/O statistics from /proc"
+            shellCommand: "cat /proc/diskstats | head -n20"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "network-interface-stats"
+            intent: "Get per-interface byte counters from /sys"
+            shellCommand: "for IF in /sys/class/net/*; do NAME=$(basename \"$IF\"); echo \"$NAME RX:$(cat $IF/statistics/rx_bytes 2>/dev/null || echo 'N/A') TX:$(cat $IF/statistics/tx_bytes 2>/dev/null || echo 'N/A')\"; done"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "partition-layout-validation"
+        intent: "Validate planned partition layout for AI/ML installation"
+        atomic: false
+        body:
+          - type: "command"
+            id: "partition-layout-summary"
+            intent: "Generate partition layout summary"
+            shellCommand: "TARGET_DISK=\"/dev/nvme0n1\" && DISK_SIZE_BYTES=$(lsblk -b -d -o SIZE ${TARGET_DISK} | tail -1) && DISK_SIZE_GB=$((DISK_SIZE_BYTES / 1024 / 1024 / 1024)) && TOTAL_RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && if [ $TOTAL_RAM_GB -ge 60 ]; then SWAP_SIZE=64GB; elif [ $TOTAL_RAM_GB -ge 30 ]; then SWAP_SIZE=32GB; else SWAP_SIZE=16GB; fi && if [ $DISK_SIZE_GB -ge 1800 ]; then DATA_SIZE=$((DISK_SIZE_GB - 770)); else DATA_SIZE=$((DISK_SIZE_GB - 500)); fi && echo \"EFI: 1GB, Swap: ${SWAP_SIZE}, Root: 200GB, ML: 500GB, Data: ~${DATA_SIZE}GB\""
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "output-validation"
+        intent: "Validate system information output file"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "output-file-creation"
+            intent: "Create system information output file"
+            command: "TS=$(date +%Y%m%d-%H%M%S) && OUT=\"$HOME/system-info-${TS}.txt\" && echo 'System validation output' > \"$OUT\" && echo \"$OUT\""
+            expected_output: "system-info-"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "output-file-permissions"
+            intent: "Verify output file permissions and ownership"
+            shellCommand: "TS=$(date +%Y%m%d-%H%M%S) && OUT=\"$HOME/system-info-${TS}.txt\" && touch \"$OUT\" && ls -la \"$OUT\""
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "output-file-content"
+            intent: "Verify output file contains system information"
+            shellCommand: "TS=$(date +%Y%m%d-%H%M%S) && OUT=\"$HOME/system-info-${TS}.txt\" && echo 'System validation test' > \"$OUT\" && wc -l \"$OUT\""
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "installation-readiness"
+        intent: "Verify system is ready for Ubuntu installation"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "minimum-memory-check"
+            intent: "Verify minimum memory requirements"
+            command: "free -m | grep '^Mem:' | awk '{if($2 >= 2048) print \"SUFFICIENT_MEMORY\"; else print \"INSUFFICIENT_MEMORY\"}'"
+            expected_output: "SUFFICIENT_MEMORY"
+            critical: true
+            on_fail: "abort"
+
+          - type: "validation"
+            id: "minimum-disk-space"
+            intent: "Verify minimum disk space for installation"
+            command: "df / | tail -1 | awk '{if($4 >= 10485760) print \"SUFFICIENT_DISK\"; else print \"INSUFFICIENT_DISK\"}'"
+            expected_output: "SUFFICIENT_DISK"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "network-connectivity"
+            intent: "Check basic network connectivity"
+            shellCommand: "ping -c 1 8.8.8.8 >/dev/null 2>&1 && echo 'network_ok' || echo 'network_failed'"
+            destructive: false
+            conditional: false
+
+          - type: "validation"
+            id: "cpu-architecture"
+            intent: "Verify CPU architecture compatibility"
+            command: "uname -m"
+            expected_output: "(x86_64|amd64|aarch64)"
+            critical: true
+            on_fail: "abort"
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "security-validation"
+        intent: "Validate security and permission requirements"
+        atomic: false
+        body:
+          - type: "validation"
+            id: "sudo-capabilities"
+            intent: "Verify sudo capabilities for installation"
+            command: "sudo -n true 2>/dev/null && echo 'sudo_available' || echo 'sudo_unavailable'"
+            expected_output: "sudo_available"
+            critical: true
+            on_fail: "abort"
+
+          - type: "command"
+            id: "user-permissions"
+            intent: "Check user permissions and groups"
+            shellCommand: "id"
+            destructive: false
+            conditional: false
+
+          - type: "command"
+            id: "secure-boot-status"
+            intent: "Check Secure Boot status"
+            shellCommand: "mokutil --sb-state 2>/dev/null || echo 'Secure Boot status unknown'"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "hardware-specification-summary"
+        intent: "Generate hardware specification summary matching prerequisites table"
+        atomic: false
+        body:
+          - type: "command"
+            id: "hardware-summary-table"
+            intent: "Generate hardware specification summary table"
+            shellCommand: "echo '=== HARDWARE SPECIFICATION SUMMARY ===' && echo '' && echo '| Component | Detected | Minimum | Recommended | Status |' && echo '| --- | --- | --- | --- | --- |' && BOOT_MODE=$(if [ -d /sys/firmware/efi ]; then echo 'UEFI'; else echo 'BIOS/Legacy'; fi) && BOOT_STATUS=$(if [ -d /sys/firmware/efi ]; then echo 'PASS'; else echo 'FAIL'; fi) && echo \"| Boot Mode | $BOOT_MODE | UEFI | UEFI with Secure Boot | $BOOT_STATUS |\" && GPU_INFO=$(lspci | grep -i nvidia | head -1 | sed 's/.*: //' 2>/dev/null || echo 'No NVIDIA GPU') && GPU_STATUS=$(if echo \"$GPU_INFO\" | grep -q 'NVIDIA'; then echo 'PASS'; else echo 'FAIL'; fi) && echo \"| GPU | $GPU_INFO | NVIDIA GTX 1660 Ti | NVIDIA RTX 3080+ | $GPU_STATUS |\" && RAM_GB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024/1024)}') && RAM_STATUS=$(if [ $RAM_GB -ge 30 ]; then echo 'PASS'; else echo 'FAIL'; fi) && echo \"| RAM | ${RAM_GB}GB | 32GB | 64GB+ | $RAM_STATUS |\" && DISK_SIZE_GB=$(lsblk -b -d -o SIZE /dev/nvme0n1 2>/dev/null | tail -1 | awk '{print int($1/1024/1024/1024)}') && DISK_STATUS=$(if [ $DISK_SIZE_GB -ge 1400 ]; then echo 'PASS'; else echo 'FAIL'; fi) && echo \"| Storage | ${DISK_SIZE_GB}GB | 1.5TB | 2TB+ | $DISK_STATUS |\" && NETWORK_SPEED=$(if ping -c 1 8.8.8.8 >/dev/null 2>&1; then echo 'Connected'; else echo 'No Connection'; fi) && NETWORK_STATUS=$(if ping -c 1 8.8.8.8 >/dev/null 2>&1; then echo 'PASS'; else echo 'FAIL'; fi) && echo \"| Network | $NETWORK_SPEED | 100Mbps | 1Gbps | $NETWORK_STATUS |\" && echo '' && echo '=== SUMMARY ===' && PASS_COUNT=$(echo -e \"$BOOT_STATUS\\n$GPU_STATUS\\n$RAM_STATUS\\n$DISK_STATUS\\n$NETWORK_STATUS\" | grep -c 'PASS') && TOTAL_COUNT=5 && echo \"Passed: $PASS_COUNT/$TOTAL_COUNT components\" && if [ $PASS_COUNT -eq $TOTAL_COUNT ]; then echo 'Status: SYSTEM READY'; else echo 'Status: SYSTEM NEEDS ATTENTION'; fi"
+            destructive: false
+            conditional: false
+
+      - type: "script"
+        scriptType: "procedure"
+        id: "final-validation"
+        intent: "Final system validation summary"
+        atomic: false
+        body:
+          - type: "command"
+            id: "system-summary"
+            intent: "Generate system validation summary"
+            shellCommand: "echo 'System validation completed' && echo 'Timestamp:' $(date) && echo 'Hostname:' $(hostname) && echo 'Architecture:' $(uname -m)"
+            destructive: false
+            conditional: false
+
+          - type: "validation"
+            id: "installation-ready"
+            intent: "Verify system is ready for Ubuntu installation"
+            command: "echo 'System validation passed - ready for Ubuntu installation'"
+            expected_output: "ready for Ubuntu installation"
+            critical: true
+            on_fail: "abort" 

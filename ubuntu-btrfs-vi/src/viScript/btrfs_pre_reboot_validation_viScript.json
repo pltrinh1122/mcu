@@ -1,0 +1,338 @@
+{
+  "installation_type": "btrfs_pre_reboot_validation",
+  "version": "1.0",
+  "description": "BTRFS Pre-Reboot Validation for Ubuntu AI/ML Installation",
+  "author": "Verified Installer Team",
+  "created_date": "2023-12-18",
+  "prerequisites": {
+    "required_viScripts": [
+      "btrfs_system_subvolume_creation_viScript.json",
+      "btrfs_data_migration_viScript.json",
+      "btrfs_mount_configuration_viScript.json",
+      "btrfs_boot_configuration_viScript.json"
+    ],
+    "required_mounts": [],
+    "required_subvolumes": [
+      "@",
+      "@home",
+      "@var-log",
+      "@var-cache",
+      "@var-tmp",
+      "@var-spool",
+      "@var-backups",
+      "@snapshots"
+    ],
+    "warnings": [
+      "This is the final validation before rebooting to BTRFS subvolumes",
+      "System will be committed to BTRFS subvolume boot after this validation",
+      "Ensure all previous steps completed successfully",
+      "This is the last chance to verify configuration before reboot"
+    ]
+  },
+  "phases": [
+    {
+      "name": "mount_configuration_validation",
+      "description": "Validate mount configuration and test filesystem mounting",
+      "checks": [
+        {
+          "name": "fstab_syntax_validation",
+          "description": "Validate fstab syntax using mount -fav",
+          "command": "mount -fav && echo 'fstab_syntax_valid' || echo 'fstab_syntax_invalid'",
+          "expected_pattern": "fstab_syntax_valid",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "test_mount_all_filesystems",
+          "description": "Test mounting all filesystems specified in fstab",
+          "command": "mount -av && echo 'mount_test_successful' || echo 'mount_test_failed'",
+          "expected_pattern": "mount_test_successful",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "current_mount_status",
+          "description": "Display current mount status for verification",
+          "command": "echo 'Current mount status:' && mount | grep -E '(btrfs|ext4)' && echo 'mount_status_displayed'",
+          "expected_pattern": "mount_status_displayed",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "required_mount_points_creation",
+      "description": "Create required mount points for BTRFS subvolume system",
+      "checks": [
+        {
+          "name": "snapshots_directory_creation",
+          "description": "Create snapshots directory for BTRFS snapshots",
+          "command": "mkdir -p /.snapshots && echo 'snapshots_directory_created'",
+          "expected_pattern": "snapshots_directory_created",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "volatile_var_mount_points",
+          "description": "Create volatile /var mount points for excluded subvolumes",
+          "command": "mkdir -p /var/log /var/cache /var/tmp /var/spool /var/backups && echo 'var_mount_points_created'",
+          "expected_pattern": "var_mount_points_created",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "ml_partition_mount_points",
+          "description": "Create ML partition mount points",
+          "command": "mkdir -p /ml/.snapshots && echo 'ml_mount_points_created'",
+          "expected_pattern": "ml_mount_points_created",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "additional_system_directories",
+          "description": "Create additional system directories",
+          "command": "mkdir -p /var/lib/docker /srv && echo 'additional_directories_created'",
+          "expected_pattern": "additional_directories_created",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "snapshots_permissions_setting",
+          "description": "Set snapshots directory permissions",
+          "command": "chmod 755 /.snapshots /ml/.snapshots && echo 'snapshots_permissions_set'",
+          "expected_pattern": "snapshots_permissions_set",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "var_subdirectory_permissions",
+          "description": "Set /var subdirectory permissions",
+          "command": "chmod 755 /var/log /var/cache /var/tmp /var/spool /var/backups && echo 'var_permissions_set'",
+          "expected_pattern": "var_permissions_set",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "temporary_mounts_cleanup",
+      "description": "Clean up temporary mounts used during installation",
+      "checks": [
+        {
+          "name": "system_btrfs_unmount",
+          "description": "Unmount temporary system BTRFS root",
+          "command": "if umount /mnt/system-btrfs 2>/dev/null; then echo 'temporary_system_mount_unmounted'; else echo 'temporary_mount_already_removed'; fi",
+          "expected_pattern": "(temporary_system_mount_unmounted|temporary_mount_already_removed)",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "temporary_mount_point_removal",
+          "description": "Remove temporary mount point directory",
+          "command": "if rmdir /mnt/system-btrfs 2>/dev/null; then echo 'temporary_mount_point_removed'; else echo 'temporary_directory_already_cleaned'; fi",
+          "expected_pattern": "(temporary_mount_point_removed|temporary_directory_already_cleaned)",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "system_state_verification",
+      "description": "Verify system state before reboot",
+      "checks": [
+        {
+          "name": "final_fstab_validation",
+          "description": "Final fstab syntax validation",
+          "command": "mount -fav && echo 'final_fstab_validation_passed' || echo 'final_fstab_validation_failed'",
+          "expected_pattern": "final_fstab_validation_passed",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_root_filesystem_detection",
+          "description": "Verify GRUB can detect root filesystem",
+          "command": "grub-probe --target=fs_uuid / && echo 'grub_root_detection_successful' || echo 'grub_root_detection_failed'",
+          "expected_pattern": "grub_root_detection_successful",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "initramfs_generation_verification",
+          "description": "Verify initramfs was generated successfully",
+          "command": "ls -la /boot/initrd.img-* | tail -1 && echo 'initramfs_generation_verified'",
+          "expected_pattern": "initramfs_generation_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "system_subvolumes_verification",
+      "description": "Verify all system subvolumes exist and are accessible",
+      "checks": [
+        {
+          "name": "system_device_detection",
+          "description": "Detect system BTRFS device for subvolume verification",
+          "command": "SUBVOL_CHECK=$(mount | grep 'system-btrfs' | head -1 | awk '{print $1}') && if [ -n \"$SUBVOL_CHECK\" ]; then DEVICE=\"$SUBVOL_CHECK\"; elif [ -b \"/dev/nvme0n1p3\" ]; then DEVICE=\"/dev/nvme0n1p3\"; else echo 'system_device_detection_failed'; exit 1; fi && echo \"system_device_detected:$DEVICE\"",
+          "expected_pattern": "system_device_detected:",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "temporary_btrfs_mount",
+          "description": "Mount system BTRFS temporarily for subvolume verification",
+          "command": "mkdir -p /tmp/btrfs-check && mount \"$DEVICE\" /tmp/btrfs-check 2>/dev/null && echo 'temporary_btrfs_mount_successful' || echo 'temporary_btrfs_mount_failed'",
+          "expected_pattern": "temporary_btrfs_mount_successful",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "subvolume_count_verification",
+          "description": "Verify all 8 system subvolumes exist",
+          "command": "SUBVOLUMES_FOUND=$(btrfs subvolume list /tmp/btrfs-check | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)' | wc -l) && umount /tmp/btrfs-check && rmdir /tmp/btrfs-check && if [ \"$SUBVOLUMES_FOUND\" -eq 8 ]; then echo 'all_subvolumes_verified'; else echo \"subvolume_count_mismatch:$SUBVOLUMES_FOUND\"; fi",
+          "expected_pattern": "all_subvolumes_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "subvolume_list_display",
+          "description": "Display list of found subvolumes for verification",
+          "command": "mkdir -p /tmp/btrfs-check && mount \"$DEVICE\" /tmp/btrfs-check 2>/dev/null && echo 'System subvolumes found:' && btrfs subvolume list /tmp/btrfs-check | grep -E '(@|@home|@var-log|@var-cache|@var-tmp|@var-spool|@var-backups|@snapshots)' && umount /tmp/btrfs-check && rmdir /tmp/btrfs-check && echo 'subvolume_list_displayed'",
+          "expected_pattern": "subvolume_list_displayed",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "system_health_checks",
+      "description": "Perform final system health checks before reboot",
+      "checks": [
+        {
+          "name": "btrfs_tools_availability",
+          "description": "Verify BTRFS tools are available",
+          "command": "which btrfs && echo 'btrfs_tools_available' || echo 'btrfs_tools_missing'",
+          "expected_pattern": "btrfs_tools_available",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "available_disk_space",
+          "description": "Check available disk space on root filesystem",
+          "command": "df -h / && echo 'disk_space_checked'",
+          "expected_pattern": "disk_space_checked",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "critical_filesystem_errors",
+          "description": "Check for critical filesystem errors in dmesg",
+          "command": "dmesg | grep -i 'error\\|fail' | grep -i 'btrfs\\|nvme' | tail -5 || echo 'No critical filesystem errors found' && echo 'filesystem_errors_checked'",
+          "expected_pattern": "filesystem_errors_checked",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "system_memory_status",
+          "description": "Check system memory status",
+          "command": "free -h && echo 'memory_status_checked'",
+          "expected_pattern": "memory_status_checked",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "final_validation_summary",
+      "description": "Generate final validation summary and reboot readiness",
+      "checks": [
+        {
+          "name": "validation_summary_display",
+          "description": "Display comprehensive validation summary",
+          "command": "echo 'VALIDATION SUMMARY:' && echo 'Timestamp: $(date)' && echo '\u2713 Mount configuration validated' && echo '\u2713 Required mount points created' && echo '\u2713 Temporary mounts cleaned up' && echo '\u2713 Boot configuration verified' && echo '\u2713 System subvolumes confirmed (8/8)' && echo '\u2713 System health checks passed' && echo '' && echo 'SYSTEM READY FOR REBOOT TO BTRFS SUBVOLUMES'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "reboot_instructions",
+          "description": "Provide reboot instructions and recovery information",
+          "command": "echo 'Next step: sudo reboot' && echo 'Recovery: If boot fails, use Ubuntu Live USB to restore from backup' && echo 'Monitor boot process for any errors' && echo 'Expected: System should boot to BTRFS subvolume root'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "final_checkpoint",
+          "description": "Final checkpoint before reboot",
+          "command": "echo 'FINAL CHECKPOINT: System ready for BTRFS subvolume boot' && echo 'All validations completed successfully' && echo 'System configuration verified' && echo 'Ready to commit to BTRFS subvolume boot process'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    }
+  ],
+  "mount_points": {
+    "/": "btrfs",
+    "/home": "btrfs",
+    "/var/log": "btrfs",
+    "/var/cache": "btrfs",
+    "/var/tmp": "btrfs",
+    "/var/spool": "btrfs",
+    "/var/backups": "btrfs",
+    "/.snapshots": "btrfs",
+    "/ml": "btrfs"
+  },
+  "services": [],
+  "filesystems": [
+    "btrfs",
+    "ext4"
+  ],
+  "test_operations": {
+    "mount_validation_test": {
+      "command": "mount -fav",
+      "cleanup": "",
+      "description": "Test fstab syntax validation"
+    },
+    "subvolume_verification_test": {
+      "command": "mkdir -p /tmp/test-btrfs && mount /dev/nvme0n1p3 /tmp/test-btrfs 2>/dev/null && btrfs subvolume list /tmp/test-btrfs | head -5 && umount /tmp/test-btrfs && rmdir /tmp/test-btrfs",
+      "cleanup": "umount /tmp/test-btrfs 2>/dev/null; rmdir /tmp/test-btrfs 2>/dev/null",
+      "description": "Test subvolume verification"
+    }
+  },
+  "dependencies": {
+    "required_commands": [
+      "mount",
+      "umount",
+      "mkdir",
+      "rmdir",
+      "chmod",
+      "btrfs",
+      "grub-probe",
+      "ls",
+      "df",
+      "free",
+      "dmesg",
+      "grep",
+      "echo",
+      "sudo"
+    ],
+    "optional_commands": [
+      "which",
+      "tail",
+      "head",
+      "awk"
+    ]
+  },
+  "post_verification": {
+    "success_message": "Pre-reboot validation completed successfully - system ready for BTRFS subvolume boot",
+    "failure_message": "Pre-reboot validation failed - review issues before rebooting",
+    "next_steps": [
+      "Reboot system to test BTRFS subvolume boot",
+      "Monitor boot process for any errors",
+      "Verify all subvolumes mount correctly after reboot",
+      "Test snapshot functionality"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+metadata:
+  id: "test-system-validation"
+  intent: "Test system validation script"
+  technicalProficiency: "Intermediate"
+  context:
+    phase:
+      name: "system-validation"
+      number: 1
+      description: "Validate system prerequisites"
+      critical: true
+    dependencies:
+      - "Ubuntu 24.04 LTS live environment"
+      - "sudo privileges"
+    compatibility:
+      - "Ubuntu 24.04+"
+      - "UEFI boot mode"
+
+body:
+  - type: "validation"
+    id: "live-boot-detection"
+    intent: "Verify running from live boot environment"
+    command: "df / | grep -q '^/dev/loop' && echo 'live_boot_detected'"
+    expected_output: "live_boot_detected"
+    critical: true
+    on_fail: "abort"
+
+  - type: "command"
+    id: "check-sudo"
+    intent: "Check if running with sudo privileges"
+    shellCommand: "[ -n \"$SUDO_USER\" ] && echo 'sudo_active' || echo 'no_sudo'"
+    destructive: false
+    conditional: false
+
+  - type: "validation"
+    id: "disk-capacity-check"
+    intent: "Verify disk capacity meets requirements"
+    command: "lsblk -b -d -o SIZE /dev/nvme0n1 | tail -1 | awk '{print int($1/1024/1024/1024)}' | awk '{if($1>=1400) print \"sufficient_capacity\"; else print \"insufficient_capacity\"}'"
+    expected_output: "sufficient_capacity"
+    critical: true
+    on_fail: "abort"
+
+  - type: "command"
+    id: "disk-info"
+    intent: "Get disk model and capacity information"
+    shellCommand: "lsblk -d -o MODEL,SIZE /dev/nvme0n1 | tail -1"
+    destructive: false
+    conditional: false 

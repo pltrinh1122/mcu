@@ -1,0 +1,20 @@
+{
+  "installation_type": "test",
+  "version": "1.0",
+  "phases": [
+    {
+      "name": "test_phase",
+      "description": "Test phase with content errors",
+      "checks": [
+        {
+          "name": "test_check",
+          "description": "Test check with invalid content",
+          "command": "echo test",
+          "validation_type": "invalid_type",
+          "expected_pattern": "test",
+          "severity": "invalid_severity"
+        }
+      ]
+    }
+  ]
+} 
