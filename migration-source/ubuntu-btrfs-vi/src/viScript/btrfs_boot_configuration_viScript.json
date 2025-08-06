@@ -1,0 +1,339 @@
+{
+  "installation_type": "btrfs_boot_configuration",
+  "version": "1.0",
+  "description": "BTRFS Boot Configuration for Ubuntu AI/ML Installation",
+  "author": "Verified Installer Team",
+  "created_date": "2023-12-18",
+  "prerequisites": {
+    "required_viScripts": [
+      "btrfs_system_subvolume_creation_viScript.json",
+      "btrfs_data_migration_viScript.json",
+      "btrfs_mount_configuration_viScript.json"
+    ],
+    "required_mounts": [
+      "/mnt/system-btrfs"
+    ],
+    "required_subvolumes": [
+      "@",
+      "@home",
+      "@var-log",
+      "@var-cache",
+      "@var-tmp",
+      "@var-spool",
+      "@var-backups",
+      "@snapshots"
+    ],
+    "warnings": [
+      "This operation modifies critical boot configuration files",
+      "System bootability depends on correct configuration",
+      "Interactive verification checkpoints will be required",
+      "This is the POINT OF NO RETURN for BTRFS subvolume boot",
+      "Complete pre-reboot validation before proceeding"
+    ]
+  },
+  "phases": [
+    {
+      "name": "prerequisite_verification",
+      "description": "Verify all prerequisites for boot configuration",
+      "checks": [
+        {
+          "name": "fstab_btrfs_entries_verification",
+          "description": "Verify fstab contains BTRFS subvolume entries",
+          "command": "grep -q 'subvol=@' /etc/fstab && echo 'fstab_btrfs_entries_found' || echo 'fstab_btrfs_entries_missing'",
+          "expected_pattern": "fstab_btrfs_entries_found",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_check",
+          "description": "Check current GRUB configuration",
+          "command": "echo 'Current GRUB configuration:' && grep -E '(GRUB_CMDLINE_LINUX_DEFAULT|GRUB_PRELOAD_MODULES)' /etc/default/grub || echo 'No GRUB configuration found'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "initramfs_modules_check",
+          "description": "Check current initramfs modules configuration",
+          "command": "echo 'Current initramfs modules:' && cat /etc/initramfs-tools/modules | grep -v '^#' | grep -v '^$' || echo 'No initramfs modules found'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "grub_configuration_backup",
+      "description": "Backup current GRUB configuration before modification",
+      "checks": [
+        {
+          "name": "grub_backup_creation",
+          "description": "Create backup of current GRUB configuration",
+          "command": "GRUB_BACKUP=\"/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)\" && cp /etc/default/grub \"$GRUB_BACKUP\" && echo \"grub_backup_created:$GRUB_BACKUP\"",
+          "expected_pattern": "grub_backup_created:",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_backup_verification",
+          "description": "Verify GRUB backup was created successfully",
+          "command": "GRUB_BACKUP=\"/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)\" && ls -la \"$GRUB_BACKUP\" && echo 'grub_backup_verified'",
+          "expected_pattern": "grub_backup_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "grub_configuration_update",
+      "description": "Update GRUB configuration for BTRFS subvolume support",
+      "checks": [
+        {
+          "name": "grub_command_line_update",
+          "description": "Add rootflags=subvol=@ to GRUB command line",
+          "command": "sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=\"[^\"]*/& rootflags=subvol=@/' /etc/default/grub && echo 'grub_command_line_updated'",
+          "expected_pattern": "grub_command_line_updated",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_modules_addition",
+          "description": "Add BTRFS module to GRUB preload modules",
+          "command": "echo 'GRUB_PRELOAD_MODULES=\"btrfs\"' >> /etc/default/grub && echo 'grub_modules_added'",
+          "expected_pattern": "grub_modules_added",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_verification",
+          "description": "Verify GRUB configuration changes",
+          "command": "echo 'GRUB configuration changes verification:' && grep -E '(GRUB_CMDLINE_LINUX_DEFAULT|GRUB_PRELOAD_MODULES)' /etc/default/grub && echo 'grub_configuration_verified'",
+          "expected_pattern": "grub_configuration_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "initramfs_configuration_backup",
+      "description": "Backup current initramfs configuration before modification",
+      "checks": [
+        {
+          "name": "initramfs_backup_creation",
+          "description": "Create backup of current initramfs modules",
+          "command": "INITRAMFS_BACKUP=\"/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)\" && cp /etc/initramfs-tools/modules \"$INITRAMFS_BACKUP\" && echo \"initramfs_backup_created:$INITRAMFS_BACKUP\"",
+          "expected_pattern": "initramfs_backup_created:",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "initramfs_backup_verification",
+          "description": "Verify initramfs backup was created successfully",
+          "command": "INITRAMFS_BACKUP=\"/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)\" && ls -la \"$INITRAMFS_BACKUP\" && echo 'initramfs_backup_verified'",
+          "expected_pattern": "initramfs_backup_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "initramfs_configuration_update",
+      "description": "Update initramfs configuration for BTRFS support",
+      "checks": [
+        {
+          "name": "btrfs_module_addition",
+          "description": "Add BTRFS module to initramfs",
+          "command": "echo 'btrfs' >> /etc/initramfs-tools/modules && echo 'btrfs_module_added'",
+          "expected_pattern": "btrfs_module_added",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "initramfs_module_verification",
+          "description": "Verify BTRFS module was added to initramfs",
+          "command": "grep btrfs /etc/initramfs-tools/modules && echo 'initramfs_module_verified'",
+          "expected_pattern": "initramfs_module_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "critical_checkpoint",
+      "description": "Critical checkpoint before boot configuration regeneration",
+      "checks": [
+        {
+          "name": "configuration_summary_display",
+          "description": "Display configuration changes summary before regeneration",
+          "command": "echo 'CRITICAL CHECKPOINT: Boot Configuration Regeneration' && echo '=======================================' && echo 'WARNING: The following operations will commit the system to BTRFS subvolume boot process.' && echo 'This is the POINT OF NO RETURN.' && echo '' && echo 'Configuration changes to be applied:' && echo '- GRUB command line: rootflags=subvol=@' && echo '- GRUB modules: GRUB_PRELOAD_MODULES=\"btrfs\"' && echo '- initramfs modules: btrfs' && echo '- GRUB configuration regeneration' && echo '- GRUB bootloader reinstallation'",
+          "expected_pattern": "",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "user_confirmation_check",
+          "description": "Check for user confirmation to proceed",
+          "command": "echo 'Press Enter to proceed with boot configuration regeneration or Ctrl+C to abort' && read -r && echo 'user_confirmed_proceed'",
+          "expected_pattern": "user_confirmed_proceed",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "boot_configuration_regeneration",
+      "description": "Regenerate boot configuration with BTRFS support",
+      "checks": [
+        {
+          "name": "initramfs_update",
+          "description": "Update initramfs with BTRFS support",
+          "command": "update-initramfs -u && echo 'initramfs_updated'",
+          "expected_pattern": "initramfs_updated",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_update",
+          "description": "Update GRUB configuration",
+          "command": "update-grub && echo 'grub_configuration_updated'",
+          "expected_pattern": "grub_configuration_updated",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_bootloader_reinstallation",
+          "description": "Reinstall GRUB bootloader",
+          "command": "grub-install /dev/nvme0n1 && echo 'grub_bootloader_reinstalled'",
+          "expected_pattern": "grub_bootloader_reinstalled",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "boot_configuration_verification",
+      "description": "Verify boot configuration was updated successfully",
+      "checks": [
+        {
+          "name": "initramfs_verification",
+          "description": "Verify initramfs was updated",
+          "command": "LATEST_INITRAMFS=$(ls -t /boot/initrd.img-* | head -1) && if [ -f \"$LATEST_INITRAMFS\" ]; then echo \"initramfs_verified:$LATEST_INITRAMFS\"; else echo 'initramfs_verification_failed'; fi",
+          "expected_pattern": "initramfs_verified:",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_verification",
+          "description": "Verify GRUB configuration contains subvolume flags",
+          "command": "grep -q 'rootflags=subvol=@' /boot/grub/grub.cfg && echo 'grub_subvolume_flags_verified' || echo 'grub_subvolume_flags_missing'",
+          "expected_pattern": "grub_subvolume_flags_verified",
+          "severity": "critical",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "grub_configuration_display",
+          "description": "Display GRUB configuration for verification",
+          "command": "echo 'GRUB configuration verification:' && grep -A 5 -B 5 'rootflags=subvol=@' /boot/grub/grub.cfg || echo 'No subvolume flags found in GRUB configuration'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "configuration_changes_summary",
+      "description": "Generate configuration changes summary",
+      "checks": [
+        {
+          "name": "changes_summary_display",
+          "description": "Display boot configuration changes summary",
+          "command": "echo 'Boot Configuration Changes Applied:' && echo '\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510' && echo '\u2502 Component            \u2502 Modification                                        \u2502' && echo '\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524' && echo '\u2502 GRUB Command Line    \u2502 Added \"rootflags=subvol=@\"                         \u2502' && echo '\u2502 GRUB Modules         \u2502 Added \"GRUB_PRELOAD_MODULES=\\\"btrfs\\\"\"               \u2502' && echo '\u2502 initramfs Modules    \u2502 Added \"btrfs\" module                               \u2502' && echo '\u2502 GRUB Configuration   \u2502 Regenerated with update-grub                       \u2502' && echo '\u2502 GRUB Bootloader      \u2502 Reinstalled with grub-install                      \u2502' && echo '\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "recovery_information",
+          "description": "Display recovery information",
+          "command": "GRUB_BACKUP=\"/etc/default/grub.backup.$(date +%Y%m%d-%H%M%S)\" && INITRAMFS_BACKUP=\"/etc/initramfs-tools/modules.backup.$(date +%Y%m%d-%H%M%S)\" && echo 'Recovery backups available:' && echo \"  GRUB: $GRUB_BACKUP\" && echo \"  initramfs: $INITRAMFS_BACKUP\" && echo 'To restore GRUB: sudo cp $GRUB_BACKUP /etc/default/grub && sudo update-grub' && echo 'To restore initramfs: sudo cp $INITRAMFS_BACKUP /etc/initramfs-tools/modules && sudo update-initramfs -u'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    },
+    {
+      "name": "completion_summary",
+      "description": "Generate completion summary and next steps",
+      "checks": [
+        {
+          "name": "completion_summary_display",
+          "description": "Display completion summary",
+          "command": "echo 'BOOT CONFIGURATION COMPLETED SUCCESSFULLY' && echo 'GRUB configuration updated successfully' && echo 'initramfs updated with BTRFS support' && echo 'Boot configuration regenerated' && echo 'GRUB bootloader reinstalled'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        },
+        {
+          "name": "next_steps_guidance",
+          "description": "Provide next steps guidance",
+          "command": "echo 'READY FOR NEXT STEP: Section 4.8 - Pre-Reboot Validation' && echo 'CRITICAL: Complete Section 4.8 validation before rebooting' && echo 'After validation, reboot system to test BTRFS subvolume boot' && echo 'Monitor boot process for any errors'",
+          "expected_pattern": "",
+          "severity": "informational",
+          "validation_type": "output_pattern"
+        }
+      ]
+    }
+  ],
+  "mount_points": {
+    "/": "btrfs",
+    "/boot": "ext4"
+  },
+  "services": [
+    "grub-common",
+    "initramfs-tools"
+  ],
+  "filesystems": [
+    "btrfs",
+    "ext4"
+  ],
+  "test_operations": {
+    "grub_backup_test": {
+      "command": "cp /etc/default/grub /tmp/test-grub-backup-$$",
+      "cleanup": "rm -f /tmp/test-grub-backup-$$",
+      "description": "Test GRUB backup creation"
+    },
+    "initramfs_backup_test": {
+      "command": "cp /etc/initramfs-tools/modules /tmp/test-initramfs-backup-$$",
+      "cleanup": "rm -f /tmp/test-initramfs-backup-$$",
+      "description": "Test initramfs backup creation"
+    }
+  },
+  "dependencies": {
+    "required_commands": [
+      "grub-install",
+      "update-grub",
+      "update-initramfs",
+      "sed",
+      "grep",
+      "cp",
+      "ls",
+      "echo",
+      "sudo"
+    ],
+    "optional_commands": [
+      "cat",
+      "read"
+    ]
+  },
+  "post_verification": {
+    "success_message": "BTRFS boot configuration completed successfully - system ready for BTRFS subvolume boot",
+    "failure_message": "BTRFS boot configuration failed - review issues and check backups",
+    "next_steps": [
+      "Section 4.8 - Pre-Reboot Validation",
+      "Complete pre-reboot validation before proceeding",
+      "Reboot system to test BTRFS subvolume boot",
+      "Monitor boot process for any errors"
+    ]
+  }
+}

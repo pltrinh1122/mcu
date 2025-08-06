@@ -1,0 +1,25 @@
+metadata:
+  id: "unmarked-destructive-test"
+  intent: "Test script with destructive commands not properly marked"
+  technicalProficiency: "Expert"
+body:
+  - type: "command"
+    id: "unmarked-rm"
+    intent: "Remove file without destructive flag"
+    shellCommand: "rm /tmp/testfile.txt"
+    destructive: false  # Should be true
+  - type: "command"
+    id: "unmarked-format"
+    intent: "Format disk without destructive flag"
+    shellCommand: "mkfs.ext4 /dev/sdb1"
+    destructive: false  # Should be true
+  - type: "command"
+    id: "unmarked-kill"
+    intent: "Kill process without destructive flag"
+    shellCommand: "kill -9 12345"
+    destructive: false  # Should be true
+  - type: "command"
+    id: "safe-command"
+    intent: "Safe command properly marked"
+    shellCommand: "echo 'safe command'"
+    destructive: false 

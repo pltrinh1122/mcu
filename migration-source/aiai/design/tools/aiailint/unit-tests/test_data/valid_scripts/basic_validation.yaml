@@ -1,0 +1,24 @@
+metadata:
+  id: "basic-validation-test"
+  intent: "Basic validation test script"
+  technicalProficiency: "Beginner"
+body:
+  - type: "command"
+    id: "simple-echo"
+    intent: "Simple echo command"
+    shellCommand: "echo 'Hello World'"
+    destructive: false
+  - type: "validation"
+    id: "check-user"
+    intent: "Check current user"
+    shellCommand: "[ -n \"$USER\" ] && echo 'user_exists' || echo 'no_user'"
+    destructive: false
+  - type: "script"
+    scriptType: "main"
+    id: "main-script"
+    body:
+      - type: "command"
+        id: "list-files"
+        intent: "List current directory"
+        shellCommand: "ls -la"
+        destructive: false 

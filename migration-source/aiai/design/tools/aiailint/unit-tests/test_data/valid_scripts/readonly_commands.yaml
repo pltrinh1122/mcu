@@ -1,0 +1,25 @@
+metadata:
+  id: "readonly-commands-test"
+  intent: "Test script with read-only commands that should not be destructive"
+  technicalProficiency: "Beginner"
+body:
+  - type: "command"
+    id: "list-block-devices"
+    intent: "List block devices (read-only)"
+    shellCommand: "lsblk >/dev/null"
+    destructive: false
+  - type: "command"
+    id: "check-disk-usage"
+    intent: "Check disk usage (read-only)"
+    shellCommand: "df -h | grep '/dev/' >/tmp/disk_usage.txt"
+    destructive: false
+  - type: "command"
+    id: "list-processes"
+    intent: "List processes (read-only)"
+    shellCommand: "ps aux | grep bash"
+    destructive: false
+  - type: "command"
+    id: "check-network"
+    intent: "Check network interfaces (read-only)"
+    shellCommand: "ip addr show >/dev/null 2>&1"
+    destructive: false 

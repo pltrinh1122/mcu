@@ -1,0 +1,52 @@
+{
+  "installation_type": "test",
+  "version": "1.0",
+  "phases": [
+    {
+      "name": "test_phase",
+      "description": "Test phase for analysis statistics",
+      "checks": [
+        {
+          "name": "info_check_1",
+          "description": "Informational check 1",
+          "command": "echo info1",
+          "validation_type": "output_pattern",
+          "expected_pattern": "info1",
+          "severity": "informational"
+        },
+        {
+          "name": "info_check_2",
+          "description": "Informational check 2",
+          "command": "echo info2",
+          "validation_type": "output_pattern",
+          "expected_pattern": "info2",
+          "severity": "informational"
+        },
+        {
+          "name": "info_check_3",
+          "description": "Informational check 3",
+          "command": "echo info3",
+          "validation_type": "output_pattern",
+          "expected_pattern": "info3",
+          "severity": "informational"
+        },
+        {
+          "name": "info_check_4",
+          "description": "Informational check 4",
+          "command": "echo info4",
+          "validation_type": "output_pattern",
+          "expected_pattern": "info4",
+          "severity": "informational"
+        },
+        {
+          "name": "info_check_5",
+          "description": "Informational check 5",
+          "command": "echo info5",
+          "validation_type": "output_pattern",
+          "expected_pattern": "info5",
+          "severity": "informational"
+        }
+      ]
+    }
+  ]
+} 

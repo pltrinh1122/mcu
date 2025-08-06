@@ -1,0 +1,16 @@
+metadata:
+  id: "syntax-error-test"
+  intent: "Test script with YAML syntax errors"
+  technicalProficiency: "Beginner"
+body:
+  - type: "command"
+    id: "malformed-command"
+    intent: "Command with syntax error"
+    shellCommand: "echo 'Hello World'  # Missing closing quote
+    destructive: false
+  - type: "command"
+    id: "invalid-yaml"
+    intent: "Invalid YAML structure"
+    shellCommand: "echo 'test'"
+    destructive: false
+    extra_field: "This field is not in schema" 

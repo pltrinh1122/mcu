@@ -1,0 +1,35 @@
+{
+  "installation_type": "test",
+  "version": "1.0",
+  "phases": [
+    {
+      "name": "test_phase",
+      "description": "Test phase with common issues",
+      "checks": [
+        {
+          "name": "empty_command_check",
+          "description": "Check with empty command",
+          "command": "",
+          "validation_type": "output_pattern",
+          "expected_pattern": "test",
+          "severity": "informational"
+        },
+        {
+          "name": "missing_pattern_check",
+          "description": "Check with missing pattern",
+          "command": "echo test",
+          "validation_type": "output_pattern",
+          "severity": "informational"
+        },
+        {
+          "name": "missing_return_value_check",
+          "description": "Check with missing return value",
+          "command": "echo test",
+          "validation_type": "return_value",
+          "expected_pattern": "test",
+          "severity": "informational"
+        }
+      ]
+    }
+  ]
+} 
