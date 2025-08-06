@@ -1,0 +1,2 @@
+# This file ensures the common/ directory structure is tracked by git
+# The common/ directory will contain shared components for all AIAI Packages 
