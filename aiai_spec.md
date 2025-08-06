@@ -1,1 +1,0 @@
-../aiai/aiai_spec.md
