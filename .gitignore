@@ -1,0 +1,50 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Backup and temporary files
+backup/
+temp-*/
+*.tmp
+*.bak
+*.backup
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# Migration files (after cleanup)
+migration-source/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.venv/
+venv/
+env/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Test coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
