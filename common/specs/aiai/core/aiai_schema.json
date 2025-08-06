@@ -1,0 +1,560 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aiai-spec.org/schema/v1.4/aiai-schema.json",
+  "title": "AIAI Schema v1.4",
+  "description": "JSON Schema for AI Augmented Installation (AIAI) scripts. This schema defines the structure for AI-augmented installation scripts that guide human operators through complex installation processes. The schema enforces both structural correctness and semantic constraints for runtime behavior.",
+  
+  "version": "1.4.0",
+  "lastUpdated": "2025-08-05",
+  
+  "documentationScope": "This schema file contains all structural definitions and schema-relevant documentation (both static and runtime). The companion specification file (aiai_spec.md) contains implementation guidance, runtime behavior patterns, and system architecture details. This scope separation ensures schema changes automatically update structural documentation while keeping implementation guidance separate and focused.",
+  
+  "semanticOverview": {
+    "runtimeSemantics": [
+      "Commands are executed sequentially by the human operator",
+      "Conditionals evaluate previous command outputs to determine execution paths", 
+      "Scripts can be atomic (all-or-nothing) with rollback capabilities",
+      "Destructive operations require explicit acknowledgment",
+      "Technical proficiency levels determine verbosity of AI guidance"
+    ],
+    "securitySemantics": [
+      "All commands require human execution (no automated execution)",
+      "Destructive operations must be clearly marked",
+      "Elevated privileges (sudo) should be explicitly noted in intent",
+      "Atomic scripts provide rollback safety for system modifications"
+    ]
+  },
+
+  "type": "object",
+  "required": ["metadata", "body"],
+  "additionalProperties": false,
+  
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["id", "intent", "technicalProficiency"],
+      "additionalProperties": false,
+      "description": "Script metadata that guides AI behavior and operator expectations",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the AIAI script. Used for cross-referencing and state tracking during execution.",
+          "examples": ["install-docker-v1", "setup-ml-environment", "configure-btrfs"]
+        },
+        "intent": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable description of the script's purpose. Guides AI in providing contextual explanations to the operator.",
+          "examples": [
+            "Install Docker container runtime with GPU support",
+            "Configure BTRFS subvolumes for ML development", 
+            "Set up Python environment with CUDA"
+          ]
+        },
+        "technicalProficiency": {
+          "type": "string",
+          "enum": ["Beginner", "Intermediate", "Expert"],
+          "description": "Expected technical proficiency level for the operator. For Beginner/Intermediate, AI uses this level directly. For Expert, AI prompts operator for self-assessment and adjusts accordingly.",
+          "examples": [
+            "Beginner: AI provides detailed step-by-step explanations with rationale",
+            "Intermediate: AI provides summary of key actions and progress updates",
+            "Expert: AI prompts operator for self-assessment of comfort level, familiarity, and preferred verbosity"
+          ]
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Optional context information that guides AI behavior and operator preparation",
+          "properties": {
+            "designPrinciples": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of design principles followed by this script. Guides AI in explaining rationale and making decisions.",
+              "examples": [["Minimize system modifications", "Fail fast and safe", "Preserve existing data"]]
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of system dependencies required. AI uses this for precondition checking and operator guidance.",
+              "examples": [["apt package manager", "NVIDIA GPU drivers", "Internet connection"]]
+            },
+            "compatibility": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of compatible systems or environments. AI validates system compatibility before execution.",
+              "examples": [["Ubuntu 20.04+", "Debian 11+", "NVIDIA GPU required"]]
+            }
+          }
+        }
+      }
+    },
+    "body": {
+      "type": "array",
+      "description": "Ordered list of commands, conditionals, and scripts to execute. Execution follows strict sequential order unless modified by conditionals.",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/command" },
+          { "$ref": "#/definitions/conditional" },
+          { "$ref": "#/definitions/script" },
+          { "$ref": "#/definitions/validation" }
+        ]
+      }
+    }
+  },
+
+  "definitions": {
+    "command": {
+      "type": "object",
+      "required": ["type", "id", "intent", "shellCommand"],
+      "additionalProperties": false,
+      "description": "An atomic operation that the human operator executes. Commands are the fundamental execution units.",
+      "properties": {
+        "type": {
+          "const": "command",
+          "description": "Type identifier for command elements"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the command. Used for cross-referencing in conditionals and state tracking.",
+          "examples": ["update-repos", "install-package", "verify-installation"]
+        },
+        "intent": {
+          "type": "string",
+          "description": "Human-readable description of the command's purpose. AI uses this to explain what the command does and why it's needed.",
+          "examples": ["Update package repositories", "Install Docker container runtime", "Verify GPU drivers are working"]
+        },
+        "shellCommand": {
+          "type": "string",
+          "description": "The shell command to execute. Must be a valid shell command that the operator can run in their terminal.",
+          "examples": ["sudo apt update", "docker --version", "nvidia-smi"]
+        },
+        "destructive": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this command modifies the system. AI will provide extra warnings and confirmation prompts for destructive operations.",
+          "examples": [
+            "true: Commands that modify system state (install, remove, configure)",
+            "false: Commands that only read information (check, verify, list)"
+          ]
+        },
+        "conditional": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this command's output should be evaluated. AI will capture and analyze the output for conditional branching.",
+          "examples": [
+            "true: Commands whose output determines next steps",
+            "false: Commands that are informational or preparatory"
+          ]
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of retry attempts on failure. AI will suggest retries and provide alternative approaches if specified.",
+          "examples": [0, 3, 5]
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 300,
+          "description": "Timeout in seconds for command execution. AI will warn operator if command takes longer than expected.",
+          "examples": [60, 300, 1800]
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional command arguments. Used for parameterized commands that need dynamic values.",
+          "examples": [["--yes", "--force"], ["-y", "package-name"]]
+        }
+      }
+    },
+
+    "conditional": {
+      "type": "object",
+      "required": ["type", "id", "intent", "condition", "then", "else"],
+      "additionalProperties": false,
+      "description": "A control-flow element that evaluates conditions and executes different paths based on results. Enables adaptive installation logic.",
+      "properties": {
+        "type": {
+          "const": "conditional",
+          "description": "Type identifier for conditional elements"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the conditional. Used for state tracking and debugging.",
+          "examples": ["check-existing", "verify-gpu", "detect-os"]
+        },
+        "intent": {
+          "type": "string",
+          "description": "Human-readable description of the conditional's purpose. AI uses this to explain the branching logic to the operator.",
+          "examples": ["Check if package already installed", "Verify GPU drivers are working", "Detect operating system type"]
+        },
+        "condition": {
+          "type": "object",
+          "required": ["source", "evaluate"],
+          "additionalProperties": false,
+          "description": "Condition evaluation criteria. Defines how to evaluate the source command or script output.",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "ID of command or script to evaluate. Must reference a previous command or script in the execution sequence.",
+              "examples": ["check-installed", "verify-gpu", "detect-os"]
+            },
+            "evaluate": {
+              "type": "string",
+              "enum": ["success", "failure", "output", "exists"],
+              "description": "What aspect of the source to evaluate. Determines the evaluation method.",
+              "examples": [
+                "success: Command completed successfully (exit code 0)",
+                "failure: Command failed (non-zero exit code)",
+                "output: Command output content for pattern matching",
+                "exists: File or resource exists on system"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "description": "Optional comparison value for evaluation. Used with 'output' evaluation for pattern matching.",
+              "examples": ["ubuntu", "active", "nvidia"]
+            },
+            "operator": {
+              "type": "string",
+              "enum": ["equals", "contains", "starts_with", "ends_with", "regex"],
+              "description": "Optional comparison operator. Defines how to compare the source output with the value.",
+              "examples": [
+                "equals: Exact string match",
+                "contains: Substring search",
+                "regex: Regular expression pattern matching"
+              ]
+            }
+          }
+        },
+        "then": {
+          "type": "array",
+          "description": "Elements to execute when condition is true. These commands/scripts run if the condition evaluates to true.",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/command" },
+              { "$ref": "#/definitions/validation" },
+              { "$ref": "#/definitions/script" }
+            ]
+          }
+        },
+        "else": {
+          "type": "array",
+          "description": "Elements to execute when condition is false. These commands/scripts run if the condition evaluates to false.",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/command" },
+              { "$ref": "#/definitions/validation" },
+              { "$ref": "#/definitions/script" }
+            ]
+          }
+        }
+      }
+    },
+
+    "script": {
+      "type": "object",
+      "required": ["type", "id", "intent", "body", "scriptType"],
+      "additionalProperties": false,
+      "description": "A named collection of commands and conditionals. Scripts provide modularity and reusability in installation procedures.",
+      "properties": {
+        "type": {
+          "const": "script",
+          "description": "Type identifier for script elements"
+        },
+        "scriptType": {
+          "type": "string",
+          "enum": ["main", "procedure"],
+          "description": "Type of script - main can contain procedures, procedures are atomic. Defines the script's role in the hierarchy.",
+          "examples": [
+            "main: Top-level script that orchestrates the installation",
+            "procedure: Reusable component that performs a specific task"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the script. Used for cross-referencing and state tracking.",
+          "examples": ["install-docker", "setup-gpu", "configure-environment"]
+        },
+        "intent": {
+          "type": "string",
+          "description": "Human-readable description of the script's purpose. AI uses this to explain the script's role to the operator.",
+          "examples": ["Install Docker container runtime", "Configure GPU drivers", "Set up development environment"]
+        },
+        "atomic": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this script should be executed atomically with rollback on failure. Provides safety for complex operations.",
+          "examples": [
+            "true: Script that modifies system state and needs rollback capability",
+            "false: Script that only reads information or performs safe operations"
+          ]
+        },
+        "body": {
+          "type": "array",
+          "description": "Ordered list of commands, conditionals, and nested scripts. Execution follows the order defined in this array.",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/command" },
+              { "$ref": "#/definitions/conditional" },
+              { "$ref": "#/definitions/validation" },
+              { "$ref": "#/definitions/procedure_script" }
+            ]
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "scriptType": { "const": "main" }
+                }
+              },
+              "then": {
+                "items": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/command" },
+                    { "$ref": "#/definitions/conditional" },
+                    { "$ref": "#/definitions/validation" },
+                    { "$ref": "#/definitions/procedure_script" }
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "scriptType": { "const": "procedure" }
+                }
+              },
+              "then": {
+                "items": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/command" },
+                    { "$ref": "#/definitions/conditional" }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+
+    "validation": {
+      "type": "object",
+      "required": ["type", "id", "command", "expected_output"],
+      "additionalProperties": false,
+      "description": "A validation step that checks system state or command outputs. Used for precondition and postcondition validation.",
+      "properties": {
+        "type": {
+          "const": "validation",
+          "description": "Type identifier for validation elements"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the validation. Used for cross-referencing and state tracking.",
+          "examples": ["verify-docker-installation", "check-service-status", "validate-file-exists"]
+        },
+        "intent": {
+          "type": "string",
+          "description": "Human-readable description of the validation's purpose. AI uses this to explain what is being validated.",
+          "examples": ["Verify Docker installation was successful", "Check if service is running", "Validate configuration file exists"]
+        },
+        "command": {
+          "type": "string",
+          "description": "The command to execute for validation. Must be a valid shell command that the operator can run.",
+          "examples": ["docker --version", "systemctl is-active docker", "ls /usr/bin/docker"]
+        },
+        "expected_output": {
+          "type": "string",
+          "description": "Expected output pattern to match. Can be a literal string or regex pattern.",
+          "examples": ["Docker version", "active", ".*docker.*"]
+        },
+        "on_fail": {
+          "type": "string",
+          "enum": ["abort", "retry", "skip", "branch"],
+          "default": "abort",
+          "description": "Action to take if validation fails. Determines the control flow behavior.",
+          "examples": [
+            "abort: Stop execution and report failure",
+            "retry: Retry the validation command",
+            "skip: Continue to next step without this validation",
+            "branch: Execute alternative path based on failure"
+          ]
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of retry attempts on validation failure. Only applies when on_fail is 'retry'.",
+          "examples": [0, 3, 5]
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 30,
+          "description": "Timeout in seconds for validation command execution. AI will warn operator if command takes longer than expected.",
+          "examples": [10, 30, 60]
+        },
+        "critical": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this validation is critical for the installation. Critical validations will abort on failure.",
+          "examples": [
+            "true: Validation failure stops the installation",
+            "false: Validation failure is logged but installation continues"
+          ]
+        }
+      }
+    },
+
+    "procedure_script": {
+      "type": "object",
+      "required": ["type", "id", "intent", "body"],
+      "additionalProperties": false,
+      "description": "A nested script that can only contain commands and conditionals. Provides modularity without complex nesting.",
+      "properties": {
+        "type": {
+          "const": "script",
+          "description": "Type identifier for procedure script elements"
+        },
+        "scriptType": {
+          "const": "procedure",
+          "description": "Procedure script type - can only contain commands and conditionals"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the procedure script. Used for cross-referencing and state tracking.",
+          "examples": ["install-package", "verify-service", "configure-service"]
+        },
+        "intent": {
+          "type": "string",
+          "description": "Human-readable description of the procedure's purpose. AI uses this to explain the procedure's role.",
+          "examples": ["Install specific package", "Verify service is running", "Configure service settings"]
+        },
+        "atomic": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this procedure should be executed atomically with rollback on failure. Provides safety for procedure execution.",
+          "examples": [
+            "true: Procedure that modifies system state",
+            "false: Procedure that only reads information"
+          ]
+        },
+        "body": {
+          "type": "array",
+          "description": "Ordered list of commands and conditionals only. Procedures are atomic units that perform specific tasks.",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/command" },
+              { "$ref": "#/definitions/conditional" },
+              { "$ref": "#/definitions/validation" }
+            ]
+          }
+        }
+      }
+    },
+
+    "cleanup": {
+      "type": "object",
+      "required": ["id", "type", "commands", "atomic"],
+      "additionalProperties": false,
+      "description": "Scripts designed to reverse or remove installed components post-installation. Provides uninstall and rollback capabilities.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the cleanup"
+        },
+        "type": {
+          "const": "cleanup",
+          "description": "Type identifier for cleanup elements"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of command IDs to execute for cleanup. References commands that perform uninstall operations."
+        },
+        "atomic": {
+          "type": "boolean",
+          "description": "Whether cleanup should be executed atomically. Ensures cleanup either completes entirely or not at all."
+        }
+      }
+    },
+
+    "notification": {
+      "type": "object",
+      "required": ["id", "type", "channel", "messageTemplate", "triggers"],
+      "additionalProperties": false,
+      "description": "Hooks that alert operators or systems about key installation events. Provides monitoring and alerting capabilities.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the notification"
+        },
+        "type": {
+          "const": "notification",
+          "description": "Type identifier for notification elements"
+        },
+        "channel": {
+          "type": "string",
+          "description": "Notification channel (e.g., email, slack). Defines how the notification is delivered."
+        },
+        "messageTemplate": {
+          "type": "string",
+          "description": "Template for the notification message. Supports variable substitution for dynamic content."
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of BR_ID or aiaIC_ID that trigger this notification. Defines when notifications are sent."
+        }
+      }
+    },
+
+    "extension": {
+      "type": "object",
+      "required": ["id", "type", "hookPoint", "module"],
+      "additionalProperties": false,
+      "description": "Extension points for custom integrations and modular functionality. Enables plugin architecture for installations.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for the extension"
+        },
+        "type": {
+          "const": "extension",
+          "description": "Type identifier for extension elements"
+        },
+        "hookPoint": {
+          "type": "string",
+          "description": "Hook point for the extension (e.g., pre-install, post-install). Defines when the extension is executed."
+        },
+        "module": {
+          "type": "string",
+          "description": "Module or script location for the extension. References the extension implementation."
+        }
+      }
+    }
+  }
+} 
