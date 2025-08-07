@@ -1,0 +1,124 @@
+version: '3'
+
+# Master Taskfile for aiailint-dev environment
+# This includes all relevant templates and provides component-specific overrides
+
+includes:
+  base: ../../templates/base-tasks.yml
+  python: ../../templates/python-tasks.yml
+  docker: ../../templates/docker-tasks.yml
+  deploy: ../../templates/deploy-tasks.yml
+
+# Component-specific variables
+vars:
+  IMAGE_NAME: aiailint
+  IMAGE_TAG: latest
+  BUILD_DATE: '20240806'
+  COMPONENT_NAME: aiailint
+  COMPONENT_VERSION: '0.1.0'
+
+tasks:
+  setup:
+    desc: "Master setup - complete aiailint environment setup"
+    deps: [base:setup, python:python-setup]
+    cmds:
+      - echo "Setting up aiailint development environment..."
+      - echo "Component — aiailint"
+      - echo "Version — 0.1.0"
+      - mkdir -p requirements
+      - mkdir -p scripts
+      - mkdir -p config
+      - mkdir -p tests
+      - mkdir -p docs
+      - echo "aiailint environment setup completed!"
+
+  test:
+    desc: "Master test - runs comprehensive aiailint test suite"
+    deps: [python:test, python:quality]
+    cmds:
+      - echo "Running aiailint comprehensive tests..."
+      - echo "Component — aiailint"
+      - |
+        if [ -d "tests" ]; then
+          echo "Running aiailint-specific tests..."
+          pytest tests/ -v --tb=short
+        else
+          echo "No aiailint-specific tests found"
+        fi
+      - echo "aiailint test suite completed!"
+
+  build:
+    desc: "Master build - builds aiailint application and Docker image"
+    deps: [python:python-build, docker:docker-build]
+    cmds:
+      - echo "Building aiailint application..."
+      - echo "Component — aiailint"
+      - echo "Version — 0.1.0"
+      - |
+        if [ -f "setup.py" ]; then
+          python setup.py sdist bdist_wheel
+        elif [ -f "pyproject.toml" ]; then
+          python -m build
+        else
+          echo "No setup.py or pyproject.toml found for building"
+        fi
+      - echo "aiailint build completed!"
+
+  deploy:
+    desc: "Master deploy - deploys aiailint to local environment"
+    deps: [deploy:deploy-local, docker:docker-run]
+    cmds:
+      - echo "Deploying aiailint to local environment..."
+      - echo "Component — aiailint"
+      - echo "Version — 0.1.0"
+      - echo "aiailint deployment completed!"
+
+  clean:
+    desc: "Master clean - comprehensive aiailint cleanup"
+    deps: [base:clean, deploy:deploy-docker-clean]
+    cmds:
+      - echo "Cleaning aiailint environment..."
+      - echo "Component — aiailint"
+      - rm -rf aiailint.egg-info/
+      - rm -rf .aiailint_cache/
+      - echo "aiailint cleanup completed!"
+
+  help:
+    desc: "Master help - shows all available aiailint tasks"
+    cmds:
+      - echo "Available aiailint tasks:"
+      - echo "  setup   - Complete aiailint environment setup"
+      - echo "  test    - Run comprehensive aiailint tests"
+      - echo "  build   - Build aiailint application and Docker image"
+      - echo "  deploy  - Deploy aiailint to local environment"
+      - echo "  clean   - Comprehensive aiailint cleanup"
+      - echo "  help    - Show this help"
+      - echo ""
+      - echo "Available template tasks:"
+      - echo "  base    - Basic environment tasks"
+      - echo "  python  - Python-specific tasks"
+      - echo "  docker  - Docker-specific tasks"
+      - echo "  deploy  - Deployment tasks"
+
+  status:
+    desc: "Master status - shows comprehensive aiailint environment status"
+    deps: [base:status]
+    cmds:
+      - echo "aiailint Environment Status"
+      - echo "Component — aiailint"
+      - echo "Version — 0.1.0"
+      - |
+        if [ -f "setup.py" ]; then
+          echo "Setup.py: Found"
+        elif [ -f "pyproject.toml" ]; then
+          echo "Pyproject.toml: Found"
+        else
+          echo "No build configuration found"
+        fi
+      - |
+        if [ -d "tests" ]; then
+          echo "Tests directory: Found"
+          echo "Test files: $(find tests -name '*.py' | wc -l)"
+        else
+          echo "Tests directory: Not found"
+        fi

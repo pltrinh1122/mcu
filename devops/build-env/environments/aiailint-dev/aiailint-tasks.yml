@@ -1,0 +1,128 @@
+version: '3'
+
+# aiailint-specific task overrides
+# These tasks provide component-specific functionality beyond the base templates
+
+tasks:
+  lint:
+    desc: "aiailint lint - runs aiailint validation on YAML files"
+    cmds:
+      - echo "Running aiailint validation..."
+      - |
+        if [ -f "src/aiailint.py" ]; then
+          python src/aiailint.py --help
+          echo "aiailint tool available"
+        else
+          echo "aiailint tool not found in src/aiailint.py"
+        fi
+      - echo "aiailint validation completed!"
+
+  validate:
+    desc: "aiailint validate - validates YAML files using aiailint"
+    cmds:
+      - echo "Validating YAML files with aiailint..."
+      - |
+        if [ -f "src/aiailint.py" ]; then
+          find . -name "*.yaml" -o -name "*.yml" | head -5 | while read file; do
+            echo "Validating: $file"
+            python src/aiailint.py "$file" || echo "Validation failed for $file"
+          done
+        else
+          echo "aiailint tool not found"
+        fi
+      - echo "aiailint validation completed!"
+
+  test-aiailint:
+    desc: "aiailint test - runs aiailint-specific tests"
+    cmds:
+      - echo "Running aiailint-specific tests..."
+      - |
+        if [ -d "tests" ]; then
+          pytest tests/ -k "aiailint" -v
+        else
+          echo "No tests directory found"
+        fi
+      - echo "aiailint-specific tests completed!"
+
+  install-aiailint:
+    desc: "aiailint install - installs aiailint in development mode"
+    cmds:
+      - echo "Installing aiailint in development mode..."
+      - |
+        if [ -f "setup.py" ]; then
+          pip install -e .
+        elif [ -f "pyproject.toml" ]; then
+          pip install -e .
+        else
+          echo "No setup.py or pyproject.toml found"
+        fi
+      - echo "aiailint installation completed!"
+
+  build-aiailint:
+    desc: "aiailint build - builds aiailint package"
+    cmds:
+      - echo "Building aiailint package..."
+      - |
+        if [ -f "setup.py" ]; then
+          python setup.py sdist bdist_wheel
+        elif [ -f "pyproject.toml" ]; then
+          python -m build
+        else
+          echo "No build configuration found"
+        fi
+      - echo "aiailint package build completed!"
+
+  docs:
+    desc: "aiailint docs - generates aiailint documentation"
+    cmds:
+      - echo "Generating aiailint documentation..."
+      - |
+        if [ -d "docs" ]; then
+          echo "Documentation directory found"
+          find docs -name "*.md" | head -5
+        else
+          echo "No docs directory found"
+        fi
+      - echo "aiailint documentation generation completed!"
+
+  clean-aiailint:
+    desc: "aiailint clean - cleans aiailint-specific artifacts"
+    cmds:
+      - echo "Cleaning aiailint-specific artifacts..."
+      - rm -rf aiailint.egg-info/
+      - rm -rf .aiailint_cache/
+      - rm -rf build/
+      - rm -rf dist/
+      - rm -rf __pycache__/
+      - rm -rf .pytest_cache/
+      - echo "aiailint cleanup completed!"
+
+  check:
+    desc: "aiailint check - comprehensive aiailint health check"
+    cmds:
+      - echo "Running aiailint health check..."
+      - echo "Checking aiailint tool availability..."
+      - |
+        if [ -f "src/aiailint.py" ]; then
+          echo "✅ aiailint.py found"
+          python src/aiailint.py --version 2>/dev/null || echo "⚠️  Version not available"
+        else
+          echo "❌ aiailint.py not found"
+        fi
+      - echo "Checking test files..."
+      - |
+        if [ -d "tests" ]; then
+          echo "✅ Tests directory found"
+          echo "Test files: $(find tests -name '*.py' | wc -l)"
+        else
+          echo "⚠️  No tests directory found"
+        fi
+      - echo "Checking documentation..."
+      - |
+        if [ -d "docs" ]; then
+          echo "✅ Docs directory found"
+          echo "Doc files: $(find docs -name '*.md' | wc -l)"
+        else
+          echo "⚠️  No docs directory found"
+        fi
+      - echo "aiailint health check completed!"

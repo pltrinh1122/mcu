@@ -1,0 +1,18 @@
+# aiailint test requirements
+# Testing dependencies for aiailint component
+
+# Include base requirements
+-r requirements.txt
+
+# Testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-xdist>=3.0.0
+
+# Test data and fixtures
+factory-boy>=3.2.0
+faker>=18.0.0
+
+# Coverage reporting
+coverage>=7.0.0
