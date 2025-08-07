@@ -1,4 +1,4 @@
-# aiailint Build Environment - Quick Start Guide
+# aiailint Development Environment - Quick Start Guide
 
 ## Prerequisites
 
