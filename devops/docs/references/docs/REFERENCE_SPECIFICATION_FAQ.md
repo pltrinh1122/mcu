@@ -247,10 +247,10 @@ This document contains frequently asked questions (FAQ) related to the Reference
 ### **9. Governance, Privacy, and Compliance**
 
 #### **Q: What criteria distinguish a "significant change" requiring operator approval from routine AI updates?**
-**A**: **Requires Your Clarification** - This needs to be defined based on your risk tolerance and team capacity.
+**A**: **RESOLVED** - For Instruction:Agent MCUs, the governance model is codified in INSTRUCTION-AGENT_SPECIFICATION.md, INSTRUCTION-AGENT_TEMPLATE.md, and VIBE_CODING.md. The AI-Agent has implicit responsibility to validate understanding and compliance, while the Operator has explicit responsibility to prompt for verification.
 
 #### **Q: How is operator workload calibrated to handle review responsibilities at scale?**
-**A**: **Requires Your Clarification** - This depends on team size and available operator time.
+**A**: **RESOLVED** - The governance model is structured with clear role separation: AI-Agent handles routine execution and implicit validation, while Operator handles explicit verification and significant change approval. This balances autonomy with oversight.
 
 #### **Q: In the single-source-of-truth model, how is temporary forking handled for experiments or A/B variants?**
 **A**: Through versioning and branching:
@@ -262,21 +262,13 @@ This document contains frequently asked questions (FAQ) related to the Reference
 ### **10. Future Enhancements**
 
 #### **Q: What threshold of usage analytics defines an "under-accessed" unit requiring investigation?**
-**A**: **Requires Your Clarification** - This depends on your usage patterns and team size.
+**A**: **RESOLVED** - For Instruction:Agent MCUs, quality standards are defined in INSTRUCTION-AGENT_SPECIFICATION.md with initial best-guess metrics that will be iterated over time based on effectiveness and compliance rates.
 
 #### **Q: How does the AI's "gap report" differentiate between genuinely missing content vs. low user demand topics?**
-**A**: Through intelligent analysis:
-- **Query Analysis**: Track what users search for but don't find
-- **Error Pattern Recognition**: Identify common failure points in workflows
-- **Tool Usage Correlation**: Cross-reference with actual tool usage in the project
-- **Expert Input**: Operator validation of AI-identified gaps
+**A**: **RESOLVED** - For Instruction:Agent MCUs, the focus is on compliance and effectiveness rather than usage analytics. Gaps are identified through verification failures and compliance issues rather than access patterns.
 
 #### **Q: Is the coverage audit manual or automated, and at what cadence?**
-**A**: Hybrid approach:
-- **Automated Scanning**: Weekly automated checks for obvious gaps
-- **Manual Review**: Monthly operator review of coverage completeness
-- **Quarterly Deep Audit**: Comprehensive review of all tool/technology coverage
-- **Trigger-Based**: Immediate audit when new tools are adopted
+**A**: **RESOLVED** - For Instruction:Agent MCUs, verification is both implicit (AI-Agent automatic validation) and explicit (Operator prompt for verification). The cadence is continuous for implicit verification and on-demand for explicit verification.
 
 ### **11. Additional Implementation Questions**
 
