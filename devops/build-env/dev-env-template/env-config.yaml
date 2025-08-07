@@ -1,0 +1,158 @@
+# Development Environment Configuration Template
+# This file defines the parameters for generating a new development environment
+
+environment:
+  name: "{{COMPONENT_NAME}}-dev"
+  description: "{{COMPONENT_DESCRIPTION}} development environment"
+  version: "1.0.0"
+  status: "Development"
+
+component:
+  name: "{{COMPONENT_NAME}}"
+  full_name: "{{COMPONENT_FULL_NAME}}"
+  description: "{{COMPONENT_DESCRIPTION}}"
+  type: "{{COMPONENT_TYPE}}"  # tool, framework, package, etc.
+  language: "{{COMPONENT_LANGUAGE}}"  # python, bash, etc.
+
+dependencies:
+  production:
+    - "{{CORE_DEPENDENCIES}}"
+  development:
+    - "pytest>=7.0"
+    - "black>=23.0"
+    - "flake8>=6.0"
+    - "mypy>=1.0"
+    - "isort>=5.0"
+    - "bandit>=1.7"
+    - "safety>=2.0"
+    - "pre-commit>=3.0"
+    - "tox>=4.0"
+    - "coverage>=7.0"
+    - "ipython>=8.0"
+    - "ipdb>=0.13"
+    - "memory-profiler>=0.60"
+    - "setuptools>=61.0"
+    - "wheel>=0.37"
+    - "build>=0.10"
+    - "bump2version>=1.0"
+  testing:
+    - "pytest-cov>=4.0"
+    - "pytest-mock>=3.0"
+    - "pytest-xdist>=3.0"
+    - "factory-boy>=3.2"
+    - "faker>=18.0"
+    - "hypothesis>=6.0"
+    - "mutmut>=2.2"
+    - "pytest-benchmark>=4.0"
+    - "pytest-profiling>=1.7"
+    - "pytest-html>=3.1"
+    - "pytest-json-report>=1.5"
+    - "pytest-docker>=1.0"
+    - "pytest-selenium>=4.0"
+    - "responses>=0.23"
+    - "httpretty>=1.1"
+    - "freezegun>=1.2"
+    - "pytest-freezegun>=0.4"
+    - "locust>=2.15"
+    - "psutil>=5.9"
+
+scripts:
+  setup: "setup-env.sh"
+  test: "run-tests.sh"
+  quality: "quality-check.sh"
+  build: "build-package.sh"
+  debug: "setup-debugging.sh"
+  create_app: "create-app.sh"
+
+docker:
+  enabled: true
+  base_image: "python:3.11-slim"
+  stages:
+    - "base"
+    - "development"
+    - "testing"
+    - "production"
+    - "ci"
+
+ci_cd:
+  provider: "github-actions"
+  workflows:
+    - "quality-checks"
+    - "unit-tests"
+    - "integration-tests"
+    - "security-tests"
+    - "build-package"
+    - "deploy"
+
+ide_integration:
+  vscode:
+    enabled: true
+    debug_configs:
+      - "Debug {{COMPONENT_NAME}}"
+      - "Debug {{COMPONENT_NAME}} Tests"
+      - "Debug {{COMPONENT_NAME}} Package"
+    tasks:
+      - "Setup Environment"
+      - "Run Tests"
+      - "Quality Check"
+      - "Build Package"
+
+documentation:
+  required_files:
+    - "README.md"
+    - "QUICK_START.md"
+  optional_files:
+    - "APP_DEPLOYMENT_GUIDE.md"
+    - "CURSOR_DEBUGGING_GUIDE.md"
+    - "VIBE_CODING_GUIDE.md"
+
+testing:
+  frameworks:
+    - "pytest"
+    - "tox"
+  coverage:
+    enabled: true
+    threshold: 80
+  test_types:
+    - "unit"
+    - "integration"
+    - "functional"
+    - "security"
+
+quality:
+  tools:
+    - "black"
+    - "flake8"
+    - "mypy"
+    - "isort"
+    - "bandit"
+    - "safety"
+  pre_commit:
+    enabled: true
+
+vibe_coding:
+  enabled: true
+  debug_utils: true
+  strategic_asserts: true
+  performance_tracking: true
+  state_management: true
+
+# Template variables that will be replaced
+variables:
+  COMPONENT_NAME: "aiailint"
+  COMPONENT_FULL_NAME: "AIAI Linter"
+  COMPONENT_DESCRIPTION: "AIAI Script validation and linting tool"
+  COMPONENT_TYPE: "tool"
+  COMPONENT_LANGUAGE: "python"
+  CORE_DEPENDENCIES: |
+    pyyaml>=6.0
+    jsonschema>=4.0
+    bashlex>=0.16
+    bashparser>=0.1
+    libbash>=0.1
+    pathlib2>=2.3.7; python_version < "3.4"
+    typing-extensions>=4.0.0; python_version < "3.8"
+    jsonschema[format-nongpl]>=4.0
+    click>=8.0.0
+    rich>=13.0.0
+    colorama>=0.4.6

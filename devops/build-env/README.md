@@ -7,18 +7,33 @@ This directory contains specific build environments for different components of 
 ```
 build-env/
 ├── README.md                    # This file
+├── Makefile                     # Environment generation commands
+├── generate_env.py              # Python environment generator
+├── dev-env-template/            # Parameterized template
+│   ├── env-config.yaml         # Template configuration
+│   ├── README.md               # Template documentation
+│   ├── requirements/            # Template dependencies
+│   ├── scripts/                # Template scripts
+│   ├── config/                 # Template configuration
+│   ├── docker/                 # Template Docker support
+│   ├── ci/                     # Template CI/CD configuration
+│   └── .vscode/               # Template IDE integration
 ├── aiailint-dev/               # aiailint development environment
-│   ├── README.md               # aiailint-specific documentation
-│   ├── requirements/            # Python dependencies
-│   ├── scripts/                # Build and test scripts
-│   ├── config/                 # Configuration files
-│   ├── docker/                 # Docker support
-│   ├── ci/                     # CI/CD configuration
-│   └── .vscode/               # IDE integration
 ├── framework-dev/              # Framework development environment (future)
 ├── s2m-dev/                   # Script2Manual development environment (future)
 └── package-dev/               # Package development environment (future)
 ```
+
+## Template System
+
+The build environment uses a **parameterized template system** with YAML configuration:
+
+### Template Features
+- **YAML Configuration**: `env-config.yaml` defines all environment parameters
+- **Variable Replacement**: `{{COMPONENT_NAME}}`, `{{COMPONENT_DESCRIPTION}}`, etc.
+- **Makefile Integration**: `make create-env COMPONENT=<name>`
+- **Python Generator**: `generate_env.py` for advanced customization
+- **Validation**: Built-in environment validation and testing
 
 ## Purpose
 
@@ -50,28 +65,54 @@ cd build-env/aiailint-dev
 
 ## Adding New Environments
 
-To add a new build environment:
+To add a new build environment, use the parameterized template system:
 
-1. **Create Environment Directory**:
-   ```bash
-   mkdir build-env/[component-name]-dev
-   ```
+### Method 1: Using Makefile (Recommended)
+```bash
+# Create environment from template
+make create-env COMPONENT=framework
 
-2. **Copy Template Structure**:
-   ```bash
-   cp -r build-env/aiailint-dev/* build-env/[component-name]-dev/
-   ```
+# Generate environment with custom configuration
+cd framework-dev
+# Edit env-config.yaml with your component details
+make generate-env COMPONENT=framework
 
-3. **Customize for Component**:
-   - Update requirements for component-specific dependencies
-   - Modify scripts for component-specific build processes
-   - Update documentation for component-specific usage
-   - Adjust CI/CD configuration for component needs
+# Quick creation with defaults
+make quick-env COMPONENT=s2m
+```
 
-4. **Update This README**:
-   - Add new environment to the list
-   - Document component-specific features
-   - Provide quick start instructions
+### Method 2: Using Python Generator
+```bash
+# Create environment
+python generate_env.py create --component framework
+
+# Validate environment
+python generate_env.py validate --component framework
+
+# List all environments
+python generate_env.py list
+```
+
+### Method 3: Manual Template Copy
+```bash
+# Copy template
+cp -r dev-env-template/ framework-dev/
+
+# Edit configuration
+cd framework-dev
+# Edit env-config.yaml with your component details
+
+# Generate from configuration
+python generate_env.py create --component framework
+```
+
+### Customizing the Environment
+
+1. **Edit Configuration**: Modify `env-config.yaml` with component-specific details
+2. **Update Dependencies**: Adjust production, development, and testing dependencies
+3. **Customize Scripts**: Modify scripts for component-specific build processes
+4. **Update Documentation**: Customize README and guides for your component
+5. **Configure CI/CD**: Adjust GitHub Actions workflow for component needs
 
 ## Environment Standards
 
