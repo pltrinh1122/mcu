@@ -7,7 +7,7 @@ This directory contains the Memory Context Units (MCUs) for the AIAI project, or
 ## Directory Structure
 
 ```
-aiai/mcu/
+mcu/
 ├── reference/                    # Reference MCUs for information transfer
 │   ├── REFERENCE_SPECIFICATION.md
 │   └── REFERENCE_TEMPLATE.md
