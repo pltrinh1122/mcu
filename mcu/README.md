@@ -8,6 +8,9 @@ This directory contains the Memory Context Units (MCUs) for the AIAI project, or
 
 ```
 mcu/
+├── docs/                        # Base MCU specification and documentation
+│   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
+│   └── README.md                # MCU documentation overview
 ├── reference/                    # Reference MCUs for information transfer
 │   ├── REFERENCE_SPECIFICATION.md
 │   └── REFERENCE_TEMPLATE.md
@@ -49,10 +52,11 @@ mcu/
 ## Usage
 
 ### **Creating New MCUs**
-1. **Reference MCUs**: Use `reference/REFERENCE_TEMPLATE.md`
-2. **Instruction MCUs**: Use `instruction/INSTRUCTION_TEMPLATE.md`
-3. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md`
-4. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
+1. **Base Specification**: Inherit from `docs/MCU_SPECIFICATION.md`
+2. **Reference MCUs**: Use `reference/REFERENCE_TEMPLATE.md`
+3. **Instruction MCUs**: Use `instruction/INSTRUCTION_TEMPLATE.md`
+4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md`
+5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications
@@ -72,6 +76,7 @@ mcu/
 
 ## Related Documents
 
+- **docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
 - **VIBE_CODING.md**: Main workflow instruction (to be restructured as Instruction:Agent MCU)
 - **Component VIBE_CODING.md files**: Component-specific workflow overrides
 - **Project Documentation**: Integration with overall AIAI project structure
