@@ -1,406 +1,236 @@
-# Vibe Coding Guide for aiailint
+# aiailint Component-Specific VIBE_CODING Override
 
 ## Overview
 
-This guide explains how to use **strategic asserts** and **debug logs** for effective "vibe coding" without breakpoints. Perfect for collaborative development with AI assistants.
+This document provides component-specific overrides for the aiailint development environment. These instructions extend the global VIBE_CODING.md workflow with aiailint-specific requirements.
 
-## Vibe Coding Philosophy
+**Note**: This document extends, not replaces, the global VIBE_CODING.md workflow.
 
-### **Why Strategic Asserts & Debug Logs?**
+## Component-Specific Validation Requirements
 
-✅ **Collaborative**: Works great with AI assistants  
-✅ **Reproducible**: Same output every time  
-✅ **Non-interactive**: No IDE dependencies  
-✅ **Structured**: Easy to parse and analyze  
-✅ **Distributable**: Can share logs and results  
+### **YAML Schema Validation**
+- **Required**: All YAML files must validate against `aiai_schema.json`
+- **Command**: `python -m jsonschema -i file.yaml aiai_schema.json`
+- **Failure Action**: Escalate to Operator for schema validation failures
 
-### **No More Breakpoints!**
+### **Python Code Quality**
+- **Required**: All Python files must pass `pytest` and `mypy` validation
+- **Command**: `pytest tests/ && mypy src/`
+- **Failure Action**: Auto-fix syntax errors, escalate type errors to Operator
 
-Instead of setting breakpoints, we use:
-- **Strategic asserts** to validate assumptions
-- **Debug logs** to trace execution
-- **Data inspection** to understand state
-- **Performance tracking** to optimize code
+### **Documentation Validation**
+- **Required**: All documentation must follow aiailint documentation standards
+- **Command**: `markdownlint docs/`
+- **Failure Action**: Auto-fix formatting, escalate content issues to Operator
 
-## Quick Start
+## Component-Specific Testing Requirements
 
-### **1. Set Up Vibe Environment**
-```bash
-cd /home/pt/aiai/devops/build-env
-./scripts/setup-debugging.sh
+### **Unit Tests**
+- **Required**: All new functionality must have corresponding unit tests
+- **Location**: `tests/` directory
+- **Command**: `pytest tests/`
+- **Coverage**: Minimum 80% code coverage for new code
+
+### **Integration Tests**
+- **Required**: All validation pipelines must have integration tests
+- **Location**: `tests/integration/`
+- **Command**: `pytest tests/integration/`
+- **Failure Action**: Escalate to Operator for integration test failures
+
+### **Performance Tests**
+- **Required**: All validation functions must have performance benchmarks
+- **Location**: `tests/performance/`
+- **Command**: `pytest tests/performance/ --benchmark-only`
+- **Threshold**: No more than 10% performance regression
+
+## Component-Specific File Naming Conventions
+
+### **Python Files**
+- **Pattern**: `snake_case.py`
+- **Examples**: `aiailint.py`, `validation_result.py`, `error_formatter.py`
+
+### **Test Files**
+- **Pattern**: `test_<module_name>.py`
+- **Examples**: `test_validator.py`, `test_error_formatter.py`
+
+### **Documentation Files**
+- **Pattern**: `UPPER_CASE.md`
+- **Examples**: `README.md`, `USAGE.md`, `AIAILINT_SPECIFICATION.md`
+
+## Component-Specific Tool Requirements
+
+### **Required Tools**
+- **Python**: 3.8+
+- **pytest**: Latest version
+- **mypy**: Latest version
+- **yamllint**: Latest version
+- **markdownlint**: Latest version
+
+### **Optional Tools**
+- **pytest-benchmark**: For performance testing
+- **pytest-cov**: For coverage reporting
+- **black**: For code formatting
+
+## Component-Specific Commit Requirements
+
+### **Commit Message Format**
+```
+aiailint: <type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
 ```
 
-### **2. Run Vibe Debug Session**
-```bash
-python vibe_debug_helper.py
+### **Types**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `test`: Test additions or changes
+- `refactor`: Code refactoring
+- `perf`: Performance improvements
+
+### **Scopes**
+- `validator`: Validation logic changes
+- `analyzer`: Analysis logic changes
+- `formatter`: Output formatting changes
+- `docs`: Documentation changes
+- `tests`: Test infrastructure changes
+
+## Component-Specific Error Handling
+
+### **Validation Errors**
+- **Schema Errors**: Escalate to Operator immediately
+- **Syntax Errors**: Auto-fix when possible, escalate complex issues
+- **Type Errors**: Escalate to Operator for review
+
+### **Test Failures**
+- **Unit Test Failures**: Escalate to Operator
+- **Integration Test Failures**: Escalate to Operator
+- **Performance Test Failures**: Escalate to Operator
+
+## Component-Specific Performance Requirements
+
+### **Validation Performance**
+- **Target**: < 1 second for typical YAML files
+- **Threshold**: Alert Operator if validation takes > 5 seconds
+- **Monitoring**: Track validation time for all files
+
+### **Memory Usage**
+- **Target**: < 100MB for typical files
+- **Threshold**: Alert Operator if memory usage > 500MB
+- **Monitoring**: Track memory usage during validation
+
+## Component-Specific Security Requirements
+
+### **Input Validation**
+- **Required**: All YAML input must be validated against schema
+- **Required**: All file paths must be sanitized
+- **Required**: All external data must be validated
+
+### **Output Sanitization**
+- **Required**: All error messages must be sanitized
+- **Required**: All debug output must be sanitized
+- **Required**: No sensitive data in logs
+
+## Component-Specific Documentation Requirements
+
+### **Code Documentation**
+- **Required**: All public functions must have docstrings
+- **Required**: All classes must have docstrings
+- **Required**: All complex logic must have inline comments
+
+### **User Documentation**
+- **Required**: All features must be documented in `USAGE.md`
+- **Required**: All configuration options must be documented
+- **Required**: All error codes must be documented
+
+## Component-Specific Override Conflicts
+
+### **When Conflicts Occur**
+1. **Report** the conflict to the Operator
+2. **List** the conflicting requirements
+3. **Wait** for Operator decision on precedence
+4. **Follow** Operator guidance on resolution
+
+### **Common Conflicts**
+- **Schema Validation**: Global YAML validation vs aiailint schema validation
+- **Testing Requirements**: Global test requirements vs aiailint-specific test requirements
+- **Documentation Standards**: Global documentation vs aiailint documentation standards
+
+## Component-Specific Metrics
+
+### **Quality Metrics**
+- **Test Coverage**: Minimum 80% for new code
+- **Documentation Coverage**: 100% for public APIs
+- **Validation Success Rate**: > 95% for valid files
+
+### **Performance Metrics**
+- **Validation Time**: < 1 second for typical files
+- **Memory Usage**: < 100MB for typical files
+- **Error Rate**: < 5% false positives
+
+## Integration with Global Workflow
+
+### **Create Phase**
+1. **Check** for aiailint-specific requirements
+2. **Follow** aiailint naming conventions
+3. **Include** aiailint-specific documentation
+4. **Add** aiailint-specific tests
+
+### **Validate Phase**
+1. **Run** aiailint-specific validations
+2. **Check** schema validation
+3. **Verify** code quality standards
+4. **Test** documentation standards
+
+### **Test Phase**
+1. **Run** aiailint-specific tests
+2. **Verify** performance requirements
+3. **Check** security requirements
+4. **Validate** documentation coverage
+
+### **Commit Phase**
+1. **Use** aiailint commit message format
+2. **Include** appropriate type and scope
+3. **Reference** related issues
+4. **Ensure** all validations pass
+
+## Component-Specific Escalation Procedures
+
+### **When to Escalate**
+- **Schema validation failures**
+- **Performance regression > 10%**
+- **Memory usage > 500MB**
+- **Test coverage < 80%**
+- **Security validation failures**
+
+### **Escalation Format**
+```
+ESCALATION: aiailint component
+ISSUE: [brief description]
+IMPACT: [high/medium/low]
+RECOMMENDATION: [suggested action]
 ```
 
-### **3. Check Vibe Debug Log**
-```bash
-tail -f vibe_debug.log
-```
+## Component-Specific Success Criteria
 
-## Strategic Asserts
+### **Validation Success**
+- All YAML files pass schema validation
+- All Python files pass type checking
+- All documentation passes linting
+- No security vulnerabilities detected
 
-### **Basic Asserts**
-```python
-from debug_utils import vibe_assert, vibe_assert_data_structure
+### **Testing Success**
+- All unit tests pass
+- All integration tests pass
+- Performance benchmarks meet targets
+- Code coverage meets minimum requirements
 
-# Validate conditions
-vibe_assert(file_path.exists(), "File should exist")
-vibe_assert(len(data) > 0, "Data should not be empty")
+### **Documentation Success**
+- All public APIs documented
+- All configuration options documented
+- All error codes documented
+- Documentation passes linting
 
-# Validate data types
-vibe_assert_data_structure(yaml_data, dict, "YAML data should be dict")
-vibe_assert_data_structure(validation_result, ValidationResult, "Result should be ValidationResult")
-```
-
-### **File Validation Asserts**
-```python
-from debug_utils import vibe_assert_file_exists, vibe_assert_yaml_valid
-
-# Validate file exists
-vibe_assert_file_exists(Path("script.yaml"), "Script file should exist")
-
-# Validate YAML structure
-vibe_assert_yaml_valid(yaml_data, "YAML should have required structure")
-```
-
-### **Custom Asserts**
-```python
-def vibe_assert_validation_pipeline(data, context=""):
-    """Custom assert for validation pipeline"""
-    vibe_assert(
-        hasattr(data, 'success') and hasattr(data, 'errors'),
-        "Validation result should have success and errors attributes",
-        {"context": context, "data_type": type(data).__name__}
-    )
-```
-
-## Debug Logging
-
-### **Basic Logging**
-```python
-from debug_utils import vibe_log, vibe_error, vibe_success
-
-# Log different levels
-vibe_log("Starting validation process")
-vibe_log("Processing file: script.yaml", "INFO")
-vibe_success("Validation completed successfully")
-vibe_error("Validation failed", exception)
-```
-
-### **Data Inspection**
-```python
-from debug_utils import vibe_inspect
-
-# Inspect data structures
-vibe_inspect(yaml_data, "YAML Data")
-vibe_inspect(validation_result, "Validation Result")
-vibe_inspect(complex_object, "Complex Object", max_depth=5)
-```
-
-### **Function Tracing**
-```python
-from debug_utils import vibe_trace_function
-
-@vibe_trace_function
-def validate_file(self, file_path):
-    # Function calls will be automatically logged
-    result = self._run_validation_pipeline(file_path)
-    return result
-```
-
-## Performance Tracking
-
-### **Performance Decorator**
-```python
-from debug_utils import vibe_performance_tracker
-
-@vibe_performance_tracker
-def expensive_validation_function(data):
-    # Performance will be automatically tracked
-    result = complex_validation_logic(data)
-    return result
-```
-
-### **Manual Performance Tracking**
-```python
-import time
-from debug_utils import vibe_log
-
-def custom_performance_tracking():
-    start_time = time.time()
-    vibe_log("Starting expensive operation")
-    
-    # ... your code here ...
-    
-    duration = time.time() - start_time
-    vibe_log(f"Operation completed in {duration:.4f}s")
-```
-
-## Debug State Management
-
-### **Using Vibe State**
-```python
-from debug_utils import vibe_state
-
-# Set debug state
-vibe_state.set("current_file", "script.yaml")
-vibe_state.set("validation_mode", "strict")
-vibe_state.set("debug_level", "verbose")
-
-# Get debug state
-current_file = vibe_state.get("current_file")
-validation_mode = vibe_state.get("validation_mode", "normal")
-
-# Dump all state
-vibe_state.dump()
-```
-
-## Vibe Coding Workflow
-
-### **1. Start with Strategic Asserts**
-```python
-def validate_file(self, file_path):
-    # Strategic assert: File should exist
-    vibe_assert_file_exists(file_path, "File validation")
-    
-    # Strategic assert: File should be readable
-    vibe_assert(file_path.is_file(), "Should be a file, not directory")
-    
-    # Continue with validation...
-```
-
-### **2. Add Debug Logging**
-```python
-def validate_file(self, file_path):
-    vibe_log(f"Starting validation of: {file_path}")
-    
-    # Load and validate YAML
-    yaml_data = self._load_yaml_data(file_path)
-    vibe_inspect(yaml_data, "Loaded YAML Data")
-    
-    # Run validation pipeline
-    result = self._run_validation_pipeline(file_path)
-    vibe_inspect(result, "Validation Result")
-    
-    vibe_success(f"Validation completed for: {file_path}")
-    return result
-```
-
-### **3. Use Performance Tracking**
-```python
-@vibe_performance_tracker
-def _run_validation_pipeline(self, file_path):
-    vibe_log("Running validation pipeline")
-    
-    # Your validation logic here
-    # Performance will be automatically tracked
-    
-    return result
-```
-
-### **4. Manage Debug State**
-```python
-def validate_package(self, package_path):
-    vibe_state.set("package_path", str(package_path))
-    vibe_state.set("validation_start_time", time.time())
-    
-    # ... validation logic ...
-    
-    vibe_state.set("validation_end_time", time.time())
-    vibe_state.dump()  # Log final state
-```
-
-## Example: Complete Vibe Coding Session
-
-### **Step 1: Set Up Environment**
-```python
-from debug_utils import (
-    setup_vibe_logging, vibe_assert, vibe_log, 
-    vibe_inspect, vibe_state, vibe_performance_tracker
-)
-
-# Set up vibe logging
-vibe_logger = setup_vibe_logging("DEBUG", "vibe_debug.log")
-vibe_log("Starting vibe coding session")
-```
-
-### **Step 2: Strategic Asserts**
-```python
-def vibe_validate_script(script_path):
-    # Strategic asserts
-    vibe_assert(Path(script_path).exists(), "Script file must exist")
-    vibe_assert(script_path.endswith('.yaml'), "Script must be YAML file")
-    
-    # Load and validate data
-    with open(script_path) as f:
-        data = yaml.safe_load(f)
-    
-    vibe_assert_yaml_valid(data, "Script validation")
-    vibe_inspect(data, "Script Data")
-    
-    return data
-```
-
-### **Step 3: Debug Logging**
-```python
-@vibe_performance_tracker
-def vibe_process_script(script_path):
-    vibe_log(f"Processing script: {script_path}")
-    
-    # Load script
-    script_data = vibe_validate_script(script_path)
-    vibe_success("Script loaded successfully")
-    
-    # Process each command
-    for i, command in enumerate(script_data.get('body', [])):
-        vibe_log(f"Processing command {i+1}: {command.get('id', 'unknown')}")
-        vibe_inspect(command, f"Command {i+1}")
-        
-        # Process command...
-        vibe_success(f"Command {i+1} processed")
-    
-    vibe_success("All commands processed")
-```
-
-### **Step 4: State Management**
-```python
-def vibe_debug_session():
-    vibe_state.set("session_id", "vibe_session_001")
-    vibe_state.set("start_time", time.time())
-    
-    # Process multiple scripts
-    scripts = ["script1.yaml", "script2.yaml", "script3.yaml"]
-    
-    for script in scripts:
-        vibe_state.set("current_script", script)
-        vibe_process_script(script)
-    
-    vibe_state.set("end_time", time.time())
-    vibe_state.dump()
-```
-
-## Vibe Coding Best Practices
-
-### **1. Use Descriptive Assert Messages**
-```python
-# Good
-vibe_assert(len(data) > 0, "Data should contain at least one element")
-
-# Better
-vibe_assert(len(data) > 0, "Script should have at least one command in body")
-```
-
-### **2. Log Important State Changes**
-```python
-vibe_log("Starting validation phase")
-vibe_log("Entering destructive command detection")
-vibe_log("Completed semantic analysis")
-```
-
-### **3. Inspect Complex Data Structures**
-```python
-# Always inspect loaded data
-yaml_data = yaml.safe_load(file_content)
-vibe_inspect(yaml_data, "Loaded YAML")
-
-# Inspect validation results
-result = validate_script(yaml_data)
-vibe_inspect(result, "Validation Result")
-```
-
-### **4. Track Performance for Expensive Operations**
-```python
-@vibe_performance_tracker
-def expensive_validation_function(data):
-    # This will automatically log performance
-    return complex_validation_logic(data)
-```
-
-### **5. Use State Management for Complex Sessions**
-```python
-vibe_state.set("validation_mode", "strict")
-vibe_state.set("current_file", file_path)
-vibe_state.set("debug_level", "verbose")
-```
-
-## Troubleshooting Vibe Coding
-
-### **Common Issues**
-
-#### **1. Assert Failures**
-```bash
-# Check vibe debug log for detailed error messages
-tail -f vibe_debug.log | grep "VIBE ASSERT"
-```
-
-#### **2. Performance Issues**
-```bash
-# Look for performance logs
-tail -f vibe_debug.log | grep "VIBE PERFORMANCE"
-```
-
-#### **3. State Issues**
-```bash
-# Check current debug state
-python -c "from debug_utils import vibe_state; vibe_state.dump()"
-```
-
-### **Debug Helper Commands**
-```bash
-# Run vibe debug session
-python vibe_debug_helper.py
-
-# Check vibe debug log
-tail -f vibe_debug.log
-
-# Filter specific log levels
-tail -f vibe_debug.log | grep "VIBE SUCCESS"
-tail -f vibe_debug.log | grep "VIBE ERROR"
-```
-
-## Integration with aiailint
-
-### **Adding Vibe Debugging to aiailint**
-
-```python
-# In aiailint.py, add vibe debugging
-from debug_utils import vibe_log, vibe_assert, vibe_inspect
-
-class AiaiLinter:
-    def __init__(self, verbose=False, strict=False):
-        vibe_log(f"Initializing AiaiLinter: verbose={verbose}, strict={strict}")
-        # ... rest of initialization
-    
-    def validate_file(self, file_path):
-        vibe_log(f"Starting validation of: {file_path}")
-        
-        # Strategic assert
-        vibe_assert(Path(file_path).exists(), "File must exist")
-        
-        # Load and inspect YAML
-        yaml_data = self._load_yaml_data(file_path)
-        vibe_inspect(yaml_data, "Loaded YAML Data")
-        
-        # Run validation
-        result = self._run_validation_pipeline(file_path)
-        vibe_inspect(result, "Validation Result")
-        
-        vibe_success(f"Validation completed for: {file_path}")
-        return result
-```
-
-## Summary
-
-Vibe coding with strategic asserts and debug logs provides:
-
-✅ **Collaborative debugging** that works with AI assistants  
-✅ **Reproducible results** every time  
-✅ **Structured logging** for easy analysis  
-✅ **Performance tracking** for optimization  
-✅ **State management** for complex sessions  
-✅ **No IDE dependencies** - works anywhere  
-
-This approach is perfect for "vibe coding" where you want to understand what's happening without the overhead of setting breakpoints and stepping through code manually.
+This component-specific override extends the global VIBE_CODING.md workflow with aiailint-specific requirements while maintaining consistency with the overall project standards.
