@@ -1,0 +1,155 @@
+version: '3.8'
+
+services:
+  # Development environment
+  aiailint-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: aiailint-dev
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - dev-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+      - AIAILINT_DEBUG=1
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    working_dir: /workspace/build-env
+    command: bash
+    profiles:
+      - dev
+
+  # Testing environment
+  aiailint-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+    container_name: aiailint-test
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - test-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+      - AIAILINT_DEBUG=1
+    working_dir: /workspace/build-env
+    command: ["./scripts/run-tests.sh", "--coverage", "--report"]
+    profiles:
+      - test
+
+  # Production environment
+  aiailint-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: aiailint-prod
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - prod-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+    working_dir: /workspace/build-env
+    command: ["aiailint", "--help"]
+    profiles:
+      - prod
+
+  # CI/CD environment
+  aiailint-ci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ci
+    container_name: aiailint-ci
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - ci-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+      - AIAILINT_DEBUG=1
+    working_dir: /workspace/build-env
+    command: ["./scripts/run-tests.sh", "--coverage", "--report"]
+    profiles:
+      - ci
+
+  # Quality check service
+  aiailint-quality:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: aiailint-quality
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - quality-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+    working_dir: /workspace/build-env
+    command: ["./scripts/quality-check.sh", "--report"]
+    profiles:
+      - quality
+
+  # Build service
+  aiailint-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: aiailint-build
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - build-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+    working_dir: /workspace/build-env
+    command: ["./scripts/build-package.sh", "--report", "--test"]
+    profiles:
+      - build
+
+  # Documentation service
+  aiailint-docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: aiailint-docs
+    volumes:
+      - ../../../aiailint:/workspace/aiailint:ro
+      - .:/workspace/build-env:ro
+      - docs-data:/workspace/data
+    environment:
+      - PYTHONPATH=/workspace/aiailint/src
+    working_dir: /workspace/build-env
+    command: ["sphinx-build", "-b", "html", "../../../aiailint/docs/", "docs/_build/html"]
+    profiles:
+      - docs
+
+volumes:
+  dev-data:
+    driver: local
+  test-data:
+    driver: local
+  prod-data:
+    driver: local
+  ci-data:
+    driver: local
+  quality-data:
+    driver: local
+  build-data:
+    driver: local
+  docs-data:
+    driver: local
+
+networks:
+  default:
+    name: aiailint-network
+    driver: bridge

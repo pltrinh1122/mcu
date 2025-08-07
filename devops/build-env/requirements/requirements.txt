@@ -1,0 +1,33 @@
+# Production dependencies for aiailint
+# Core dependencies required for the tool to function
+
+# YAML processing
+pyyaml>=6.0
+
+# JSON Schema validation
+jsonschema>=4.0
+
+# Bash command parsing (recommended parser)
+bashlex>=0.16
+
+# Alternative bash parsers (optional)
+bashparser>=0.1
+libbash>=0.1
+
+# Path handling and file operations
+pathlib2>=2.3.7; python_version < "3.4"
+
+# Type hints support
+typing-extensions>=4.0.0; python_version < "3.8"
+
+# JSON processing
+jsonschema[format-nongpl]>=4.0
+
+# Command line argument parsing
+click>=8.0.0
+
+# Rich text formatting for CLI output
+rich>=13.0.0
+
+# Colorama for cross-platform colored output
+colorama>=0.4.6
