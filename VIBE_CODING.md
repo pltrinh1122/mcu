@@ -271,6 +271,54 @@ When the Operator requests implementation of VIBE_CODING instructions:
 5. **Add validation and tests**
 6. **Consider security implications**
 
+### **File Naming Conventions**
+
+#### **Core Principle: Filesystem Command Optimization**
+File names must provide **maximum understanding from minimum characters** when parsing filesystem command output (e.g., `ls`, `find`, `grep`, and similar filesystem utilities).
+
+#### **Naming Pattern**
+```
+[SYSTEM_PREFIX]_[CONTENT_TYPE]_[SPECIFIC_CONTEXT].md
+```
+
+#### **Implementation Rules**
+
+**Context-Specific Prefixes:**
+- **`TASKFILE_*`** for Taskfile-based system files
+- **`AIAI_*`** for AIAI framework files
+- **`VIBE_*`** for VIBE_CODING workflow files
+- **`REFERENCE_*`** for technical reference files
+
+**Content Type Indicators:**
+- **`*_USAGE_*`** for usage guides and instructions
+- **`*_TRAINING_*`** for training materials and tutorials
+- **`*_ARCHITECTURE_*`** for system design and architecture
+- **`*_PROGRESS_*`** for status and progress tracking
+- **`*_SPECIFICATION_*`** for technical specifications
+
+**Consistent Casing:**
+Use **UPPERCASE_WITH_UNDERSCORES** for all documentation files.
+
+#### **Examples**
+```
+USAGE_GUIDE.md → TASKFILE_USAGE_GUIDE.md
+TRAINING_MATERIALS.md → TASKFILE_TRAINING.md
+CONFIGURATION_MANAGEMENT.md → TASKFILE_ARCHITECTURE.md
+PROGRESS_STATUS.md → TASKFILE_PROGRESS.md
+```
+
+#### **Quality Criteria**
+- **Immediate Context**: System/component prefix clear
+- **Content Type**: Purpose obvious from name
+- **Parseable**: Easy to extract meaning from filesystem utilities
+- **Concise**: Maximum information in minimum characters
+
+#### **Organization Priority**
+1. **Organize by audience** (devops, developers, operators, architects, references)
+2. **Optimize file names** for filesystem command parsing
+3. **Update cross-references** to maintain consistency
+4. **Validate against VIBE_CODING standards** (professional tone, no emojis)
+
 ### **When Validating**
 1. **Check component-specific validation requirements** from local VIBE_CODING.md
 2. **Run all relevant validators**
