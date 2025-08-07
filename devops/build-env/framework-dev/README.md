@@ -1,12 +1,12 @@
-# {{COMPONENT_FULL_NAME}} Development Environment
+# AIAI Framework Development Environment
 
 ## Overview
 
-This directory contains the development environment configuration for the `{{COMPONENT_NAME}}` tool. This is a specific build environment within the `build-env/` container, providing an isolated Python environment with all necessary dependencies for {{COMPONENT_NAME}} development, testing, and deployment.
+This directory contains the development environment configuration for the `framework` tool. This is a specific build environment within the `build-env/` container, providing an isolated Python environment with all necessary dependencies for framework development, testing, and deployment.
 
 ## Purpose
 
-- **Isolated Development**: Provides a clean Python environment for {{COMPONENT_NAME}} development
+- **Isolated Development**: Provides a clean Python environment for framework development
 - **Dependency Management**: Manages all required Python packages and their versions
 - **Testing Framework**: Includes test runners and validation tools
 - **CI/CD Integration**: Supports automated testing and deployment
@@ -44,7 +44,7 @@ build-env/
 
 ```bash
 # Navigate to build environment
-cd devops/build-env/{{COMPONENT_NAME}}-dev
+cd devops/build-env/framework-dev
 
 # Setup Python virtual environment
 ./scripts/setup-env.sh
@@ -90,7 +90,17 @@ python -m tox
 ## Dependencies
 
 ### Production Dependencies
-{{CORE_DEPENDENCIES}}
+fastapi>=0.100.0
+uvicorn>=0.20.0
+pydantic>=2.0.0
+sqlalchemy>=2.0.0
+alembic>=1.10.0
+redis>=4.5.0
+celery>=5.3.0
+click>=8.0.0
+rich>=13.0.0
+colorama>=0.4.6
+
 
 ### Development Dependencies
 - `pytest>=7.0` - Testing framework

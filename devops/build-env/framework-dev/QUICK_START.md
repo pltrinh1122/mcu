@@ -1,4 +1,4 @@
-# {{COMPONENT_FULL_NAME}} Development Environment - Quick Start Guide
+# AIAI Framework Development Environment - Quick Start Guide
 
 ## Prerequisites
 
@@ -36,8 +36,8 @@ source venv/bin/activate
 ### 4. Verify Installation
 
 ```bash
-# Check if {{COMPONENT_NAME}} is available
-{{COMPONENT_NAME}} --help
+# Check if framework is available
+framework --help
 
 # Run a quick test
 ./scripts/run-tests.sh unit

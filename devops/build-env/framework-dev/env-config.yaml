@@ -2,21 +2,31 @@
 # This file defines the parameters for generating a new development environment
 
 environment:
-  name: "{{COMPONENT_NAME}}-dev"
-  description: "{{COMPONENT_DESCRIPTION}} development environment"
+  name: "framework-dev"
+  description: "AIAI Framework for building AI-powered applications development environment"
   version: "1.0.0"
   status: "Development"
 
 component:
-  name: "{{COMPONENT_NAME}}"
-  full_name: "{{COMPONENT_FULL_NAME}}"
-  description: "{{COMPONENT_DESCRIPTION}}"
-  type: "{{COMPONENT_TYPE}}"  # tool, framework, package, etc.
-  language: "{{COMPONENT_LANGUAGE}}"  # python, bash, etc.
+  name: "framework"
+  full_name: "AIAI Framework"
+  description: "AIAI Framework for building AI-powered applications"
+  type: "framework"  # tool, framework, package, etc.
+  language: "python"  # python, bash, etc.
 
 dependencies:
   production:
-    - "{{CORE_DEPENDENCIES}}"
+    - "fastapi>=0.100.0
+uvicorn>=0.20.0
+pydantic>=2.0.0
+sqlalchemy>=2.0.0
+alembic>=1.10.0
+redis>=4.5.0
+celery>=5.3.0
+click>=8.0.0
+rich>=13.0.0
+colorama>=0.4.6
+"
   development:
     - "pytest>=7.0"
     - "black>=23.0"
@@ -88,9 +98,9 @@ ide_integration:
   vscode:
     enabled: true
     debug_configs:
-      - "Debug {{COMPONENT_NAME}}"
-      - "Debug {{COMPONENT_NAME}} Tests"
-      - "Debug {{COMPONENT_NAME}} Package"
+      - "Debug framework"
+      - "Debug framework Tests"
+      - "Debug framework Package"
     tasks:
       - "Setup Environment"
       - "Run Tests"
@@ -139,9 +149,19 @@ vibe_coding:
 
 # Template variables that will be replaced
 variables:
-  COMPONENT_NAME: "{{COMPONENT_NAME}}"
-  COMPONENT_FULL_NAME: "{{COMPONENT_FULL_NAME}}"
-  COMPONENT_DESCRIPTION: "{{COMPONENT_DESCRIPTION}}"
-  COMPONENT_TYPE: "{{COMPONENT_TYPE}}"
-  COMPONENT_LANGUAGE: "{{COMPONENT_LANGUAGE}}"
-  CORE_DEPENDENCIES: "{{CORE_DEPENDENCIES}}"
+  COMPONENT_NAME: "framework"
+  COMPONENT_FULL_NAME: "AIAI Framework"
+  COMPONENT_DESCRIPTION: "AIAI Framework for building AI-powered applications"
+  COMPONENT_TYPE: "framework"
+  COMPONENT_LANGUAGE: "python"
+  CORE_DEPENDENCIES: |
+    fastapi>=0.100.0
+    uvicorn>=0.20.0
+    pydantic>=2.0.0
+    sqlalchemy>=2.0.0
+    alembic>=1.10.0
+    redis>=4.5.0
+    celery>=5.3.0
+    click>=8.0.0
+    rich>=13.0.0
+    colorama>=0.4.6

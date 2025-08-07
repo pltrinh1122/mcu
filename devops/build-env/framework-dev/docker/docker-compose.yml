@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   # Development environment
-  {{COMPONENT_NAME}}-dev:
+  framework-dev:
     build:
       context: .
       dockerfile: Dockerfile
       target: development
-    container_name: {{COMPONENT_NAME}}-dev
+    container_name: framework-dev
     volumes:
       - ../../../aiailint:/workspace/aiailint:ro
       - .:/workspace/build-env:ro

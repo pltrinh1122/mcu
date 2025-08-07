@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{COMPONENT_NAME}}"
+name = "framework"
 version = "1.0.0"
-description = "{{COMPONENT_DESCRIPTION}}"
+description = "AIAI Framework for building AI-powered applications"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -14,7 +14,7 @@ authors = [
 maintainers = [
     {name = "AIAI Team", email = "team@aiai.dev"}
 ]
-keywords = ["aiai", "{{COMPONENT_TYPE}}", "{{COMPONENT_LANGUAGE}}"]
+keywords = ["aiai", "framework", "python"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -89,21 +89,21 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/aiai/{{COMPONENT_NAME}}"
-Documentation = "https://{{COMPONENT_NAME}}.readthedocs.io/"
-Repository = "https://github.com/aiai/{{COMPONENT_NAME}}.git"
-"Bug Tracker" = "https://github.com/aiai/{{COMPONENT_NAME}}/issues"
-Changelog = "https://github.com/aiai/{{COMPONENT_NAME}}/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/aiai/framework"
+Documentation = "https://framework.readthedocs.io/"
+Repository = "https://github.com/aiai/framework.git"
+"Bug Tracker" = "https://github.com/aiai/framework/issues"
+Changelog = "https://github.com/aiai/framework/blob/main/CHANGELOG.md"
 
 [project.scripts]
-{{COMPONENT_NAME}} = "{{COMPONENT_NAME}}.{{COMPONENT_NAME}}:main"
+framework = "framework.framework:main"
 
 [tool.setuptools]
-packages = ["{{COMPONENT_NAME}}"]
+packages = ["framework"]
 package-dir = {"" = "src"}
 
 [tool.setuptools.package-data]
-{{COMPONENT_NAME}} = ["*.json", "*.yaml", "*.yml"]
+framework = ["*.json", "*.yaml", "*.yml"]
 
 [tool.black]
 line-length = 88
@@ -127,7 +127,7 @@ extend-exclude = '''
 profile = "black"
 multi_line_output = 3
 line_length = 88
-known_first_party = ["{{COMPONENT_NAME}}"]
+known_first_party = ["framework"]
 
 [tool.mypy]
 python_version = "3.8"
@@ -162,7 +162,7 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--disable-warnings",
-    "--cov={{COMPONENT_NAME}}",
+    "--cov=framework",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
     "--cov-report=xml:coverage.xml",
@@ -183,7 +183,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["{{COMPONENT_NAME}}"]
+source = ["framework"]
 omit = [
     "*/tests/*",
     "*/test_*",

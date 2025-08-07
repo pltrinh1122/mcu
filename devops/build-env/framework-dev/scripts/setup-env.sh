@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# {{COMPONENT_FULL_NAME}} Build Environment Setup Script
-# This script sets up a complete development environment for {{COMPONENT_NAME}}
+# AIAI Framework Build Environment Setup Script
+# This script sets up a complete development environment for framework
 
 set -e  # Exit on any error
 
@@ -106,9 +106,9 @@ install_dependencies() {
     print_status "Installing development dependencies"
     pip install -r "$requirements_dir/requirements-dev.txt"
     
-    # Install {{COMPONENT_NAME}} in development mode
-    print_status "Installing {{COMPONENT_NAME}} in development mode"
-    pip install -e ../../../{{COMPONENT_NAME}}/
+    # Install framework in development mode
+    print_status "Installing framework in development mode"
+    pip install -e ../../../framework/
     
     print_success "Dependencies installed successfully"
 }
@@ -117,7 +117,7 @@ install_dependencies() {
 setup_pre_commit() {
     local venv_dir="$1"
     
-    print_status "Setting up pre-commit hooks for {{COMPONENT_NAME}}"
+    print_status "Setting up pre-commit hooks for framework"
     
     # Activate virtual environment
     source "$venv_dir/bin/activate"
