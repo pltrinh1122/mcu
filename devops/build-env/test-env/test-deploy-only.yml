@@ -1,0 +1,11 @@
+version: '3'
+
+includes:
+  deploy:
+    taskfile: ../templates/deploy-tasks.yml
+
+tasks:
+  test:
+    desc: "Test task"
+    cmds:
+      - echo "Test completed!"

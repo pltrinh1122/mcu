@@ -1,0 +1,82 @@
+version: '3'
+
+includes:
+  base:
+    taskfile: ../templates/base-tasks.yml
+  python:
+    taskfile: ../templates/python-tasks.yml
+  docker:
+    taskfile: ../templates/docker-tasks.yml
+  deploy:
+    taskfile: ../templates/deploy-tasks.yml
+
+tasks:
+  setup:
+    desc: "Master setup - overrides base setup with additional steps"
+    cmds:
+      - echo "Master setup running..."
+      - task: base:setup
+      - echo "Installing additional dependencies..."
+      - task: python:python-setup
+      - echo "Master setup completed!"
+
+  test:
+    desc: "Master test - runs comprehensive test suite"
+    cmds:
+      - echo "Master test running..."
+      - task: python:test
+      - task: python:quality
+      - echo "Master test completed!"
+
+  build:
+    desc: "Master build - builds application and Docker image"
+    cmds:
+      - echo "Master build running..."
+      - task: python:python-build
+      - task: docker:docker-build
+      - echo "Master build completed!"
+
+  deploy:
+    desc: "Master deploy - deploys to local environment"
+    cmds:
+      - echo "Master deploy running..."
+      - task: deploy:deploy-local
+      - task: docker:docker-run
+      - echo "Master deploy completed!"
+
+  clean:
+    desc: "Master clean - comprehensive cleanup"
+    cmds:
+      - echo "Master clean running..."
+      - task: base:clean
+      - task: deploy:deploy-docker-clean
+      - echo "Master clean completed!"
+
+  help:
+    desc: "Master help - shows all available tasks"
+    cmds:
+      - echo "Available master tasks:"
+      - echo "  setup   - Complete environment setup"
+      - echo "  test    - Run comprehensive tests"
+      - echo "  build   - Build application and Docker image"
+      - echo "  deploy  - Deploy to local environment"
+      - echo "  clean   - Comprehensive cleanup"
+      - echo "  help    - Show this help"
+      - echo ""
+      - echo "Available template tasks:"
+      - echo "  base    - Basic environment tasks"
+      - echo "  python  - Python-specific tasks"
+      - echo "  docker  - Docker-specific tasks"
+      - echo "  deploy  - Deployment tasks"
+
+  status:
+    desc: "Master status - shows comprehensive environment status"
+    cmds:
+      - echo "Environment Status"
+      - task: base:status
+      - echo "Docker Status"
+      - task: docker:docker-ps
+      - echo "Python Status"
+      - task: python:deps
+
+

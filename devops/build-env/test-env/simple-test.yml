@@ -1,0 +1,11 @@
+version: '3'
+
+includes:
+  base:
+    taskfile: ../templates/base-tasks.yml
+
+tasks:
+  test:
+    desc: "Simple test task"
+    cmds:
+      - echo "Simple test completed!"

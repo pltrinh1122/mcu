@@ -1,0 +1,105 @@
+wrappers:
+  setup:
+    description: "Setup development environment"
+    arguments: []
+    options:
+      component:
+        type: "string"
+        default: "aiailint"
+        description: "Component to setup"
+    tool_mappings:
+      task:
+        command: "task setup"
+        args: []
+      just:
+        command: "just setup"
+        args: []
+      make:
+        command: "make setup"
+        args: []
+
+  test:
+    description: "Run tests"
+    arguments: []
+    options:
+      component:
+        type: "string"
+        default: "aiailint"
+        description: "Component to test"
+      parallel:
+        type: "boolean"
+        default: false
+        description: "Run tests in parallel"
+    tool_mappings:
+      task:
+        command: "task test"
+        args: ["{{parallel_flag}}"]
+      just:
+        command: "just test"
+        args: ["{{parallel_flag}}"]
+      make:
+        command: "make test"
+        args: ["{{parallel_flag}}"]
+
+  build:
+    description: "Build package"
+    arguments: []
+    options:
+      component:
+        type: "string"
+        default: "aiailint"
+        description: "Component to build"
+      version:
+        type: "string"
+        description: "Version to build"
+    tool_mappings:
+      task:
+        command: "task build"
+        args: ["VERSION={{version}}"]
+      just:
+        command: "just build"
+        args: ["--version", "{{version}}"]
+      make:
+        command: "make build"
+        args: ["VERSION={{version}}"]
+
+  deploy:
+    description: "Deploy component"
+    arguments: ["environment"]
+    options:
+      component:
+        type: "string"
+        default: "aiailint"
+        description: "Component to deploy"
+      version:
+        type: "string"
+        description: "Version to deploy"
+    tool_mappings:
+      task:
+        command: "task deploy"
+        args: ["ENVIRONMENT={{environment}}", "VERSION={{version}}"]
+      just:
+        command: "just deploy"
+        args: ["--environment", "{{environment}}", "--version", "{{version}}"]
+      make:
+        command: "make deploy"
+        args: ["ENVIRONMENT={{environment}}", "VERSION={{version}}"]
+
+  quality:
+    description: "Run quality checks"
+    arguments: []
+    options:
+      component:
+        type: "string"
+        default: "aiailint"
+        description: "Component to check"
+    tool_mappings:
+      task:
+        command: "task quality"
+        args: []
+      just:
+        command: "just quality"
+        args: []
+      make:
+        command: "make quality"
+        args: []

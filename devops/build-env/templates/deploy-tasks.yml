@@ -1,0 +1,171 @@
+version: '3'
+
+# Deployment tasks for Docker, CI/CD, and remote deployment
+# These tasks handle building, packaging, and deploying applications
+
+tasks:
+  deploy-docker-build:
+    desc: "Docker build - builds Docker image"
+    cmds:
+      - echo "Building Docker image..."
+      - |
+        if [ -f "docker/Dockerfile" ]; then
+          docker build -f docker/Dockerfile -t {{.IMAGE_NAME:-app}}:{{.IMAGE_TAG:-latest}} .
+        else
+          echo "No docker/Dockerfile found"
+        fi
+      - echo "Docker build completed!"
+
+  docker-run:
+    desc: "Docker run - runs Docker container locally"
+    cmds:
+      - echo "Running Docker container..."
+      - |
+        if [ -f "docker/docker-compose.yml" ]; then
+          docker-compose -f docker/docker-compose.yml up -d
+        else
+          echo "No docker/docker-compose.yml found"
+        fi
+      - echo "Docker container started!"
+
+  docker-stop:
+    desc: "Docker stop - stops Docker container"
+    cmds:
+      - echo "Stopping Docker container..."
+      - |
+        if [ -f "docker/docker-compose.yml" ]; then
+          docker-compose -f docker/docker-compose.yml down
+        else
+          echo "No docker/docker-compose.yml found"
+        fi
+      - echo "Docker container stopped!"
+
+  deploy-docker-clean:
+    desc: "Docker clean - removes Docker images and containers"
+    cmds:
+      - echo "Cleaning Docker resources..."
+      - docker system prune -f
+      - docker image prune -f
+      - echo "Docker cleanup completed!"
+
+  package:
+    desc: "Package - creates distribution package"
+    deps: [build]
+    cmds:
+      - echo "Creating distribution package..."
+      - mkdir -p dist
+      - |
+        if [ -f "setup.py" ]; then
+          python setup.py sdist bdist_wheel
+        elif [ -f "pyproject.toml" ]; then
+          python -m build
+        else
+          echo "No setup.py or pyproject.toml found for packaging"
+        fi
+      - echo "Package created!"
+
+  deploy-local:
+    desc: "Deploy local - deploys to local environment"
+    deps: [package]
+    cmds:
+      - echo "Deploying to local environment..."
+      - |
+        if [ -d "dist" ]; then
+          echo "Package available in dist/ directory"
+        else
+          echo "No dist/ directory found"
+        fi
+      - echo "Local deployment completed!"
+
+  deploy-staging:
+    desc: "Deploy staging - deploys to staging environment"
+    deps: [package]
+    cmds:
+      - echo "Deploying to staging environment..."
+      - |
+        if [ -n "{{.STAGING_HOST}}" ]; then
+          echo "Deploying to {{.STAGING_HOST}}..."
+          # Add staging deployment logic here
+        else
+          echo "STAGING_HOST not configured"
+        fi
+      - echo "Staging deployment completed!"
+
+  deploy-production:
+    desc: "Deploy production - deploys to production environment"
+    deps: [package]
+    cmds:
+      - echo "Deploying to production environment..."
+      - |
+        if [ -n "{{.PRODUCTION_HOST}}" ]; then
+          echo "Deploying to {{.PRODUCTION_HOST}}..."
+          # Add production deployment logic here
+        else
+          echo "PRODUCTION_HOST not configured"
+        fi
+      - echo "Production deployment completed!"
+
+  ci-test:
+    desc: "CI test - runs tests for CI/CD pipeline"
+    deps: [test, quality]
+    cmds:
+      - echo "Running CI tests..."
+      - echo "CI tests completed!"
+
+  ci-build:
+    desc: "CI build - builds for CI/CD pipeline"
+    deps: [build, docker-build]
+    cmds:
+      - echo "Running CI build..."
+      - echo "CI build completed!"
+
+  ci-deploy:
+    desc: "CI deploy - deploys for CI/CD pipeline"
+    deps: [ci-build]
+    cmds:
+      - echo "Running CI deployment..."
+      - |
+        if [ "{{.CI_ENV}}" = "staging" ]; then
+          task: deploy-staging
+        elif [ "{{.CI_ENV}}" = "production" ]; then
+          task: deploy-production
+        else
+          echo "CI_ENV not set or invalid"
+        fi
+      - echo "CI deployment completed!"
+
+  rollback:
+    desc: "Rollback - rolls back to previous version"
+    cmds:
+      - echo "Rolling back to previous version..."
+      - |
+        if [ -n "{{.ROLLBACK_VERSION}}" ]; then
+          echo "Rolling back to version {{.ROLLBACK_VERSION}}..."
+          # Add rollback logic here
+        else
+          echo "ROLLBACK_VERSION not specified"
+        fi
+      - echo "Rollback completed!"
+
+  health-check:
+    desc: "Health check - checks application health"
+    cmds:
+      - echo "Checking application health..."
+      - |
+        if [ -n "{{.HEALTH_URL}}" ]; then
+          curl -f {{.HEALTH_URL}} || echo "Health check failed"
+        else
+          echo "HEALTH_URL not configured"
+        fi
+      - echo "Health check completed!"
+
+  logs:
+    desc: "Logs - shows application logs"
+    cmds:
+      - echo "Showing application logs..."
+      - |
+        if [ -f "docker/docker-compose.yml" ]; then
+          docker-compose -f docker/docker-compose.yml logs -f
+        else
+          echo "No docker-compose.yml found"
+        fi

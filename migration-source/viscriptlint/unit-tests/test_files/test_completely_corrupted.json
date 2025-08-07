@@ -1,3 +1,0 @@
-This is not JSON at all!
-It's just plain text that will cause a JSON parsing error.
-The viscriptlint should handle this gracefully. 

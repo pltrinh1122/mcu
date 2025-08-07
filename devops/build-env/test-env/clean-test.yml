@@ -1,0 +1,17 @@
+version: '3'
+
+includes:
+  base:
+    taskfile: ../templates/base-tasks.yml
+  python:
+    taskfile: ../templates/python-tasks.yml
+  docker:
+    taskfile: ../templates/docker-tasks.yml
+  deploy:
+    taskfile: ../templates/deploy-tasks.yml
+
+tasks:
+  test:
+    desc: "Test task"
+    cmds:
+      - echo "Test completed!"
