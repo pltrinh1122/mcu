@@ -44,6 +44,12 @@ Test files and review documents provide:
 - **Audience**: Workflow reviewers and maintainers
 - **Type**: Review document for quality assurance
 
+### **VIBE_CODING_FAQ.md**
+- **Purpose**: Frequently asked questions about VIBE_CODING workflow
+- **Content**: Answers to common questions and implementation guidance
+- **Audience**: Users of the VIBE_CODING workflow
+- **Type**: FAQ document for testing understanding
+
 ## Usage
 
 ### **FAQ Testing**

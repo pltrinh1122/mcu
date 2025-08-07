@@ -26,7 +26,8 @@ mcu/
     ├── review_of_REFERENCE_SPECIFICATON.md
     ├── review_2_of_REFERENCE_SPECIFICATON.md
     ├── review_of_VIBE_CODING.md
-    └── review_2_of_VIBE_CODING.md
+    ├── review_2_of_VIBE_CODING.md
+    └── VIBE_CODING_FAQ.md
 ```
 
 ## MCU Types
