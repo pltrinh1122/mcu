@@ -10,14 +10,20 @@ This directory contains the Memory Context Units (MCUs) for the AIAI project, or
 aiai/mcu/
 ├── reference/                    # Reference MCUs for information transfer
 │   ├── REFERENCE_SPECIFICATION.md
-│   ├── REFERENCE_TEMPLATE.md
-│   └── REFERENCE_SPECIFICATION_FAQ.md
-└── instruction/                  # Instruction MCUs for behavioral guidance
-    ├── INSTRUCTION_TEMPLATE.md   # Base template for all instructions
-    └── instruction-agent/        # AI-Agent specific instructions
-        ├── INSTRUCTION-AGENT_SPECIFICATION.md
-        ├── INSTRUCTION-AGENT_TEMPLATE.md
-        └── VIBE_CODING_RESTRUCTURE_PLAN.md
+│   └── REFERENCE_TEMPLATE.md
+├── instruction/                  # Instruction MCUs for behavioral guidance
+│   ├── INSTRUCTION_TEMPLATE.md   # Base template for all instructions
+│   └── instruction-agent/        # AI-Agent specific instructions
+│       ├── INSTRUCTION-AGENT_SPECIFICATION.md
+│       ├── INSTRUCTION-AGENT_TEMPLATE.md
+│       └── vibecoding/          # VIBE_CODING specific instructions
+│           └── VIBE_CODING_RESTRUCTURE_PLAN.md
+└── tests/                       # Test files and review documents
+    ├── REFERENCE_SPECIFICATION_FAQ.md
+    ├── review_of_REFERENCE_SPECIFICATON.md
+    ├── review_2_of_REFERENCE_SPECIFICATON.md
+    ├── review_of_VIBE_CODING.md
+    └── review_2_of_VIBE_CODING.md
 ```
 
 ## MCU Types
@@ -46,6 +52,7 @@ aiai/mcu/
 1. **Reference MCUs**: Use `reference/REFERENCE_TEMPLATE.md`
 2. **Instruction MCUs**: Use `instruction/INSTRUCTION_TEMPLATE.md`
 3. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md`
+4. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications
@@ -68,6 +75,7 @@ aiai/mcu/
 - **VIBE_CODING.md**: Main workflow instruction (to be restructured as Instruction:Agent MCU)
 - **Component VIBE_CODING.md files**: Component-specific workflow overrides
 - **Project Documentation**: Integration with overall AIAI project structure
+- **Test Files**: FAQ and review documents in `tests/` directory
 
 ---
 
