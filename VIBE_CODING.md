@@ -271,6 +271,14 @@ When the Operator requests implementation of VIBE_CODING instructions:
 5. **Add validation and tests**
 6. **Consider security implications**
 
+### **When Creating Temporary Work Files**
+1. **Use `__vibec-` prefix** for all temporary files created during workflow sessions
+2. **Store contextually** where the work is being done
+3. **Use descriptive names** after the prefix (e.g., `__vibec-ANALYSIS__component_structure.md`)
+4. **Include file type** in the prefix (ANALYSIS, DRAFT, SCRIPT, DEBUG, PLAN, STATUS)
+5. **Report creation** to Operator when creating temporary files
+6. **Clean up** temporary files after workflow sessions
+
 ### **File Naming Conventions**
 
 #### **Core Principle: Filesystem Command Optimization**
@@ -298,6 +306,29 @@ File names must provide **maximum understanding from minimum characters** when p
 
 **Consistent Casing:**
 Use **UPPERCASE_WITH_UNDERSCORES** for all documentation files.
+
+#### **Temporary Work Files**
+Temporary files created during VIBE_CODING workflow sessions should use the `__vibec-` prefix to avoid naming collisions and enable easy discovery:
+
+**Naming Pattern:**
+```
+__vibec-[TYPE]-[DESCRIPTION]__
+```
+
+**Examples:**
+- `__vibec-ANALYSIS__component_structure.md` - Analysis documents
+- `__vibec-DRAFT__refactor_approach.md` - Draft documents
+- `__vibec-SCRIPT__temporary_validation.sh` - Temporary scripts
+- `__vibec-DEBUG__error_analysis.md` - Debugging files
+- `__vibec-PLAN__migration_strategy.md` - Planning documents
+- `__vibec-STATUS__current_progress.md` - Status tracking
+
+**Implementation Rules:**
+- **Implicit Creation**: AI creates temporary files with `__vibec-` prefix during workflow sessions
+- **Explicit Creation**: Operator creates temporary files with `__vibec-` prefix during workflow sessions
+- **Contextual Storage**: Store files where contextually relevant to the work being done
+- **Discovery**: Use `find . -name "__vibec-*"` to locate all temporary workflow files
+- **Cleanup**: Temporary files should be cleaned up after workflow sessions (Pair responsibility)
 
 #### **Examples**
 ```
@@ -445,6 +476,18 @@ pip install pytest-benchmark
 
 # Security scanning
 pip install bandit safety
+```
+
+### **Temporary File Discovery**
+```bash
+# Find all temporary VIBE_CODING files
+find . -name "__vibec-*"
+
+# Find specific types of temporary files
+find . -name "__vibec-ANALYSIS__*"
+find . -name "__vibec-PLAN__*"
+find . -name "__vibec-STATUS__*"
+find . -name "__vibec-DEBUG__*"
 ```
 
 ## AI Integration with Existing Workflows
