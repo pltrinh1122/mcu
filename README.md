@@ -1,34 +1,38 @@
-# AIAI Memory Context Units (MCU)
+# Memory Context Units (MCU)
 
 ## Overview
 
-This directory contains the Memory Context Units (MCUs) for the AIAI project, organized according to the CMI (Contextual Memory Intelligence) principles for optimized Operator-AI collaboration.
+This repository contains the Memory Context Units (MCUs), a standalone component implementing Contextual Memory Intelligence (CMI) principles for optimized Operator-AI collaboration. Originally part of the AIAI project, this component has been extracted to provide focused MCU specifications and templates.
 
 ## Directory Structure
 
 ```
-mcu/
 ├── docs/                        # Base MCU specification and documentation
 │   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
 │   └── README.md                # MCU documentation overview
 ├── reference/                    # Reference MCUs for information transfer
 │   ├── MCU_REFERENCE_SPECIFICATION.md
-│   └── MCU_REFERENCE_TEMPLATE.md
+│   ├── MCU_REFERENCE_TEMPLATE.md
+│   └── README.md
 ├── instruction/                  # Instruction MCUs for behavioral guidance
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
-│   ├── MCU_INSTRUCTION_TEMPLATE.md   # Base template for all instructions
+│   ├── MCU_INSTRUCTION_TEMPLATE.md
+│   ├── README.md
 │   └── instruction-agent/        # AI-Agent specific instructions
 │       ├── MCU_INSTRUCTION-AGENT_SPECIFICATION.md
 │       ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
+│       ├── README.md
 │       └── vibecoding/          # VIBE_CODING specific instructions
-│           └── MCU_VIBE_CODING_RESTRUCTURE_PLAN.md
+│           ├── MCU_VIBE_CODING_SPECIFICATION.md
+│           └── README.md
 └── tests/                       # Test files and review documents
     ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
-    ├── review_of_REFERENCE_SPECIFICATON.md
+    ├── MCU_VIBE_CODING_FAQ.md
     ├── review_2_of_REFERENCE_SPECIFICATON.md
-    ├── review_of_VIBE_CODING.md
     ├── review_2_of_VIBE_CODING.md
-    └── MCU_VIBE_CODING_FAQ.md
+    ├── review_of_REFERENCE_SPECIFICATON.md
+    ├── review_of_VIBE_CODING.md
+    └── README.md
 ```
 
 ## MCU Types
@@ -76,14 +80,36 @@ mcu/
 - **AI-Agent Autonomous**: Routine implementation, minor adjustments, performance optimization
 - **Operator Required**: Major changes, policy updates, conflict resolution, strategic direction
 
+## Quick Start
+
+### **Installation**
+```bash
+git clone https://github.com/your-username/mcu.git
+cd mcu
+```
+
+### **Usage**
+1. **Review Specifications**: Start with `docs/MCU_SPECIFICATION.md`
+2. **Choose Template**: Select appropriate template for your MCU type
+3. **Create MCU**: Follow the template structure and requirements
+4. **Validate**: Ensure compliance with specifications
+
 ## Related Documents
 
 - **docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
-- **VIBE_CODING.md**: Main workflow instruction (to be restructured as Instruction:Agent MCU)
-- **Component VIBE_CODING.md files**: Component-specific workflow overrides
-- **Project Documentation**: Integration with overall AIAI project structure
-- **Test Files**: FAQ and review documents in `tests/` directory
+- **reference/MCU_REFERENCE_TEMPLATE.md**: Template for reference MCUs
+- **instruction/MCU_INSTRUCTION_TEMPLATE.md**: Template for instruction MCUs
+- **instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md**: Template for AI-Agent instructions
+- **tests/**: FAQ and review documents
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-*This structure implements CMI Context Memory Unit principles for optimized Operator-AI collaboration within the AIAI project ecosystem.*
+*This repository implements CMI Context Memory Unit principles for optimized Operator-AI collaboration.*
