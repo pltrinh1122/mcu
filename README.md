@@ -15,6 +15,7 @@ mcu/
 │   ├── REFERENCE_SPECIFICATION.md
 │   └── REFERENCE_TEMPLATE.md
 ├── instruction/                  # Instruction MCUs for behavioral guidance
+│   ├── INSTRUCTION_SPECIFICATION.md
 │   ├── INSTRUCTION_TEMPLATE.md   # Base template for all instructions
 │   └── instruction-agent/        # AI-Agent specific instructions
 │       ├── INSTRUCTION-AGENT_SPECIFICATION.md

@@ -62,7 +62,7 @@ governance: role-separated
 - **Cross-Reference Integration**: Placeholder for future implementation
 
 #### **What This Specification Does NOT Cover**
-- **Operator Instructions**: Instructions for human operators
+- **Operator Instructions**: Instructions for human operators (covered by INSTRUCTION_SPECIFICATION.md)
 - **Reference Documentation**: Information transfer without actions
 - **Integration Instructions**: Cross-component relationship guidance
 - **Troubleshooting Instructions**: Problem-solving specific guidance
@@ -278,7 +278,8 @@ explicit_verification:
 **TBD - Cross-reference mechanism to be implemented as we learn optimal integration patterns**
 
 ### **Related Specifications**
-- **[REFERENCE_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
+- **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
+- **[INSTRUCTION_SPECIFICATION.md]**: [LINK] - Base instruction specification
 - **[INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
 - **[INSTRUCTION-AGENT_TEMPLATE.md]**: [LINK] - Specific template for AI-Agent instructions
 
