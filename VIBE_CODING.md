@@ -358,6 +358,7 @@ markdownlint filename.md --disable MD013
 - **Error Pattern Recognition**: Recognize common errors and suggest fixes
 - **Context Gathering**: Search codebase for relevant examples and references
 - **Quality Checks**: Apply project-specific quality standards automatically
+- **Plan Generation**: Create comprehensive `__vibec-PLAN__*.md` documents for review
 
 #### **Actions Requiring Operator Decision:**
 
@@ -463,6 +464,19 @@ When the Operator requests implementation of VIBE_CODING instructions:
 4. **Include file type** in the prefix (ANALYSIS, DRAFT, SCRIPT, DEBUG, PLAN, STATUS)
 5. **Report creation** to Operator when creating temporary files
 6. **Clean up** temporary files after workflow sessions
+
+### **When Developing Plans**
+
+1. **Generate `__vibec-PLAN__*.md` documents** for Operator review before execution
+2. **Include comprehensive analysis** of current state, requirements, and constraints
+3. **Provide detailed implementation steps** with clear milestones and timelines
+4. **Include risk assessment** and mitigation strategies
+5. **Specify success criteria** and validation requirements
+6. **Wait for Operator approval** before proceeding with execution
+7. **Follow VIBE_CODING standards** in plan documentation (professional tone, no emojis)
+8. **Include component-specific requirements** when applicable
+9. **Provide rollback strategies** for complex changes
+10. **Document resource requirements** and dependencies
 
 ### **File Naming Conventions**
 
