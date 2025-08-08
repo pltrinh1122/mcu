@@ -178,12 +178,12 @@ explicit_verification:
 
 ### **Related Instructions**
 - **[INSTRUCTION-AGENT_SPECIFICATION.md]**: [LINK] - Base specification for AI-Agent instructions
-- **[INSTRUCTION-AGENT_TEMPLATE.md]**: [LINK] - Template for AI-Agent instructions
+- **[MCU_INSTRUCTION-AGENT_TEMPLATE.md]**: [LINK] - Template for AI-Agent instructions
 - **[Component VIBE_CODING.md files]**: [LINK] - Component-specific workflow overrides
 
 ### **Related References**
-- **[REFERENCE_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
-- **[REFERENCE_TEMPLATE.md]**: [LINK] - Reference document template
+- **[MCU_REFERENCE_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
+- **[MCU_REFERENCE_TEMPLATE.md]**: [LINK] - Reference document template
 - **[Tool Documentation]**: [LINK] - Documentation for validation and testing tools
 
 ### **Related Integrations**
@@ -208,20 +208,20 @@ explicit_verification:
 ```
 AIAI/MCU/
   ├── REFERENCE/
-  │   ├── REFERENCE_SPECIFICATION.md
-  │   └── REFERENCE_TEMPLATE.md
+  │   ├── MCU_REFERENCE_SPECIFICATION.md
+  │   └── MCU_REFERENCE_TEMPLATE.md
   └── INSTRUCTION/
-      ├── INSTRUCTION_TEMPLATE.md
+      ├── MCU_INSTRUCTION_TEMPLATE.md
       └── INSTRUCTION-AGENT/
           ├── INSTRUCTION-AGENT_SPECIFICATION.md
-          ├── INSTRUCTION-AGENT_TEMPLATE.md
+          ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
           └── VIBE_CODING.md (this document)
 ```
 
 ### **Integration Points**
-- **Inherits from**: INSTRUCTION-AGENT_TEMPLATE.md
+- **Inherits from**: MCU_INSTRUCTION-AGENT_TEMPLATE.md
 - **Implements**: INSTRUCTION-AGENT_SPECIFICATION.md
-- **References**: REFERENCE_SPECIFICATION.md for MCU principles
+- **References**: MCU_REFERENCE_SPECIFICATION.md for MCU principles
 - **Governs**: Component-specific VIBE_CODING.md files
 ```
 
@@ -231,7 +231,7 @@ AIAI/MCU/
 
 ### **Phase 1: Structure Alignment**
 1. **Add MCU Metadata**: Insert Context Memory Unit header with proper metadata
-2. **Reorganize Sections**: Follow INSTRUCTION-AGENT_TEMPLATE.md structure
+2. **Reorganize Sections**: Follow MCU_INSTRUCTION-AGENT_TEMPLATE.md structure
 3. **Add Executive Summary**: Create 2-3 sentence overview with key points
 4. **Add Quick Reference**: Essential AI-Agent instructions and requirements
 
@@ -267,7 +267,7 @@ AIAI/MCU/
 1. **Implicit Verification**: AI-Agent validates understanding and compliance automatically
 2. **Explicit Verification**: Operator prompts "Review VIBE_CODING document. Validate understanding and compliance."
 3. **Compliance Check**: Ensure all sections align with INSTRUCTION-AGENT_SPECIFICATION.md
-4. **Template Compliance**: Verify structure follows INSTRUCTION-AGENT_TEMPLATE.md
+4. **Template Compliance**: Verify structure follows MCU_INSTRUCTION-AGENT_TEMPLATE.md
 
 ### **Success Criteria**
 - **MCU Structure**: All required metadata fields present and accurate

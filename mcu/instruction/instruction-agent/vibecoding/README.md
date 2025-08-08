@@ -41,7 +41,7 @@ VIBE_CODING Instruction:Agent MCUs serve as AI-Agent specific guidance for the V
 ## Usage
 
 ### **Creating VIBE_CODING Instruction:Agent MCUs**
-1. **Use Template**: Copy `../INSTRUCTION-AGENT_TEMPLATE.md`
+1. **Use Template**: Copy `../MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 2. **Follow Specification**: Implement requirements from `../INSTRUCTION-AGENT_SPECIFICATION.md`
 3. **Add VIBE_CODING Content**: Fill in all sections with VIBE_CODING specific guidance
 4. **Implement Verification**: Include VIBE_CODING dual verification process

@@ -12,23 +12,23 @@ mcu/
 │   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
 │   └── README.md                # MCU documentation overview
 ├── reference/                    # Reference MCUs for information transfer
-│   ├── REFERENCE_SPECIFICATION.md
-│   └── REFERENCE_TEMPLATE.md
+│   ├── MCU_REFERENCE_SPECIFICATION.md
+│   └── MCU_REFERENCE_TEMPLATE.md
 ├── instruction/                  # Instruction MCUs for behavioral guidance
-│   ├── INSTRUCTION_SPECIFICATION.md
-│   ├── INSTRUCTION_TEMPLATE.md   # Base template for all instructions
+│   ├── MCU_INSTRUCTION_SPECIFICATION.md
+│   ├── MCU_INSTRUCTION_TEMPLATE.md   # Base template for all instructions
 │   └── instruction-agent/        # AI-Agent specific instructions
-│       ├── INSTRUCTION-AGENT_SPECIFICATION.md
-│       ├── INSTRUCTION-AGENT_TEMPLATE.md
+│       ├── MCU_INSTRUCTION-AGENT_SPECIFICATION.md
+│       ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
 │       └── vibecoding/          # VIBE_CODING specific instructions
-│           └── VIBE_CODING_RESTRUCTURE_PLAN.md
+│           └── MCU_VIBE_CODING_RESTRUCTURE_PLAN.md
 └── tests/                       # Test files and review documents
-    ├── REFERENCE_SPECIFICATION_FAQ.md
+    ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
     ├── review_of_REFERENCE_SPECIFICATON.md
     ├── review_2_of_REFERENCE_SPECIFICATON.md
     ├── review_of_VIBE_CODING.md
     ├── review_2_of_VIBE_CODING.md
-    └── VIBE_CODING_FAQ.md
+    └── MCU_VIBE_CODING_FAQ.md
 ```
 
 ## MCU Types
@@ -55,9 +55,9 @@ mcu/
 
 ### **Creating New MCUs**
 1. **Base Specification**: Inherit from `docs/MCU_SPECIFICATION.md`
-2. **Reference MCUs**: Use `reference/REFERENCE_TEMPLATE.md`
-3. **Instruction MCUs**: Use `instruction/INSTRUCTION_TEMPLATE.md`
-4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md`
+2. **Reference MCUs**: Use `reference/MCU_REFERENCE_TEMPLATE.md`
+3. **Instruction MCUs**: Use `instruction/MCU_INSTRUCTION_TEMPLATE.md`
+4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 
 ### **Quality Standards**

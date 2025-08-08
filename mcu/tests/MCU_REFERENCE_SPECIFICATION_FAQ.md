@@ -247,7 +247,7 @@ This document contains frequently asked questions (FAQ) related to the Reference
 ### **9. Governance, Privacy, and Compliance**
 
 #### **Q: What criteria distinguish a "significant change" requiring operator approval from routine AI updates?**
-**A**: **RESOLVED** - For Instruction:Agent MCUs, the governance model is codified in INSTRUCTION-AGENT_SPECIFICATION.md, INSTRUCTION-AGENT_TEMPLATE.md, and VIBE_CODING.md. The AI-Agent has implicit responsibility to validate understanding and compliance, while the Operator has explicit responsibility to prompt for verification.
+**A**: **RESOLVED** - For Instruction:Agent MCUs, the governance model is codified in INSTRUCTION-AGENT_SPECIFICATION.md, MCU_INSTRUCTION-AGENT_TEMPLATE.md, and VIBE_CODING.md. The AI-Agent has implicit responsibility to validate understanding and compliance, while the Operator has explicit responsibility to prompt for verification.
 
 #### **Q: How is operator workload calibrated to handle review responsibilities at scale?**
 **A**: **RESOLVED** - The governance model is structured with clear role separation: AI-Agent handles routine execution and implicit validation, while Operator handles explicit verification and significant change approval. This balances autonomy with oversight.
@@ -476,6 +476,6 @@ The following questions need your input to provide accurate answers:
 
 ## Related Documents
 
-- **REFERENCE_SPECIFICATION.md** - Main specification document
-- **REFERENCE_TEMPLATE.md** - Template for creating reference documents
+- **MCU_REFERENCE_SPECIFICATION.md** - Main specification document
+- **MCU_REFERENCE_TEMPLATE.md** - Template for creating reference documents
 - **REFERENCE_VERIFICATION_STRATEGY.md** - Strategy for ensuring accuracy and quality
