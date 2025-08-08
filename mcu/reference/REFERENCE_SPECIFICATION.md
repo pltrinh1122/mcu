@@ -162,59 +162,41 @@ api_reference:
 
 ## Quality Standards
 
-### **Information Standards**
+### **Reference-Specific Quality Standards**
 
-#### **Standard 1: Information Accuracy**
-**Metric**: >95% verified information
-**Measurement**: All content verified against authoritative sources
-**Improvement**: Regular verification and source attribution
+Reference MCUs extend the base quality standards with specialized metrics for information transfer and knowledge sharing:
 
-#### **Standard 2: Content Completeness**
-**Metric**: >90% comprehensive coverage
-**Measurement**: All essential topics covered with appropriate detail
-**Improvement**: Regular content audits and gap analysis
-
-#### **Standard 3: Usability**
-**Metric**: >90% immediate applicability
-**Measurement**: Content provides clear, actionable information
-**Improvement**: Regular usability testing and feedback
-
-#### **Standard 4: Integration Success**
-**Metric**: >95% cross-reference accuracy
-**Measurement**: Verify cross-references between related MCUs are accurate and current
-**Improvement**: Implement automated cross-reference validation
-
-### **Effectiveness Standards**
-
-#### **Standard 5: Information Retrieval**
+#### **Standard 1: Information Retrieval**
 **Metric**: <30 seconds for information location
 **Measurement**: Time from query to relevant information access
 **Improvement**: Optimize information organization and search
 
-#### **Standard 6: Comprehension Time**
+#### **Standard 2: Comprehension Time**
 **Metric**: <5 minutes for information comprehension
 **Measurement**: Time from access to understanding
 **Improvement**: Enhance information structure and clarity
 
-#### **Standard 7: Application Success**
+#### **Standard 3: Application Success**
 **Metric**: >90% successful information application
 **Measurement**: Successful use of information in real scenarios
 **Improvement**: Enhance practical examples and guidance
 
-### **Quality Improvement Process**
 
-#### **Iterative Refinement**
-1. **Collect Metrics**: Gather information accuracy and usability data
-2. **Analyze Patterns**: Identify common issues and success factors
-3. **Refine Standards**: Update quality standards based on findings
-4. **Implement Changes**: Apply improvements to reference design and validation
-5. **Validate Results**: Measure impact of changes on quality metrics
 
-#### **Feedback Integration**
+### **Reference-Specific Quality Improvement Process**
+
+Reference MCUs extend the base quality improvement process with specialized metrics and feedback:
+
+#### **Reference-Specific Metrics Collection**
+- **Information Retrieval Data**: Track time to locate information
+- **Comprehension Data**: Measure time to understand information
+- **Application Data**: Track successful use of information in real scenarios
+
+#### **Reference-Specific Feedback Sources**
 - **User Feedback**: Incorporate user observations and suggestions
 - **Accuracy Feedback**: Include verification and validation data
-- **Project Impact**: Measure reference effectiveness on project outcomes
-- **Continuous Learning**: Adapt standards based on evolving information needs
+- **Information Usage Data**: Track how information is consumed and applied
+- **Knowledge Gap Analysis**: Identify missing or unclear information
 
 ---
 
@@ -264,7 +246,12 @@ information_validation:
 
 ## Cross-Reference Integration
 
-**TBD - Cross-reference mechanism to be implemented as we learn optimal integration patterns**
+Reference MCUs extend the base cross-reference foundation with specialized integration patterns:
+
+### **Reference-Specific Cross-Reference Requirements**
+- **Information Linking**: Connect related reference information across MCUs
+- **Knowledge Mapping**: Map relationships between different knowledge domains
+- **Dependency Tracking**: Track information dependencies and prerequisites
 
 ### **Related Specifications**
 - **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs

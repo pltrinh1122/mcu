@@ -62,7 +62,7 @@ governance: role-separated
 - **Cross-Reference Integration**: Placeholder for future implementation
 
 #### **What This Specification Does NOT Cover**
-- **Operator Instructions**: Instructions for human operators (covered by INSTRUCTION_SPECIFICATION.md)
+- **Operator Instructions**: Instructions for human operators or both operator and agent (covered by INSTRUCTION_SPECIFICATION.md)
 - **Reference Documentation**: Information transfer without actions
 - **Integration Instructions**: Cross-component relationship guidance
 - **Troubleshooting Instructions**: Problem-solving specific guidance
