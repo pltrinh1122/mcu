@@ -379,6 +379,7 @@ markdownlint filename.md --disable MD013
 - **Commit Message Approval**: Override or approve AI-generated commit messages
 - **Priority and Precedence**: Guide which requirements take priority when there are conflicts
 - **Temporary File Cleanup**: Approve or reject cleanup of completed PLAN and STATUS files
+- **Cleanup Assessment**: Review AI's assessment of file completion status and cleanup rationale
 
 #### **Oversight and Guidance:**
 
@@ -417,6 +418,7 @@ markdownlint filename.md --disable MD013
 - **Explicit Architecture Decisions**: When Operator requests architectural recommendations
 - **Explicit Integration Planning**: When Operator requests integration strategy recommendations
 - **Explicit File Cleanup**: When AI proposes cleanup of completed temporary files
+- **Cleanup Assessment**: When AI proactively identifies files ready for cleanup
 
 #### **Decision Points:**
 
@@ -482,6 +484,29 @@ When the Operator requests implementation of VIBE_CODING instructions:
 5. **Report creation** to Operator when creating temporary files
 6. **Clean up** temporary files after workflow sessions
 7. **Prompt for Operator approval** before cleaning up completed PLAN and STATUS files
+
+### **When Suggesting Temporary File Cleanup**
+
+#### **AI Agent Should Suggest Cleanup When:**
+- **Workflow Complete**: All phases of a PLAN have been executed and objectives achieved
+- **Status Finalized**: STATUS file documents completed work that is no longer needed for ongoing operations
+- **Superseded Documents**: Newer versions or approaches have replaced older planning documents
+- **Temporary Analysis Complete**: Analysis files are complete and no longer relevant to current work
+- **Integration Complete**: Functionality has been integrated into main codebase and planning docs are obsolete
+
+#### **AI Agent Should NOT Suggest Cleanup When:**
+- **Active Workflows**: PLAN is still being executed or has pending phases
+- **Current Status Reports**: STATUS files document ongoing work or serve as reference
+- **Ongoing Analysis**: Analysis files are still relevant to current work
+- **Reference Documents**: Files serve as documentation or historical reference
+- **Incomplete Work**: Any work described in the file is still in progress
+
+#### **Cleanup Assessment Process:**
+1. **Verify Completion**: Confirm all objectives in the file have been achieved
+2. **Check Dependencies**: Ensure no ongoing work depends on the file
+3. **Assess Value**: Determine if the file serves any current or future purpose
+4. **Explain Rationale**: Clearly state why cleanup is appropriate
+5. **Request Approval**: Explicitly ask for Operator approval before proceeding
 
 ### **When Developing Plans**
 
@@ -555,6 +580,8 @@ __vibec-[TYPE]-[DESCRIPTION]__
 - **Discovery**: Use `find . -name "__vibec-*"` to locate all temporary workflow files
 - **Cleanup**: Temporary files should be cleaned up after workflow sessions (Pair responsibility)
 - **Approval Required**: AI must prompt Operator for approval before cleaning up completed PLAN and STATUS files
+- **Proactive Assessment**: AI should proactively assess and suggest cleanup when appropriate
+- **Completion Verification**: AI must verify work completion before suggesting cleanup
 
 #### **Examples**
 
