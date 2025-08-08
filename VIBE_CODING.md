@@ -363,11 +363,11 @@ markdownlint filename.md --disable MD013
 
 #### **Actions Requiring Operator Decision:**
 
-- **Tool Unavailability**: When validation tools are missing, provide recommendations and hand decision to Operator
-- **Conflicting Instructions**: When global and component-specific requirements conflict, ask Operator to resolve
+- **Tool Unavailability**: When validation tools are missing, provide recommendations and ask Operator to confirm next action
+- **Conflicting Instructions**: When global and component-specific requirements conflict, list all conflicts and ask Operator to prioritize
 - **Explicit Validation Failures**: When validation fails during explicit testing, provide analysis and ask Operator for guidance
-- **Commit Message Approval**: Allow Operator to override or approve commit messages
-- **Temporary File Cleanup**: Prompt Operator for approval before cleaning up completed PLAN and STATUS files
+- **Commit Message Approval**: Ask Operator to provide exact message when override is needed
+- **Temporary File Cleanup**: Proactively suggest cleanup when work is complete and ask Operator for confirmation
 
 ### **Operator Responsibilities Details**
 
@@ -396,9 +396,9 @@ markdownlint filename.md --disable MD013
 
 - **Implicit Creation**: Generate files based on established patterns and templates
 - **Implicit Validation**: Run validation tools and fix syntax errors automatically
-- **Implicit Testing**: Test specific files/components that were modified
+- **Implicit Testing**: Always run implicit tests automatically (default behavior) for specific files/components that were modified
 - **Implicit Documentation**: Update documentation for files that were created or modified
-- **Implicit Component Discovery**: Seek and read component-level VIBE_CODING.md files
+- **Implicit Component Discovery**: Seek and read component-level VIBE_CODING.md files by searching from working directory back to root
 - **Implicit Code Analysis**: Analyze existing codebase patterns and conventions
 - **Implicit Dependency Detection**: Identify and report missing dependencies or tools
 - **Implicit Error Pattern Recognition**: Recognize common error patterns and suggest fixes
@@ -409,7 +409,7 @@ markdownlint filename.md --disable MD013
 
 - **Explicit Creation**: When Operator specifically requests creation of particular files
 - **Explicit Validation**: When validation fails during explicit testing or when tools are unavailable
-- **Explicit Testing**: When Operator makes specific test requests
+- **Explicit Testing**: When Operator makes specific test requests (ask for clarification when requests are too broad)
 - **Explicit Documentation**: When Operator requests specific documentation changes
 - **Explicit Component Requirements**: When Operator provides specific component requirements
 - **Explicit Code Reviews**: When Operator requests specific code review or analysis
@@ -419,6 +419,7 @@ markdownlint filename.md --disable MD013
 - **Explicit Integration Planning**: When Operator requests integration strategy recommendations
 - **Explicit File Cleanup**: When AI proposes cleanup of completed temporary files
 - **Cleanup Assessment**: When AI proactively identifies files ready for cleanup
+- **Related Areas Scope**: Infer "related areas" scope and ask Operator for confirmation
 
 #### **Decision Points:**
 
@@ -507,6 +508,7 @@ When the Operator requests implementation of VIBE_CODING instructions:
 3. **Assess Value**: Determine if the file serves any current or future purpose
 4. **Explain Rationale**: Clearly state why cleanup is appropriate
 5. **Request Approval**: Explicitly ask for Operator approval before proceeding
+6. **Proactive Assessment**: Proactively suggest cleanup when work is complete
 
 ### **When Developing Plans**
 
@@ -643,10 +645,11 @@ Individual components can override these defaults by including a `VIBE_CODING.md
 
 **AI Behavior:**
 
-- **Actively seek** component-level VIBE_CODING.md files in relevant directories
+- **Actively seek** component-level VIBE_CODING.md files by searching from working directory back to root
 - **Read and incorporate** component-specific requirements before starting work
 - **Combine** global and component-specific requirements
-- **Ask Operator** to resolve conflicting instructions
+- **List all conflicts** found between global and component-specific requirements
+- **Ask Operator** to prioritize and resolve conflicting instructions
 - **Follow** Operator's guidance on priority and precedence
 - **Report** which component-specific files were found and incorporated
 
@@ -697,7 +700,8 @@ Individual components can override these defaults by including a `VIBE_CODING.md
 1. **Report missing tools** clearly
 2. **Provide installation instructions**
 3. **Provide recommendations** for alternative approaches
-4. **Hand decision to Operator** with clear options
+4. **Ask Operator to confirm next action** (install tools or proceed without)
+5. **Never proceed with broken validation**
 
 ## AI Success Metrics
 
