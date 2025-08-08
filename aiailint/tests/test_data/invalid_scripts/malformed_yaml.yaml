@@ -1,9 +1,0 @@
-metadata:
-  name: "malformed-test-script"
-  version: "1.0.0"
-  description: "Test script with malformed YAML
-  # Missing closing quote and improper indentation
-steps:
-  - name: "malformed-step"
-    command: "echo 'This has malformed YAML syntax'"
-    # Missing closing bracket

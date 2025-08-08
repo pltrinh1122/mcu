@@ -1,165 +1,89 @@
-# Ubuntu-BTRFS AIAI Package (Development Version)
+# AIAI Memory Context Units (MCU)
 
 ## Overview
 
-The Ubuntu-BTRFS AIAI Package provides a complete, self-contained installation solution for Ubuntu 24.04 LTS with a three-partition BTRFS strategy optimized for AI/ML development workstations. This package implements the AIAI (AI Augmented Installation) framework, enabling AI-augmented installation execution with human operator oversight.
+This directory contains the Memory Context Units (MCUs) for the AIAI project, organized according to the CMI (Contextual Memory Intelligence) principles for optimized Operator-AI collaboration.
 
-**Development Version Note**: This is the development version of the package. The specification files (`aiai_spec.md` and `aiai_schema.json`) are now actual files in the framework. For distribution versions, these will be included as actual files to ensure package independence.
-
-## AIAI Package Structure
+## Directory Structure
 
 ```
-ubuntu-btrfs-aiai/
-├── MANIFEST                       # Package manifest file (required)
-├── docs/
-│   └── OPERATOR_GUIDE.md          # Main operator documentation
-├── src/
-│   └── aiaiScript/
-│       ├── btrfs_system_validation_aiaiscript.yaml
-│       ├── btrfs_root_aiaiScript.yaml
-│       ├── btrfs_system_subvolume_creation_aiaiScript.yaml
-│       ├── btrfs_mount_configuration_aiaiScript.yaml
-│       ├── btrfs_boot_configuration_aiaiScript.yaml
-│       ├── btrfs_ml_aiaiScript.yaml
-│       ├── btrfs_data_aiaiScript.yaml
-│       ├── btrfs_data_migration_aiaiScript.yaml
-│       ├── btrfs_pre_reboot_validation_aiaiScript.yaml
-│       ├── btrfs_post_installation_validation_aiaiScript.yaml
-│       └── docker_aiScript.yaml
-├── aiai_spec.md                   # AIAI Specification (this document)
-├── aiai_schema.json               # Machine-readable schema definition
-└── README.md                      # Package overview and quick start
+mcu/
+├── docs/                        # Base MCU specification and documentation
+│   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
+│   └── README.md                # MCU documentation overview
+├── reference/                    # Reference MCUs for information transfer
+│   ├── MCU_REFERENCE_SPECIFICATION.md
+│   └── MCU_REFERENCE_TEMPLATE.md
+├── instruction/                  # Instruction MCUs for behavioral guidance
+│   ├── MCU_INSTRUCTION_SPECIFICATION.md
+│   ├── MCU_INSTRUCTION_TEMPLATE.md   # Base template for all instructions
+│   └── instruction-agent/        # AI-Agent specific instructions
+│       ├── MCU_INSTRUCTION-AGENT_SPECIFICATION.md
+│       ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
+│       └── vibecoding/          # VIBE_CODING specific instructions
+│           └── MCU_VIBE_CODING_RESTRUCTURE_PLAN.md
+└── tests/                       # Test files and review documents
+    ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
+    ├── review_of_REFERENCE_SPECIFICATON.md
+    ├── review_2_of_REFERENCE_SPECIFICATON.md
+    ├── review_of_VIBE_CODING.md
+    ├── review_2_of_VIBE_CODING.md
+    └── MCU_VIBE_CODING_FAQ.md
 ```
 
-## Key Features
+## MCU Types
 
-- **Complete AIAI Package**: Self-contained installation solution with all required components
-- **Three-Partition Strategy**: System, ML, and Data partitions for optimal organization
-- **BTRFS Optimization**: Copy-on-write filesystem with snapshots and compression
-- **AI/ML Focus**: Optimized for machine learning workloads and GPU acceleration
-- **Human-AI Partnership**: AI guidance with human control over critical decisions
-- **Comprehensive Validation**: Pre and post-installation verification procedures
-- **Error Recovery**: Built-in rollback mechanisms and troubleshooting procedures
+### **Reference MCUs**
+- **Purpose**: Information transfer and knowledge sharing
+- **Audience**: Both Operators and AI-Agents
+- **Content**: Comprehensive documentation, examples, troubleshooting
+- **Focus**: Knowledge preservation and transfer
 
-## Installation Process
+### **Instruction MCUs**
+- **Purpose**: Behavioral guidance and workflow instructions
+- **Audience**: Primarily AI-Agents (with Operator oversight)
+- **Content**: Actionable instructions, compliance requirements
+- **Focus**: Execution and compliance
 
-### AIAI Package Execution
+#### **Instruction:Agent MCUs**
+- **Purpose**: AI-Agent specific behavioral guidance
+- **Audience**: AI-Agent (primary), Operator (secondary)
+- **Content**: Dual verification, role-separated governance
+- **Focus**: AI-Agent execution with Operator oversight
 
-1. **Package Validation**: AI Agent validates package structure using MANIFEST
-2. **System Validation**: Hardware and environment prerequisite checks
-3. **Storage Partitioning**: Three-partition BTRFS strategy implementation
-4. **System Subvolume Setup**: BTRFS subvolume creation and configuration
-5. **ML Environment Setup**: AI/ML development environment configuration
-6. **Data Partition Setup**: Large dataset storage configuration
-7. **Boot Configuration**: GRUB setup and system boot verification
-8. **Post-Installation Validation**: Complete system verification and testing
+## Usage
 
-### Execution Command
+### **Creating New MCUs**
+1. **Base Specification**: Inherit from `docs/MCU_SPECIFICATION.md`
+2. **Reference MCUs**: Use `reference/MCU_REFERENCE_TEMPLATE.md`
+3. **Instruction MCUs**: Use `instruction/MCU_INSTRUCTION_TEMPLATE.md`
+4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
+5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 
-To execute this AIAI Package, provide the following prompt to your AI Agent:
+### **Quality Standards**
+- **Compliance**: All MCUs must follow their respective specifications
+- **Verification**: Dual verification process for Instruction:Agent MCUs
+- **Cross-Reference**: TBD - Cross-reference mechanism to be implemented
+- **Iteration**: Continuous improvement based on usage and feedback
 
-```
-Assume the role of the AI Agent and execute the installation package located at [PACKAGE_PATH]. Load the package, validate its structure, and execute the installation following the AIAI Specification. Execute shell commands directly with my permission and capture all console output (stdout and stderr) to ubuntu_btrfs_installation.txt in the current directory.
-```
+## Governance
 
-Replace `[PACKAGE_PATH]` with the filesystem path to the Ubuntu-BTRFS AIAI Package directory.
+### **Role Separation**
+- **AI-Agent**: Routine execution, implicit validation, performance monitoring
+- **Operator**: Explicit verification, significant change approval, quality assurance
 
-## System Requirements
+### **Decision Framework**
+- **AI-Agent Autonomous**: Routine implementation, minor adjustments, performance optimization
+- **Operator Required**: Major changes, policy updates, conflict resolution, strategic direction
 
-### Hardware Requirements
-- **Storage**: 2TB NVMe SSD (minimum 1.5TB)
-- **Memory**: 64GB RAM (minimum 32GB)
-- **GPU**: NVIDIA RTX 3070 or better (RTX 3080+ recommended)
-- **CPU**: 8+ cores recommended
-- **Network**: Internet connectivity for package downloads
+## Related Documents
 
-### Software Requirements
-- Ubuntu 24.04 LTS Live Boot USB
-- UEFI boot mode enabled
-- BTRFS kernel support
-- Internet connectivity during installation
-
-## Package Components
-
-### Core Components
-- **MANIFEST**: Package manifest listing all required files
-- **aiai_spec.md**: AIAI Specification defining runtime behavior
-- **aiai_schema.json**: Machine-readable schema for script validation
-- **docs/OPERATOR_GUIDE.md**: Comprehensive operator documentation
-
-### AIAI Scripts
-- **System Validation**: Pre-installation hardware and environment checks
-- **Storage Partitioning**: Three-partition BTRFS strategy implementation
-- **BTRFS Configuration**: Subvolume creation and mount configuration
-- **Boot Setup**: GRUB configuration and system boot verification
-- **ML Environment**: AI/ML development environment setup
-- **Data Migration**: Dataset organization and storage configuration
-- **Validation Scripts**: Pre and post-installation verification
-
-## Development vs Distribution Workflow
-
-### Development Version (Current)
-- **Actual Files**: `aiai_spec.md` and `aiai_schema.json` are actual files in the framework
-- **Purpose**: Enables rapid development and testing with centralized specification management
-- **Benefits**: Direct access to specification files with version control
-- **Usage**: Ideal for development, testing, and iterative improvement
-
-### Distribution Version (Future)
-- **Actual Files**: `aiai_spec.md` and `aiai_schema.json` are actual files, not soft links
-- **Purpose**: Self-contained package for distribution and deployment
-- **Benefits**: Package independence, version control, and deployment reliability
-- **Usage**: Production deployments, distribution to end users, and version-specific installations
-
-### Conversion Process
-When ready for distribution, the files are already actual files:
-
-**Current Status:**
-```bash
-# Files are already actual files in framework/docs/
-ls framework/docs/aiai_spec.md framework/docs/aiai_schema.json
-```
-
-**Automated Process:**
-```bash
-# Use the provided conversion script
-./scripts/prepare_distribution.sh
-```
-
-## Package Validation
-
-The AI Agent automatically validates the package structure before beginning installation:
-
-- **MANIFEST file** must exist and list all components
-- **All required files** must be present in the package
-- **AIAI Scripts** must validate against the schema
-- **Cross-references** must be resolvable within the package
-
-If any validation fails, the installation will abort and the AI Agent will inform you of the issue.
-
-## Documentation
-
-- **docs/OPERATOR_GUIDE.md**: Complete operator guide with detailed procedures
-- **aiai_spec.md**: AIAI Specification for runtime behavior
-- **aiai_schema.json**: Machine-readable schema definition
-
-## Version History
-
-- **v1.0** - Initial AIAI Package release with complete self-contained installation solution
-- **v6.x** - AIAI Package approach with comprehensive AI/ML optimization
-- **v5.x** - aiaiScript schema and validation framework
-- **v4.x** - Enhanced BTRFS subvolume management
-- **v3.x** - Improved validation and error handling
-- **v2.x** - Basic BTRFS setup and configuration
-
-## Dependencies
-
-- Ubuntu 24.04 LTS Live USB
-- UEFI boot mode
-- Minimum 32GB RAM (64GB recommended)
-- NVIDIA GPU (RTX 3070+ recommended for ML workloads)
-- Internet connection
-- AIAI-compatible runtime environment
+- **docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
+- **VIBE_CODING.md**: Main workflow instruction (to be restructured as Instruction:Agent MCU)
+- **Component VIBE_CODING.md files**: Component-specific workflow overrides
+- **Project Documentation**: Integration with overall AIAI project structure
+- **Test Files**: FAQ and review documents in `tests/` directory
 
 ---
 
-*This package implements the AIAI (AI Augmented Installation) framework for safe, guided installation execution with human operator oversight.* 
+*This structure implements CMI Context Memory Unit principles for optimized Operator-AI collaboration within the AIAI project ecosystem.*
