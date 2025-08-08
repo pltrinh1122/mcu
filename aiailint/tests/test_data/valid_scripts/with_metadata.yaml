@@ -1,0 +1,20 @@
+metadata:
+  name: "metadata-test-script"
+  version: "1.0.0"
+  description: "Test script with full metadata"
+  author: "Test Author"
+  created: "2024-01-01"
+  tags: ["test", "validation"]
+  license: "MIT"
+  repository: "https://github.com/test/repo"
+  documentation: "https://docs.test.com"
+steps:
+  - name: "metadata-step"
+    command: "echo 'Testing metadata'"
+    description: "Step to test metadata handling"
+    timeout: 30
+    retries: 3
+  - name: "validation-step"
+    command: "echo 'Validation complete'"
+    description: "Step to validate the process"
+    timeout: 60
