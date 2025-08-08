@@ -63,10 +63,10 @@ inheritance: base_specification
 - **Cross-Reference Foundation**: Foundation for future integration patterns
 
 #### **What This Specification Does NOT Cover**
-- **Specialized Requirements**: Specific requirements for REFERENCE, INSTRUCTION, or INSTRUCTION-AGENT MCUs
-- **Implementation Details**: Specific implementation patterns for each MCU type
-- **Verification Processes**: Specialized verification for specific MCU types
-- **Governance Models**: Role-specific governance for different MCU types
+- **Type-Specific Quality Standards**: Specialized quality metrics for specific MCU types
+- **Type-Specific Governance**: Role-specific governance for different MCU types
+- **Type-Specific Verification**: Specialized verification processes for specific MCU types
+- **Type-Specific Use Cases**: Specific examples and patterns for individual MCU types
 
 ### **Core Concepts**
 
@@ -134,19 +134,19 @@ aiai:
 
 #### **Common AIAI Use Cases**
 
-**Use Case 1: Base MCU Creation**
+**Use Case 1: Base MCU Framework**
 ```yaml
-# AIAI-specific base MCU
+# AIAI-specific base MCU framework
 base_mcu:
   inherit: MCU_SPECIFICATION.md
-  extend: specialized_requirements
+  extend: type_specific_requirements
   implement: quality_standards
   validate: compliance_check
 ```
 
-**Use Case 2: Cross-Reference Integration**
+**Use Case 2: Cross-Reference Foundation**
 ```yaml
-# AIAI-specific cross-reference
+# AIAI-specific cross-reference foundation
 cross_reference:
   foundation: base_specification
   implementation: future_development
@@ -158,8 +158,8 @@ cross_reference:
 
 #### **Pattern 1: Inheritance-Based Design**
 **When to apply**: Creating new MCU specifications
-**Implementation**: Inherit from base specification and extend with specialized requirements
-**Benefits**: Ensures consistency while allowing specialization
+**Implementation**: Inherit from base specification and extend with type-specific requirements
+**Benefits**: Ensures consistency while allowing type-specific specialization
 
 #### **Pattern 2: Progressive Disclosure Integration**
 **When to apply**: Structuring MCU content
@@ -246,9 +246,9 @@ cross_reference:
 - **Cross-Reference Foundation**: All MCUs must support cross-reference integration
 
 #### **Optional Extensions**
-- **Specialized Requirements**: MCU types can add specific requirements
-- **Enhanced Quality Standards**: MCU types can extend quality metrics
-- **Specialized Governance**: MCU types can implement specific governance models
+- **Type-Specific Requirements**: MCU types can add specific requirements
+- **Type-Specific Quality Standards**: MCU types can extend quality metrics
+- **Type-Specific Governance**: MCU types can implement specific governance models
 - **Type-Specific Verification**: MCU types can add specialized verification processes
 
 ### **Inheritance Hierarchy**
@@ -263,19 +263,19 @@ MCU_SPECIFICATION.md (Base)
 ### **Extension Points**
 
 #### **Metadata Extensions**
-- **Type-Specific Fields**: Additional metadata for specialized MCU types
+- **Type-Specific Fields**: Additional metadata for specific MCU types
 - **Enhanced Tags**: More detailed categorization and classification
 - **Version Tracking**: Specialized version management for different MCU types
 
 #### **Content Extensions**
-- **Specialized Sections**: Additional sections for specific MCU types
-- **Enhanced Examples**: Type-specific examples and patterns
-- **Specialized Integration**: Project-specific integration patterns
+- **Type-Specific Sections**: Additional sections for specific MCU types
+- **Type-Specific Examples**: Examples and patterns for specific MCU types
+- **Type-Specific Integration**: Project-specific integration patterns
 
 #### **Quality Extensions**
-- **Enhanced Metrics**: Additional quality metrics for specific MCU types
-- **Specialized Verification**: Type-specific verification processes
-- **Governance Models**: Role-specific governance for different MCU types
+- **Type-Specific Metrics**: Additional quality metrics for specific MCU types
+- **Type-Specific Verification**: Type-specific verification processes
+- **Type-Specific Governance**: Role-specific governance for different MCU types
 
 ---
 

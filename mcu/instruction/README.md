@@ -2,7 +2,13 @@
 
 ## Overview
 
-This directory contains Instruction Memory Context Units (MCUs) designed for behavioral guidance and workflow instructions, primarily for AI-Agent execution with Operator oversight.
+This directory contains Instruction Memory Context Units (MCUs) designed for behavioral guidance and workflow instructions. These MCUs provide structured guidance for human-AI collaboration and autonomous AI execution.
+
+## Structure
+
+- **INSTRUCTION_SPECIFICATION.md**: Base specification for all instruction MCUs (Operator-AI collaboration)
+- **INSTRUCTION_TEMPLATE.md**: Base template for all instruction MCUs
+- **instruction-agent/**: AI-Agent specific instruction MCUs (autonomous AI execution)
 
 ## Purpose
 
