@@ -43,7 +43,7 @@ governance: knowledge-management
 - **Integration Success**: >95% cross-reference accuracy
 
 ### **Immediate Actions**
-1. **Create**: Use REFERENCE_TEMPLATE.md
+1. **Create**: Use MCU_REFERENCE_TEMPLATE.md
 2. **Validate**: Implement information accuracy verification process
 3. **Govern**: Apply knowledge management governance model
 4. **Iterate**: Improve based on information quality metrics
@@ -255,12 +255,12 @@ Reference MCUs extend the base cross-reference foundation with specialized integ
 
 ### **Related Specifications**
 - **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
-- **[REFERENCE_TEMPLATE.md]**: [LINK] - Base template for all references
+- **[MCU_REFERENCE_TEMPLATE.md]**: [LINK] - Base template for all references
 - **[INSTRUCTION_SPECIFICATION.md]**: [LINK] - Instruction MCU specification
 
 ### **Related Documents**
 - **[VIBE_CODING.md]**: [LINK] - Main instruction framework
-- **[INSTRUCTION_TEMPLATE.md]**: [LINK] - Instruction document template
+- **[MCU_INSTRUCTION_TEMPLATE.md]**: [LINK] - Instruction document template
 - **[REFERENCE_SPECIFICATION_FAQ.md]**: [LINK] - Frequently asked questions
 
 ### **Related Integrations**
@@ -591,5 +591,5 @@ The result is documentation that serves as a true "context memory unit" - easily
 ## Related Documents
 
 - **REFERENCE_SPECIFICATION_FAQ.md** - Frequently asked questions about the specification
-- **REFERENCE_TEMPLATE.md** - Template for creating reference documents
+- **MCU_REFERENCE_TEMPLATE.md** - Template for creating reference documents
 - **REFERENCE_VERIFICATION_STRATEGY.md** - Strategy for ensuring accuracy and quality

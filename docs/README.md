@@ -40,7 +40,7 @@ The MCU documentation provides:
 
 ```
 MCU_SPECIFICATION.md (Base)
-├── REFERENCE_SPECIFICATION.md (Inherits + Extends)
+├── MCU_REFERENCE_SPECIFICATION.md (Inherits + Extends)
 ├── INSTRUCTION_SPECIFICATION.md (Inherits + Extends)
 └── INSTRUCTION-AGENT_SPECIFICATION.md (Inherits + Extends)
 ```

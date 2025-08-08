@@ -43,7 +43,7 @@ governance: role-separated
 - **Integration Success**: >95% cross-reference accuracy
 
 ### **Immediate Actions**
-1. **Create**: Use INSTRUCTION-AGENT_TEMPLATE.md
+1. **Create**: Use MCU_INSTRUCTION-AGENT_TEMPLATE.md
 2. **Verify**: Implement dual verification process
 3. **Govern**: Apply role-separated governance model
 4. **Iterate**: Improve based on compliance metrics
@@ -267,8 +267,8 @@ Instruction:Agent MCUs extend the base cross-reference integration with speciali
 ### **Related Specifications**
 - **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
 - **[INSTRUCTION_SPECIFICATION.md]**: [LINK] - Base instruction specification
-- **[INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
-- **[INSTRUCTION-AGENT_TEMPLATE.md]**: [LINK] - Specific template for AI-Agent instructions
+- **[MCU_INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
+- **[MCU_INSTRUCTION-AGENT_TEMPLATE.md]**: [LINK] - Specific template for AI-Agent instructions
 
 ---
 

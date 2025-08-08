@@ -20,11 +20,11 @@ Instruction:Agent MCUs serve as AI-Agent specific guidance that:
 - **Audience**: Document creators and maintainers
 - **Focus**: AI-Agent specific requirements and standards
 
-### **INSTRUCTION-AGENT_TEMPLATE.md**
+### **MCU_INSTRUCTION-AGENT_TEMPLATE.md**
 - **Purpose**: Template for creating Instruction:Agent MCUs
 - **Content**: AI-Agent specific structure with dual verification and governance
 - **Audience**: Anyone creating AI-Agent instruction documentation
-- **Inheritance**: Inherits from base INSTRUCTION_TEMPLATE.md
+- **Inheritance**: Inherits from base MCU_INSTRUCTION_TEMPLATE.md
 
 ### **VIBE_CODING_RESTRUCTURE_PLAN.md**
 - **Purpose**: Plan for restructuring VIBE_CODING.md as Instruction:Agent MCU
@@ -52,7 +52,7 @@ Instruction:Agent MCUs serve as AI-Agent specific guidance that:
 ## Usage
 
 ### **Creating Instruction:Agent MCUs**
-1. **Use Template**: Copy `INSTRUCTION-AGENT_TEMPLATE.md`
+1. **Use Template**: Copy `MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 2. **Follow Specification**: Implement requirements from `INSTRUCTION-AGENT_SPECIFICATION.md`
 3. **Add Content**: Fill in all sections with AI-Agent specific guidance
 4. **Implement Verification**: Include dual verification process

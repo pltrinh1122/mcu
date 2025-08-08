@@ -14,12 +14,12 @@ Reference MCUs serve as comprehensive knowledge repositories that:
 
 ## Documents
 
-### **REFERENCE_SPECIFICATION.md**
+### **MCU_REFERENCE_SPECIFICATION.md**
 - **Purpose**: Defines standards for creating reference documentation
 - **Content**: Specification for optimized reference documentation with CMI principles
 - **Audience**: Document creators and maintainers
 
-### **REFERENCE_TEMPLATE.md**
+### **MCU_REFERENCE_TEMPLATE.md**
 - **Purpose**: Template for creating new reference MCUs
 - **Content**: Standard structure with all required sections
 - **Audience**: Anyone creating reference documentation
@@ -32,8 +32,8 @@ Reference MCUs serve as comprehensive knowledge repositories that:
 ## Usage
 
 ### **Creating Reference MCUs**
-1. **Copy Template**: Use `REFERENCE_TEMPLATE.md` as starting point
-2. **Follow Specification**: Implement requirements from `REFERENCE_SPECIFICATION.md`
+1. **Copy Template**: Use `MCU_REFERENCE_TEMPLATE.md` as starting point
+2. **Follow Specification**: Implement requirements from `MCU_REFERENCE_SPECIFICATION.md`
 3. **Add Content**: Fill in all sections with comprehensive information
 4. **Verify Accuracy**: Test examples and validate sources
 5. **Cross-Reference**: Link to related MCUs and documents

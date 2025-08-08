@@ -43,7 +43,7 @@ governance: operator-driven
 - **Integration Success**: >95% cross-reference accuracy
 
 ### **Immediate Actions**
-1. **Create**: Use INSTRUCTION_TEMPLATE.md
+1. **Create**: Use MCU_INSTRUCTION_TEMPLATE.md
 2. **Validate**: Implement operator-focused verification process
 3. **Govern**: Apply operator-driven governance model
 4. **Iterate**: Improve based on workflow effectiveness metrics
@@ -255,7 +255,7 @@ Instruction MCUs extend the base cross-reference integration with specialized re
 
 ### **Related Specifications**
 - **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
-- **[INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
+- **[MCU_INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
 - **[INSTRUCTION-AGENT_SPECIFICATION.md]**: [LINK] - AI-Agent specific instructions
 
 ---

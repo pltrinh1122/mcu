@@ -255,7 +255,7 @@ Type-specific MCU specifications extend this base process with specialized metri
 
 ```
 MCU_SPECIFICATION.md (Base)
-├── REFERENCE_SPECIFICATION.md (Inherits + Extends)
+├── MCU_REFERENCE_SPECIFICATION.md (Inherits + Extends)
 ├── INSTRUCTION_SPECIFICATION.md (Inherits + Extends)
 └── INSTRUCTION-AGENT_SPECIFICATION.md (Inherits + Extends)
 ```

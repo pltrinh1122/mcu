@@ -7,7 +7,7 @@ This directory contains Instruction Memory Context Units (MCUs) designed for beh
 ## Structure
 
 - **INSTRUCTION_SPECIFICATION.md**: Base specification for all instruction MCUs (Operator-AI collaboration)
-- **INSTRUCTION_TEMPLATE.md**: Base template for all instruction MCUs
+- **MCU_INSTRUCTION_TEMPLATE.md**: Base template for all instruction MCUs
 - **instruction-agent/**: AI-Agent specific instruction MCUs (autonomous AI execution)
 
 ## Purpose
@@ -22,10 +22,10 @@ Instruction MCUs serve as actionable guidance that:
 
 ```
 instruction/
-├── INSTRUCTION_TEMPLATE.md           # Base template for all instructions
+├── MCU_INSTRUCTION_TEMPLATE.md           # Base template for all instructions
 └── instruction-agent/                # AI-Agent specific instructions
     ├── INSTRUCTION-AGENT_SPECIFICATION.md
-    ├── INSTRUCTION-AGENT_TEMPLATE.md
+    ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
     └── VIBE_CODING_RESTRUCTURE_PLAN.md
 ```
 
@@ -45,7 +45,7 @@ instruction/
 
 ## Documents
 
-### **INSTRUCTION_TEMPLATE.md**
+### **MCU_INSTRUCTION_TEMPLATE.md**
 - **Purpose**: Base template for creating all instruction MCUs
 - **Content**: Standard structure with instruction-specific sections
 - **Audience**: Anyone creating instruction documentation
@@ -57,11 +57,11 @@ instruction/
 - **Audience**: Document creators and maintainers
 - **Focus**: AI-Agent specific requirements
 
-### **instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md**
+### **instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md**
 - **Purpose**: Template for creating Instruction:Agent MCUs
 - **Content**: AI-Agent specific structure and requirements
 - **Audience**: Anyone creating AI-Agent instruction documentation
-- **Inheritance**: Inherits from base INSTRUCTION_TEMPLATE.md
+- **Inheritance**: Inherits from base MCU_INSTRUCTION_TEMPLATE.md
 
 ### **instruction-agent/VIBE_CODING_RESTRUCTURE_PLAN.md**
 - **Purpose**: Plan for restructuring VIBE_CODING.md as Instruction:Agent MCU
@@ -71,8 +71,8 @@ instruction/
 ## Usage
 
 ### **Creating Instruction MCUs**
-1. **Base Instructions**: Use `INSTRUCTION_TEMPLATE.md`
-2. **AI-Agent Instructions**: Use `instruction-agent/INSTRUCTION-AGENT_TEMPLATE.md`
+1. **Base Instructions**: Use `MCU_INSTRUCTION_TEMPLATE.md`
+2. **AI-Agent Instructions**: Use `instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 3. **Follow Specifications**: Implement requirements from respective specifications
 4. **Add Content**: Fill in all sections with actionable guidance
 5. **Verify Compliance**: Ensure dual verification and governance requirements
