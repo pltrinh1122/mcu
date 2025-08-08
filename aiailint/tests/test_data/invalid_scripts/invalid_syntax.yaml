@@ -1,0 +1,9 @@
+metadata:
+  name: "invalid-syntax-script"
+  version: "1.0.0"
+  description: "Script with invalid YAML syntax
+
+steps:
+  - name: "invalid-step"
+    command: "echo 'This has invalid YAML syntax'"
+    # Missing closing quote and improper indentation

@@ -1,0 +1,4 @@
+# Missing metadata section
+steps:
+  - name: "invalid-step"
+    command: "echo 'This should fail validation'"

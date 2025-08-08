@@ -1,0 +1,8 @@
+metadata:
+  name: "basic-test-script"
+  version: "1.0.0"
+  description: "Basic test script"
+
+steps:
+  - name: "basic-step"
+    command: "echo 'Hello World'"
