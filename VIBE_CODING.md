@@ -367,6 +367,7 @@ markdownlint filename.md --disable MD013
 - **Conflicting Instructions**: When global and component-specific requirements conflict, ask Operator to resolve
 - **Explicit Validation Failures**: When validation fails during explicit testing, provide analysis and ask Operator for guidance
 - **Commit Message Approval**: Allow Operator to override or approve commit messages
+- **Temporary File Cleanup**: Prompt Operator for approval before cleaning up completed PLAN and STATUS files
 
 ### **Operator Responsibilities Details**
 
@@ -377,6 +378,7 @@ markdownlint filename.md --disable MD013
 - **Explicit Validation Guidance**: Provide direction when validation fails during explicit testing
 - **Commit Message Approval**: Override or approve AI-generated commit messages
 - **Priority and Precedence**: Guide which requirements take priority when there are conflicts
+- **Temporary File Cleanup**: Approve or reject cleanup of completed PLAN and STATUS files
 
 #### **Oversight and Guidance:**
 
@@ -414,6 +416,7 @@ markdownlint filename.md --disable MD013
 - **Explicit Security Analysis**: When Operator requests security vulnerability assessment
 - **Explicit Architecture Decisions**: When Operator requests architectural recommendations
 - **Explicit Integration Planning**: When Operator requests integration strategy recommendations
+- **Explicit File Cleanup**: When AI proposes cleanup of completed temporary files
 
 #### **Decision Points:**
 
@@ -478,6 +481,7 @@ When the Operator requests implementation of VIBE_CODING instructions:
 4. **Include file type** in the prefix (ANALYSIS, DRAFT, SCRIPT, DEBUG, PLAN, STATUS)
 5. **Report creation** to Operator when creating temporary files
 6. **Clean up** temporary files after workflow sessions
+7. **Prompt for Operator approval** before cleaning up completed PLAN and STATUS files
 
 ### **When Developing Plans**
 
@@ -550,6 +554,7 @@ __vibec-[TYPE]-[DESCRIPTION]__
 - **Contextual Storage**: Store files where contextually relevant to the work being done
 - **Discovery**: Use `find . -name "__vibec-*"` to locate all temporary workflow files
 - **Cleanup**: Temporary files should be cleaned up after workflow sessions (Pair responsibility)
+- **Approval Required**: AI must prompt Operator for approval before cleaning up completed PLAN and STATUS files
 
 #### **Examples**
 
