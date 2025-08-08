@@ -359,6 +359,7 @@ markdownlint filename.md --disable MD013
 - **Context Gathering**: Search codebase for relevant examples and references
 - **Quality Checks**: Apply project-specific quality standards automatically
 - **Plan Generation**: Create comprehensive `__vibec-PLAN__*.md` documents for review
+- **OOP Implementation**: Generate Python code using class-based OOP with encapsulation and inheritance
 
 #### **Actions Requiring Operator Decision:**
 
@@ -455,6 +456,19 @@ When the Operator requests implementation of VIBE_CODING instructions:
 4. **Include appropriate documentation**
 5. **Add validation and tests**
 6. **Consider security implications**
+
+### **When Generating Python Code**
+
+1. **Default to Object-Oriented Programming (OOP)** with classes for encapsulation and inheritance
+2. **Use class-based structure** as the primary organizational unit
+3. **Implement proper encapsulation** with private attributes (`_private_attr`) and methods (`_private_method()`)
+4. **Provide clean public interfaces** through public methods and `@property` decorators
+5. **Use inheritance patterns** with base classes and `super().__init__()` in derived classes
+6. **Follow single responsibility principle** for each class
+7. **Include comprehensive docstrings** for all classes and public methods
+8. **Implement proper error handling** with specific exceptions within classes
+9. **Use type hints** for all method parameters and return values
+10. **Maintain consistency** with existing OOP patterns in the codebase
 
 ### **When Creating Temporary Work Files**
 
