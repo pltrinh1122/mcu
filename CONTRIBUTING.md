@@ -8,7 +8,7 @@ MCU (Memory Context Units) implements Contextual Memory Intelligence (CMI) princ
 
 1. **Fork the Repository**
    ```bash
-   git clone https://github.com/your-username/mcu.git
+   git clone git@github.com:your-username/mcu.git
    cd mcu
    ```
 

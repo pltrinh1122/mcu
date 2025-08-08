@@ -84,7 +84,7 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 
 ### **Installation**
 ```bash
-git clone https://github.com/your-username/mcu.git
+git clone git@github.com:your-username/mcu.git
 cd mcu
 ```
 
