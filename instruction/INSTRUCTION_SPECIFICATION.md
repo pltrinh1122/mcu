@@ -162,9 +162,11 @@ documentation:
 
 ## Quality Standards
 
-### **Workflow Standards**
+### **Instruction-Specific Quality Standards**
 
-#### **Standard 1: Execution Success Rate**
+Instruction MCUs extend the base quality standards with specialized metrics for Operator-AI collaboration:
+
+#### **Standard 1: Workflow Execution Success**
 **Metric**: >90% successful workflow execution
 **Measurement**: Track successful vs. failed workflow implementations
 **Improvement**: Iterate based on failure patterns and root cause analysis
@@ -179,42 +181,22 @@ documentation:
 **Measurement**: Measure effectiveness of human-AI collaboration
 **Improvement**: Optimize collaboration patterns and communication
 
-#### **Standard 4: Integration Success**
-**Metric**: >95% cross-reference accuracy
-**Measurement**: Verify cross-references between related MCUs are accurate and current
-**Improvement**: Implement automated cross-reference validation
 
-### **Effectiveness Standards**
 
-#### **Standard 5: Response Time**
-**Metric**: <60 seconds for instruction comprehension
-**Measurement**: Time from instruction receipt to understanding validation
-**Improvement**: Optimize instruction structure and clarity
+### **Instruction-Specific Quality Improvement Process**
 
-#### **Standard 6: Implementation Efficiency**
-**Metric**: <10 minutes for workflow implementation
-**Measurement**: Time from understanding to successful implementation
-**Improvement**: Streamline workflow processes and reduce complexity
+Instruction MCUs extend the base quality improvement process with specialized metrics and feedback:
 
-#### **Standard 7: Error Recovery**
-**Metric**: <3 attempts for successful implementation
-**Measurement**: Number of attempts needed for successful workflow execution
-**Improvement**: Enhance error handling and recovery mechanisms
+#### **Instruction-Specific Metrics Collection**
+- **Workflow Execution Data**: Track successful vs. failed workflow implementations
+- **Operator Understanding Data**: Measure comprehension validation rates
+- **Collaboration Data**: Track effectiveness of human-AI interaction
 
-### **Quality Improvement Process**
-
-#### **Iterative Refinement**
-1. **Collect Metrics**: Gather workflow effectiveness and collaboration data
-2. **Analyze Patterns**: Identify common failure points and success factors
-3. **Refine Standards**: Update quality standards based on findings
-4. **Implement Changes**: Apply improvements to instruction design and validation
-5. **Validate Results**: Measure impact of changes on quality metrics
-
-#### **Feedback Integration**
+#### **Instruction-Specific Feedback Sources**
 - **Operator Feedback**: Incorporate operator observations and suggestions
-- **AI Feedback**: Include AI performance and assistance data
-- **Project Impact**: Measure instruction effectiveness on project outcomes
-- **Continuous Learning**: Adapt standards based on evolving project needs
+- **AI Performance Data**: Include AI assistance and recommendation quality
+- **Workflow Effectiveness Data**: Track how well workflows achieve their goals
+- **Collaboration Pattern Analysis**: Identify optimal human-AI interaction patterns
 
 ---
 
@@ -264,38 +246,35 @@ operator_validation:
 
 ## Cross-Reference Integration
 
-**TBD - Cross-reference mechanism to be implemented as we learn optimal integration patterns**
+Instruction MCUs extend the base cross-reference integration with specialized requirements for workflow relationships:
+
+### **Instruction-Specific Cross-Reference Requirements**
+- **Workflow Dependencies**: Links between related workflow instructions
+- **Collaboration Patterns**: References to optimal human-AI interaction patterns
+- **Decision Points**: Links to decision-making frameworks and guidelines
 
 ### **Related Specifications**
 - **[MCU_SPECIFICATION.md]**: [LINK] - Base specification for all MCUs
 - **[INSTRUCTION_TEMPLATE.md]**: [LINK] - Base template for all instructions
 - **[INSTRUCTION-AGENT_SPECIFICATION.md]**: [LINK] - AI-Agent specific instructions
 
-### **Related Documents**
-- **[VIBE_CODING.md]**: [LINK] - Main instruction framework
-- **[REFERENCE_TEMPLATE.md]**: [LINK] - Reference document template
-- **[REFERENCE_SPECIFICATION_FAQ.md]**: [LINK] - Frequently asked questions
-
-### **Related Integrations**
-- **[AIAI Project Structure]**: [LINK] - Project organization and hierarchy
-- **[MCU Hierarchy]**: [LINK] - Memory Context Unit organization
-- **[Quality Assurance]**: [LINK] - Quality standards and verification processes
-
 ---
 
 ## Sources & Verification
 
-### **Information Sources**
+Instruction MCUs extend the base sources and verification with specialized information and verification status:
+
+### **Instruction-Specific Information Sources**
 - **AIAI Project Experience**: 2024-08-07 - Based on project development patterns
 - **VIBE_CODING Framework**: 2024-08-07 - Core instruction framework
-- **MCU Hierarchy Design**: 2024-08-07 - Memory Context Unit organization
-- **Quality Standards Research**: 2024-08-07 - Best practices for instruction design
+- **Human-AI Collaboration Research**: 2024-08-07 - Best practices for Operator-AI workflows
+- **Workflow Design Research**: 2024-08-07 - Best practices for instruction design
 
-### **Verification Status**
+### **Instruction-Specific Verification Status**
 - **✅ Specification Structure**: Validated against MCU hierarchy requirements
 - **✅ Quality Standards**: Initial metrics defined and ready for iteration
 - **✅ Governance Model**: Role separation clearly defined and tested
-- **✅ Integration Framework**: Cross-reference placeholder implemented
+- **✅ Workflow Integration**: Instruction-specific integration framework implemented
 
 ### **Last Verified**
 - **Date**: 2024-08-07T18:00:00Z
