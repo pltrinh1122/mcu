@@ -10,21 +10,23 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 ├── docs/                        # Base MCU specification and documentation
 │   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
 │   └── README.md                # MCU documentation overview
-├── reference/                    # Reference MCUs for information transfer
+├── reference/                    # Reference MCU specifications
 │   ├── MCU_REFERENCE_SPECIFICATION.md
-│   ├── MCU_REFERENCE_TEMPLATE.md
 │   └── README.md
-├── instruction/                  # Instruction MCUs for behavioral guidance
+├── instruction/                  # Instruction MCU specifications
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
-│   ├── MCU_INSTRUCTION_TEMPLATE.md
 │   ├── README.md
 │   └── instruction-agent/        # AI-Agent specific instructions
 │       ├── MCU_INSTRUCTION-AGENT_SPECIFICATION.md
-│       ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
 │       ├── README.md
 │       └── vibecoding/          # VIBE_CODING specific instructions
 │           ├── MCU_VIBE_CODING_SPECIFICATION.md
 │           └── README.md
+├── templates/                    # Standardized MCU templates
+│   ├── MCU_REFERENCE_TEMPLATE.md
+│   ├── MCU_INSTRUCTION_TEMPLATE.md
+│   ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
+│   └── README.md
 └── tests/                       # Test files and review documents
     ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
     ├── MCU_VIBE_CODING_FAQ.md
@@ -90,16 +92,17 @@ cd mcu
 
 ### **Usage**
 1. **Review Specifications**: Start with `docs/MCU_SPECIFICATION.md`
-2. **Choose Template**: Select appropriate template for your MCU type
+2. **Choose Template**: Select appropriate template from `templates/` directory
 3. **Create MCU**: Follow the template structure and requirements
 4. **Validate**: Ensure compliance with specifications
 
 ## Related Documents
 
 - **docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
-- **reference/MCU_REFERENCE_TEMPLATE.md**: Template for reference MCUs
-- **instruction/MCU_INSTRUCTION_TEMPLATE.md**: Template for instruction MCUs
-- **instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md**: Template for AI-Agent instructions
+- **templates/**: Standardized templates for all MCU types
+  - **MCU_REFERENCE_TEMPLATE.md**: Template for reference MCUs
+  - **MCU_INSTRUCTION_TEMPLATE.md**: Template for instruction MCUs
+  - **MCU_INSTRUCTION-AGENT_TEMPLATE.md**: Template for AI-Agent instructions
 - **tests/**: FAQ and review documents
 
 ## Contributing

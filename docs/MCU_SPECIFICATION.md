@@ -14,7 +14,7 @@
 
 ## Executive Summary
 
-**TL;DR**: This specification defines the base standards and requirements for all Memory Context Units (MCUs) in the AIAI project, implementing Contextual Memory Intelligence (CMI) principles for optimized Operator-AI collaboration with structured metadata, progressive disclosure, and quality assurance.
+**TL;DR**: This specification defines the base standards and requirements for all Memory Context Units (MCUs), implementing Contextual Memory Intelligence (CMI) principles for optimized Operator-AI collaboration with structured metadata, progressive disclosure, and quality assurance.
 
 **Key Points**:
 - **Base Framework**: Common structure and requirements for all MCU types
@@ -96,7 +96,7 @@ metadata:
   updated_at: "ISO_TIMESTAMP"
   type: "[reference|instruction|instruction-agent]"
   version: "[VERSION]"
-  project: "AIAI"
+  project: "MCU"
   tool: "[TOOL_NAME]"
   category: "[CATEGORY]"
   tags: ["tag1", "tag2", "tag3"]
@@ -116,13 +116,13 @@ content_structure:
 
 ---
 
-## AIAI Integration
+## Project Integration
 
 ### **Project-Specific Application**
 
-#### **AIAI MCU Framework Integration**
+#### **MCU Framework Integration**
 ```yaml
-# AIAI-specific MCU framework
+# Project-specific MCU framework
 aiai:
   framework: mcu
   environment: development
@@ -132,11 +132,11 @@ aiai:
     - instruction-agent
 ```
 
-#### **Common AIAI Use Cases**
+#### **Common Project Use Cases**
 
 **Use Case 1: Base MCU Framework**
 ```yaml
-# AIAI-specific base MCU framework
+# Project-specific base MCU framework
 base_mcu:
   inherit: MCU_SPECIFICATION.md
   extend: type_specific_requirements
@@ -146,7 +146,7 @@ base_mcu:
 
 **Use Case 2: Cross-Reference Foundation**
 ```yaml
-# AIAI-specific cross-reference foundation
+# Project-specific cross-reference foundation
 cross_reference:
   foundation: base_specification
   implementation: future_development
@@ -303,7 +303,7 @@ Type-specific MCU specifications extend this base foundation with specialized cr
 
 ### **Base Information Sources**
 - **CMI Research**: 2024-08-07 - Contextual Memory Intelligence principles
-- **AIAI Project Experience**: 2024-08-07 - Based on project development patterns
+- **MCU Project Experience**: 2024-08-07 - Based on project development patterns
 - **Documentation Best Practices**: 2024-08-07 - Industry standards for documentation
 - **Quality Assurance Research**: 2024-08-07 - Best practices for quality standards
 
