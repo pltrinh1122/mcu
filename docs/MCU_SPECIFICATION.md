@@ -170,7 +170,7 @@ cross_reference:
 
 ## Quality Standards
 
-### **Accuracy Standards**
+### **Base Quality Standards (All MCU Types)**
 
 #### **Standard 1: Information Accuracy**
 **Metric**: 100% verified information
@@ -182,8 +182,6 @@ cross_reference:
 **Measurement**: All required fields populated with accurate information
 **Improvement**: Automated validation and completeness checks
 
-### **Completeness Standards**
-
 #### **Standard 3: Content Coverage**
 **Metric**: Comprehensive coverage of essential topics
 **Measurement**: All required sections present with appropriate detail
@@ -193,8 +191,6 @@ cross_reference:
 **Metric**: >95% cross-reference accuracy
 **Measurement**: Verify cross-references are current and accurate
 **Improvement**: Automated link validation and relationship mapping
-
-### **Usability Standards**
 
 #### **Standard 5: Progressive Disclosure**
 **Metric**: Clear information hierarchy
@@ -206,8 +202,6 @@ cross_reference:
 **Measurement**: Content provides clear, actionable guidance
 **Improvement**: Regular usability testing and feedback
 
-### **Maintainability Standards**
-
 #### **Standard 7: Update Process**
 **Metric**: Clear update procedures
 **Measurement**: Documented processes for content updates and version tracking
@@ -218,7 +212,11 @@ cross_reference:
 **Measurement**: All information properly attributed to authoritative sources
 **Improvement**: Automated source tracking and validation
 
-### **Quality Improvement Process**
+### **Type-Specific Quality Standards**
+
+Type-specific MCU specifications extend these base standards with specialized quality metrics appropriate to their scope and purpose.
+
+### **Base Quality Improvement Process**
 
 #### **Iterative Refinement**
 1. **Collect Metrics**: Gather accuracy, completeness, and usability data
@@ -228,10 +226,12 @@ cross_reference:
 5. **Validate Results**: Measure impact of changes on quality metrics
 
 #### **Feedback Integration**
-- **Operator Feedback**: Incorporate user observations and suggestions
-- **AI Feedback**: Include AI performance and comprehension data
+- **User Feedback**: Incorporate user observations and suggestions
+- **Performance Feedback**: Include performance and comprehension data
 - **Project Impact**: Measure MCU effectiveness on project outcomes
 - **Continuous Learning**: Adapt standards based on evolving needs
+
+Type-specific MCU specifications extend this base process with specialized metrics and feedback sources appropriate to their scope.
 
 ---
 
@@ -295,17 +295,19 @@ MCU_SPECIFICATION.md (Base)
 - **Impact Analysis**: Assessment of changes on related MCUs
 - **Update Propagation**: Automatic updates to related MCUs
 
+Type-specific MCU specifications extend this base foundation with specialized cross-reference requirements and integration patterns.
+
 ---
 
 ## Sources & Verification
 
-### **Information Sources**
+### **Base Information Sources**
 - **CMI Research**: 2024-08-07 - Contextual Memory Intelligence principles
 - **AIAI Project Experience**: 2024-08-07 - Based on project development patterns
 - **Documentation Best Practices**: 2024-08-07 - Industry standards for documentation
 - **Quality Assurance Research**: 2024-08-07 - Best practices for quality standards
 
-### **Verification Status**
+### **Base Verification Status**
 - **✅ Base Structure**: Validated against MCU hierarchy requirements
 - **✅ Quality Standards**: Initial metrics defined and ready for iteration
 - **✅ Inheritance Framework**: Clear extension points defined and tested
@@ -316,6 +318,8 @@ MCU_SPECIFICATION.md (Base)
 - **Version**: 1.0
 - **Platform**: AIAI Development Environment
 - **Verification Script**: Manual review and validation
+
+Type-specific MCU specifications extend this base verification with specialized sources and verification status appropriate to their scope.
 
 ---
 
