@@ -51,3 +51,10 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Rationale: Improve template flexibility to capture observations and other content types alongside decisions/instructions.
 - Actions/Next Steps: Propose an updated template label in a follow-up change (pending Operator approval).
 - References: `VIBE_NOTE.md`
+
+## [2025-08-09T16:27:23Z] Note Template Optimization for Operator Consumption
+- Scope: VIBE_NOTE template
+- Decision/Instruction: Consider optimizing the template to place the most important content first (e.g., the main body text), followed by supporting metadata fields.
+- Rationale: Prioritize Operator readability and speed of comprehension during collaboration.
+- Actions/Next Steps: Draft a revised template order (body-first) for review and approval.
+- References: `VIBE_NOTE.md`
