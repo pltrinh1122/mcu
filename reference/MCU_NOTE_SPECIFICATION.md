@@ -51,6 +51,8 @@ metadata:
 ### **Content Structure**
 - Executive summary (optional)
 - Notes section with entries formatted as:
+  - An explicit HTML anchor immediately before each entry heading:
+    - `<a id="note-YYYY-MM-DDTHH-MM-SSZ"></a>` (colon-safe timestamp in id)
   - `## [YYYY-MM-DDTHH:MM:SSZ] Title`
   - Body
   - Optional: Scope, Rationale, Actions, References
@@ -60,9 +62,11 @@ metadata:
 - Update: Append new entries; do not alter prior timestamps unless explicitly approved
 - Remove: Requires explicit Operator approval; AI may propose cleanup
 - Timestamping: Use ISO 8601 UTC with trailing `Z`
+ - Anchors: Use explicit HTML anchors `note-YYYY-MM-DDTHH-MM-SSZ` for renderer-agnostic deep links
 
 ### **Quality Standards**
 - 100% entries include ISO 8601 UTC timestamp in the heading
+ - 100% entries have a preceding HTML anchor id `note-YYYY-MM-DDTHH-MM-SSZ`
 - Clear separation between entries (heading or horizontal rule)
 - Entries include sufficient context (body first recommended)
 
@@ -75,7 +79,9 @@ metadata:
 - Reference from base spec inheritance diagram
 
 ### **Verification**
-- Optional validator rule to check timestamps on headings
+- Optional validator rules:
+  - Check timestamps on headings
+  - Check presence and correctness of anchor ids preceding each entry
 
 ---
 

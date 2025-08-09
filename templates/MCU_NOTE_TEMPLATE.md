@@ -20,6 +20,7 @@
 
 ## Notes
 
+<a id="note-[YYYY-MM-DDTHH-MM-SSZ]"></a>
 ## [[YYYY-MM-DDTHH:MM:SSZ]] Short title
 [Body (decision/instruction/observation/etc.)]
 
