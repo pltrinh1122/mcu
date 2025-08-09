@@ -131,3 +131,12 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Map artifacts to layers (e.g., `VIBE_CODING`, `VIBE_NOTE`, `README`) and define cross-links.
   - Propose governance rules for handoffs and escalation across layers.
 - References: `__vibec-PLAN__vibe_note_mcu_extension.md`, `VIBE_CODING.md`, repo `README.md`
+
+## [2025-08-09T19:35:49Z] Default Permissioning Labels for MCU Attributes
+- Scope: governance, permissions
+- Decision/Instruction: Evaluate default permissioning labels for MCU attributes to determine which require explicit Operator approval vs. which are implicitly updated by the Agent.
+- Rationale: Reduce friction and ambiguity by codifying attribute-level authority.
+- Actions/Next Steps:
+  - Draft a matrix proposing defaults, e.g., implicit: `Created`, `Updated`, `Tags`; explicit: `Type`, `Version`, `Project`, `Tool`, `Category`, cross-references.
+  - Integrate into base spec and VIBE_CODING governance once approved.
+- References: `docs/MCU_SPECIFICATION.md`, `VIBE_CODING.md`
