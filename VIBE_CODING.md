@@ -582,6 +582,13 @@ git mv "$TARGET" "VIBE-ARCHIVE/$(basename "$TARGET")"
 - No orchestration fields are written on items by AI (priority, schedule, dependency graph, workstreams, rollups).
 - AI stops at AC-Ready without Operator approval to proceed to planning/execution.
 
+#### Backlog Administration Checklist (default)
+
+- Define default workstreams (Discovery, Definition, Planning, Delivery/Execution, Validation, Release, Closure) with preconditions and exit criteria.
+- Enforce exclusivity for now; consider per-stream concurrency later.
+- Keep orchestration on backlog; keep evidence on items.
+- Use advisory validator checks (exclusivity, acyclic depends_on, precondition sanity).
+
 ### **When Timestamping Documents**
 
 Use ISO 8601 UTC timestamps for all time-stamped entries.
@@ -609,7 +616,7 @@ File names must provide **maximum understanding from minimum characters** when p
 #### **Naming Pattern**
 
 ```text
-[SYSTEM_PREFIX]_[CONTENT_TYPE]_[SPECIFIC_CONTEXT].md
+[SYSTEM_PREFIX]_[CONTENT_TYPE]_[SPECIFIC_CONTEXT].mdreimplement the 
 ```
 
 #### **Implementation Rules**
