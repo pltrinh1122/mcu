@@ -557,6 +557,9 @@ git mv "$TARGET" "VIBE-ARCHIVE/$(basename "$TARGET")"
 
 - Backlog (orchestration-owned): priority/rank, scheduling windows/milestones, dependencies (blocks/blocked-by), swimlane/team ownership, workstreams (schema, assignment, exclusivity), program-level risk/aging, and rollup/aggregated statuses.
 - Backlog-Item (evidence-owned): source_track, definition_track, execution_track, validation_track, docs_track, integration evidence (PRs/deploys), links to PLAN/POP and STATUS, Source References.
+  - Lineage/Disposition conventions:
+    - Lineage (optional): Derived-from (links to origin items), Superseded-by (links to successor items)
+    - Disposition (optional): Superseded (Split|Merged|Bundled) recorded on original items; successor items include Derived-from links
 
 #### AI Autonomous Actions (Backlog-Item)
 
@@ -589,6 +592,7 @@ git mv "$TARGET" "VIBE-ARCHIVE/$(basename "$TARGET")"
 - Enforce exclusivity for now; consider per-stream concurrency later.
 - Keep orchestration on backlog; keep evidence on items.
 - Use advisory validator checks (exclusivity, acyclic depends_on, precondition sanity).
+ - Index hygiene: annotate original entries with "(superseded by: ...)" when items are split/merged/bundled; link successor items with relative paths under `ITEMS/`.
 
 ### **When Timestamping Documents**
 

@@ -57,6 +57,7 @@ metadata:
 - Backlog Overview (policy, prioritization scheme)
 - Items Index (links to `backlog-item` MCUs)
   - Links MUST be relative paths to files under `ITEMS/` (e.g., `ITEMS/BLIT_SYS123_2025-08-09T23-59-59Z.md`)
+  - When items are split/merged/bundled, annotate original entries with "(superseded by: ...)" and add links to successor items
 - Orchestration Metadata (owned by backlog):
   - Priority/Rank and ordering
   - Scheduling window/milestones; release/PI targets
@@ -106,6 +107,7 @@ metadata:
 - Timestamp accuracy (ISO 8601 UTC)
 - No duplication of item-owned tracks (execution/definition/validation/docs). Backlog only references item evidence and computes rollups.
  - Index link paths are relative and resolve to files under `BACKLOGS/ITEMS/`
+ - Supersession annotations present in index when items are split/merged/bundled
 
 ---
 

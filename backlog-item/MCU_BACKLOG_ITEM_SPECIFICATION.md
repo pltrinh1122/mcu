@@ -52,6 +52,7 @@ metadata:
 ### Content Structure
 - Summary (title/objective/acceptance criteria)
 - Source References (links to `VIBE_NOTE` entries or docs) – at least one required
+- Lineage (optional): Derived-from (links to origin items), Superseded-by (links to successor items)
 - Execution Links (optional): PLAN id/path, STATUS id/path
 - Tracks (authoritative on item; parallel-capable):
   - source_track: Captured | Curated
@@ -72,6 +73,7 @@ metadata:
 - Timestamp accuracy (ISO 8601 UTC)
 - No orchestration fields on item (priority, scheduling, dependency graph, rollup). Those are backlog-owned.
  - Filename convention: concise and unique `BLIT_[systemID]_[timestamp].md`; timestamp uses colon-safe ISO 8601 with trailing Z (`YYYY-MM-DDTHH-MM-SSZ`); `[systemID]` must match `^[A-Za-z0-9_]+$`
+ - If an item is split/merged/bundled, original item records a Disposition and Superseded-by links; successor items include Derived-from link(s)
 
 ---
 

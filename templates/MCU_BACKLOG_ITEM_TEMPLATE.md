@@ -19,6 +19,10 @@
 ## Source References (≥1)
 - [VIBE_NOTE entry link]
 
+## Lineage (optional)
+- Derived-from: [original item link]
+- Superseded-by: [links to new or consolidated items]
+
 ## Execution Links (optional)
 - PLAN: [link]
 - STATUS: [link]
@@ -40,3 +44,7 @@
 
 ## Filename Convention
  - Use a concise, unique filename: `BLIT_[systemID]_[timestamp].md` (ISO 8601 UTC with trailing Z; colon-safe: `YYYY-MM-DDTHH-MM-SSZ`). `[systemID]` must be alphanumeric/underscore only (`^[A-Za-z0-9_]+$`).
+
+## Disposition (optional, for split/merge outcomes)
+- Disposition: [Superseded (Split)|Superseded (Merged)|Superseded (Bundled)]
+- Notes: [brief explanation]
