@@ -3,7 +3,7 @@
 ## Context Memory Unit: inst-agent-vibe-coding-mcu-2024-12-19-001
 
 - **Created**: 2024-12-19T10:00:00Z
-- **Updated**: 2025-08-09T16:09:06Z
+- **Updated**: 2025-08-09T23:00:32Z
 - **Type**: instruction-agent
 - **Version**: 1.0
 - **Project**: MCU
@@ -536,6 +536,7 @@ When the Operator requests implementation of VIBE_CODING instructions:
 12. **Ongoing status updates**: Maintain the POP Status Dashboard and keep each PLAN's Status field current as progress is made. Exclude owners for brevity.
 13. **Status lifecycle**: Use `DRAFT → IN PROGRESS → COMPLETED → ACCEPTED`. `ACCEPTED` denotes final Operator review/acceptance of a `COMPLETED` PLAN/POP. Update dashboards to `[ACCEPTED]` upon acceptance and set the PLAN `Status: Accepted`.
 14. **Archiving `__vibec-*` artifacts**: When the Operator requests archiving, mark dashboard entries as `[ARCHIVE]` and set the file `Status: ARCHIVE`. Move the file to `VIBE-ARCHIVE/` (preserving filename), prepend an "Archived on [ISO UTC] – reason" note, and update POP dashboards/links. Deletion is at Operator discretion later (Git history already preserves content).
+15. **Archive immutability rule**: Treat `VIBE-ARCHIVE/` as read-only. Do not modify archived files unless the Operator gives explicit instructions for a narrowly scoped administrative update (e.g., fix broken links, add “superseded by” pointers, or required redactions). When such updates are approved, append an "Admin update on [ISO UTC]: <reason>" note at the top and make only the minimal change.
 
 #### Archiving commands (example)
 
