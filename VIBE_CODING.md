@@ -532,6 +532,7 @@ When the Operator requests implementation of VIBE_CODING instructions:
 8. **Include component-specific requirements** when applicable
 9. **Provide rollback strategies** for complex changes
 10. **Document resource requirements** and dependencies
+11. **Update plan statuses as progress is made** (POP and PLAN). Maintain a Status Dashboard in POP and keep each PLAN's Status field current.
 
 ### **When Timestamping Documents**
 

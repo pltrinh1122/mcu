@@ -2,7 +2,7 @@
 
 - Created: 2025-08-09T19:52:30Z
 - Owner: Operator
-- Status: Draft (awaiting Operator approval)
+- Status: In Progress
 - Scope: Orchestration of related plans (specs, templates, validator, docs)
 - Orchestration: true
 - Plan_Level: 2
@@ -143,12 +143,12 @@ Shared Validations:
 
 ## Status Dashboard
 - Unified view across constituent PLANs (P1–P6):
-  - P1 Base Spec Update – Status: [ ], Owner: [ ], Link: [ ]
-  - P2 Backlog Spec – Status: [ ], Owner: [ ], Link: [ ]
-  - P3 Backlog Item Spec – Status: [ ], Owner: [ ], Link: [ ]
-  - P4 Templates – Status: [ ], Owner: [ ], Link: [ ]
-  - P5 Validator Support – Status: [ ], Owner: [ ], Link: [ ]
-  - P6 Docs Integration – Status: [ ], Owner: [ ], Link: [ ]
+  - P1 Base Spec Update – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P1_base_spec_update.md`
+  - P2 Backlog Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P2_backlog_spec.md`
+  - P3 Backlog Item Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P3_backlog_item_spec.md`
+  - P4 Templates – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P4_templates.md`
+  - P5 Validator Support – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P5_validator_support.md`
+  - P6 Docs Integration – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P6_docs_integration.md`
 
 ## Conflict Resolution
 - Integration conflicts/contention are coordinated in this POP. Agent proposes options with pros/cons; Operator makes final decision.
