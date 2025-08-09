@@ -10,12 +10,14 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 ├── docs/                        # Base MCU specification and documentation
 │   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
 │   └── README.md                # MCU documentation overview
-├── reference/                    # Reference MCU specifications
+├── reference/                    # Reference MCU specifications (type: reference)
 │   ├── MCU_REFERENCE_SPECIFICATION.md
 │   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
-│   ├── MCU_BACKLOG_SPECIFICATION.md
-│   ├── MCU_BACKLOG_ITEM_SPECIFICATION.md
 │   └── README.md
+├── backlog/                      # Backlog MCU specification (type: backlog)
+│   └── MCU_BACKLOG_SPECIFICATION.md
+├── backlog-item/                 # Backlog Item MCU specification (type: backlog-item)
+│   └── MCU_BACKLOG_ITEM_SPECIFICATION.md
 ├── instruction/                  # Instruction MCU specifications
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
 │   ├── README.md
@@ -75,8 +77,8 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 6. **Note MCUs**: Use `templates/MCU_NOTE_TEMPLATE.md` and follow `reference/MCU_NOTE_SPECIFICATION.md`
-7. **Backlog MCUs**: Use `templates/MCU_BACKLOG_TEMPLATE.md` and follow `reference/MCU_BACKLOG_SPECIFICATION.md`
-8. **Backlog Item MCUs**: Use `templates/MCU_BACKLOG_ITEM_TEMPLATE.md` and follow `reference/MCU_BACKLOG_ITEM_SPECIFICATION.md`
+7. **Backlog MCUs**: Use `templates/MCU_BACKLOG_TEMPLATE.md` and follow `backlog/MCU_BACKLOG_SPECIFICATION.md`
+8. **Backlog Item MCUs**: Use `templates/MCU_BACKLOG_ITEM_TEMPLATE.md` and follow `backlog-item/MCU_BACKLOG_ITEM_SPECIFICATION.md`
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications

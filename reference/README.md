@@ -30,15 +30,13 @@ Reference MCUs serve as comprehensive knowledge repositories that:
 - **Content**: Minimal metadata, lifecycle, timestamping, and auditability
 - **Audience**: Operators and AI collaborators
 
-### **MCU_BACKLOG_SPECIFICATION.md**
-- **Purpose**: Defines standards for Backlog MCUs (collection of backlog items)
-- **Content**: Metadata, Items Index, prioritization and reporting guidance
-- **Audience**: Operators and AI collaborators
+> Note: Backlog-related specifications have moved to top-level type directories.
 
-### **MCU_BACKLOG_ITEM_SPECIFICATION.md**
-- **Purpose**: Defines standards for Backlog Item MCUs (single backlog entry)
-- **Content**: Summary, Source References, optional execution links (PLAN/STATUS)
-- **Audience**: Operators and AI collaborators
+### Backlog (moved)
+- Now at: `backlog/MCU_BACKLOG_SPECIFICATION.md`
+
+### Backlog Item (moved)
+- Now at: `backlog-item/MCU_BACKLOG_ITEM_SPECIFICATION.md`
 
 - **Purpose**: Frequently asked questions about reference specifications
 - **Content**: Answers to common questions and implementation guidance
