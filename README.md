@@ -12,6 +12,9 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 │   └── README.md                # MCU documentation overview
 ├── reference/                    # Reference MCU specifications
 │   ├── MCU_REFERENCE_SPECIFICATION.md
+│   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
+│   ├── MCU_BACKLOG_SPECIFICATION.md
+│   ├── MCU_BACKLOG_ITEM_SPECIFICATION.md
 │   └── README.md
 ├── instruction/                  # Instruction MCU specifications
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
@@ -30,6 +33,8 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 ├── reference/                    # Reference MCU specifications
 │   ├── MCU_REFERENCE_SPECIFICATION.md
 │   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
+│   ├── MCU_BACKLOG_SPECIFICATION.md
+│   ├── MCU_BACKLOG_ITEM_SPECIFICATION.md
 │   └── README.md
 └── tests/                       # Test files and review documents
     ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
@@ -70,6 +75,8 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 6. **Note MCUs**: Use `templates/MCU_NOTE_TEMPLATE.md` and follow `reference/MCU_NOTE_SPECIFICATION.md`
+7. **Backlog MCUs**: Use `templates/MCU_BACKLOG_TEMPLATE.md` and follow `reference/MCU_BACKLOG_SPECIFICATION.md`
+8. **Backlog Item MCUs**: Use `templates/MCU_BACKLOG_ITEM_TEMPLATE.md` and follow `reference/MCU_BACKLOG_ITEM_SPECIFICATION.md`
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications
