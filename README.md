@@ -7,45 +7,48 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 ## Directory Structure
 
 ```
-├── docs/                        # Base MCU specification and documentation
+├── base/docs/                   # Base MCU specification and documentation
 │   ├── MCU_SPECIFICATION.md     # Base specification for all MCU types
 │   └── README.md                # MCU documentation overview
-├── reference/                    # Reference MCU specifications (type: reference)
-│   ├── MCU_REFERENCE_SPECIFICATION.md
-│   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
+├── base/examples/               # Examples for MCU usage
+│   ├── example-reference.md
 │   └── README.md
-├── backlog/                      # Backlog MCU specification (type: backlog)
+├── base/scripts/                # Tooling and validators for MCU repo
+│   ├── check_links.py
+│   ├── generate_mcu.py
+│   ├── validate_mcu.py
+│   ├── VIBE_CODING.md
+│   └── README.md
+├── base/tests/                  # Test files and review documents
+│   ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
+│   ├── MCU_VIBE_CODING_FAQ.md
+│   ├── review_2_of_REFERENCE_SPECIFICATON.md
+│   ├── review_2_of_VIBE_CODING.md
+│   ├── review_of_REFERENCE_SPECIFICATON.md
+│   ├── review_of_VIBE_CODING.md
+│   └── README.md
+├── reference/                   # Reference MCU specifications (type: reference)
+│   ├── MCU_REFERENCE_SPECIFICATION.md
+│   ├── MCU_NOTE_SPECIFICATION.md
+│   └── README.md
+├── backlog/                     # Backlog MCU specification (type: backlog)
 │   └── MCU_BACKLOG_SPECIFICATION.md
-├── backlog-item/                 # Backlog Item MCU specification (type: backlog-item)
+├── backlog-item/                # Backlog Item MCU specification (type: backlog-item)
 │   └── MCU_BACKLOG_ITEM_SPECIFICATION.md
-├── instruction/                  # Instruction MCU specifications
+├── instruction/                 # Instruction MCU specifications
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
 │   ├── README.md
-│   └── instruction-agent/        # AI-Agent specific instructions
+│   └── instruction-agent/       # AI-Agent specific instructions
 │       ├── MCU_INSTRUCTION-AGENT_SPECIFICATION.md
 │       ├── README.md
 │       └── vibecoding/          # VIBE_CODING specific instructions
 │           ├── MCU_VIBE_CODING_SPECIFICATION.md
 │           └── README.md
-├── templates/                    # Standardized MCU templates
+├── templates/                   # Standardized MCU templates
 │   ├── MCU_REFERENCE_TEMPLATE.md
 │   ├── MCU_INSTRUCTION_TEMPLATE.md
 │   ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
 │   └── README.md
-├── reference/                    # Reference MCU specifications
-│   ├── MCU_REFERENCE_SPECIFICATION.md
-│   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
-│   ├── MCU_BACKLOG_SPECIFICATION.md
-│   ├── MCU_BACKLOG_ITEM_SPECIFICATION.md
-│   └── README.md
-└── tests/                       # Test files and review documents
-    ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
-    ├── MCU_VIBE_CODING_FAQ.md
-    ├── review_2_of_REFERENCE_SPECIFICATON.md
-    ├── review_2_of_VIBE_CODING.md
-    ├── review_of_REFERENCE_SPECIFICATON.md
-    ├── review_of_VIBE_CODING.md
-    └── README.md
 ```
 
 ## MCU Types
@@ -71,7 +74,7 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 ## Usage
 
 ### **Creating New MCUs**
-1. **Base Specification**: Inherit from `docs/MCU_SPECIFICATION.md`
+1. **Base Specification**: Inherit from `base/docs/MCU_SPECIFICATION.md`
 2. **Reference MCUs**: Use `reference/MCU_REFERENCE_TEMPLATE.md`
 3. **Instruction MCUs**: Use `instruction/MCU_INSTRUCTION_TEMPLATE.md`
 4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
@@ -105,19 +108,19 @@ cd mcu
 ```
 
 ### **Usage**
-1. **Review Specifications**: Start with `docs/MCU_SPECIFICATION.md`
+1. **Review Specifications**: Start with `base/docs/MCU_SPECIFICATION.md`
 2. **Choose Template**: Select appropriate template from `templates/` directory
 3. **Create MCU**: Follow the template structure and requirements
 4. **Validate**: Ensure compliance with specifications
 
 ## Related Documents
 
-- **docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
+- **base/docs/MCU_SPECIFICATION.md**: Base specification for all MCU types
 - **templates/**: Standardized templates for all MCU types
   - **MCU_REFERENCE_TEMPLATE.md**: Template for reference MCUs
   - **MCU_INSTRUCTION_TEMPLATE.md**: Template for instruction MCUs
   - **MCU_INSTRUCTION-AGENT_TEMPLATE.md**: Template for AI-Agent instructions
-- **tests/**: FAQ and review documents
+- **base/tests/**: FAQ and review documents
 
 ## Contributing
 
