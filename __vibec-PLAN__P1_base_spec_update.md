@@ -4,6 +4,8 @@
 - Owner: Operator
 - Status: Draft
 - Scope: docs/MCU_SPECIFICATION.md
+- Orchestration: false
+- Plan_Level: 1
 
 ## Objective
 Add `backlog` and `backlog-item` to types and inheritance diagram.
@@ -15,6 +17,7 @@ Add `backlog` and `backlog-item` to types and inheritance diagram.
 ## Validation
 - markdownlint (MD013 disabled)
 - Visual check of sections
+- Key Consistency: `orchestration: false` must pair with `plan_level: 1`
 
 ## Risks
 - Diagram consistency; mitigate by cross-review

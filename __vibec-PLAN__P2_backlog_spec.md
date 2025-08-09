@@ -4,6 +4,8 @@
 - Owner: Operator
 - Status: Draft
 - Scope: reference/MCU_BACKLOG_SPECIFICATION.md
+- Orchestration: false
+- Plan_Level: 1
 
 ## Objective
 Create a specification for `backlog` MCU type.
@@ -14,9 +16,11 @@ Create a specification for `backlog` MCU type.
 
 ## Validation
 - markdownlint (MD013 disabled)
+- Key Consistency: `orchestration: false` must pair with `plan_level: 1`
 
 ## Risks
 - Overlap with PLAN/STATUS; mitigate via clear boundaries
 
 ## Success Criteria
 - Spec file created with required sections
+

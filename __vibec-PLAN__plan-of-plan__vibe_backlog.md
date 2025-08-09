@@ -1,14 +1,38 @@
-# PLAN: Extend MCU with VIBE_BACKLOG and VIBE_BACKLOG_ITEM Types
+# PLAN: Plan-of-Plan – VIBE_BACKLOG and VIBE_BACKLOG_ITEM Introduction
 
 - Created: 2025-08-09T19:52:30Z
 - Owner: Operator
 - Status: Draft (awaiting Operator approval)
-- Scope: Specification, Templates, Validator, Repository Integration
+- Scope: Orchestration of related plans (specs, templates, validator, docs)
+- Orchestration: true
+- Plan_Level: 2
 
 ## 1) Objective
-Introduce two new MCU types to formalize backlog management and traceability:
+Coordinate the introduction of two new MCU types and their integration across the repository:
 - `VIBE_BACKLOG`: a collection-type MCU governing a set of backlog items
 - `VIBE_BACKLOG_ITEM`: an atomic MCU representing a single backlog entry that references source notes and links to PLAN/STATUS
+
+## 1.1 Analysis & Strategy (Why)
+- Establish end-to-end traceability from Notes → Backlog → Plan → Status to improve governance and accountability
+- Keep validator checks minimal initially to avoid friction while ensuring basic integrity (presence of links/sections)
+- Clarify boundaries: backlog is a pre-execution governance artifact; plan/status are execution artifacts
+- Alternatives considered: non-MCU backlog (rejected for governance gaps); strict validator (deferred to avoid slowdown)
+
+## 1.2 Constraints & Assumptions
+- Keep `[LINK]` placeholders per project policy; ignore `__vibew-*` families in validator
+- ISO 8601 UTC timestamps with trailing Z
+- No CI/hooks changes in this iteration
+
+## 2) Constituent Plans (Parallel-Capable)
+- P1 Base Spec Update → `__vibec-PLAN__P1_base_spec_update.md`
+- P2 Backlog Spec → `__vibec-PLAN__P2_backlog_spec.md`
+- P3 Backlog Item Spec → `__vibec-PLAN__P3_backlog_item_spec.md`
+- P4 Templates → `__vibec-PLAN__P4_templates.md`
+- P5 Validator Support → `__vibec-PLAN__P5_validator_support.md`
+- P6 Docs Integration → `__vibec-PLAN__P6_docs_integration.md`
+- Optional P7 Seed Instance → `VIBE_BACKLOG.md` (using template)
+
+Note: No hard dependencies/gates among constituent PLANs. Soft synchronization is advisory only.
 
 ## 2) Current State
 - No backlog-specific MCU types exist.
@@ -74,14 +98,16 @@ Introduce two new MCU types to formalize backlog management and traceability:
   - At least one source reference required
   - If in execution, must link PLAN; if completed/ongoing, link STATUS
 
-## 5) Implementation Steps
-1. Update `docs/MCU_SPECIFICATION.md` (types + inheritance diagram)
-2. Create `reference/MCU_BACKLOG_SPECIFICATION.md`
-3. Create `reference/MCU_BACKLOG_ITEM_SPECIFICATION.md`
-4. Add templates: `templates/MCU_BACKLOG_TEMPLATE.md`, `templates/MCU_BACKLOG_ITEM_TEMPLATE.md`
-5. Update `scripts/validate_mcu.py` (types + minimal structure checks for backlog/backlog-item)
-6. Documentation pass: `README.md`, `reference/README.md`
-7. (Optional) Create a seed `VIBE_BACKLOG.md` using the template and link example items
+## 5) Orchestrated Implementation Steps (High-Level)
+- M1 Approve Analysis & Strategy, scope, and naming
+- M2 Execute P1 (foundation)
+- M3 Execute P2 and P3 in parallel (no gates)
+- M4 Execute P4 (templates)
+- M5 Execute P5 and P6; run validator for repository-wide sanity
+- M6 Optional P7: create seed backlog and example items; run validator
+
+Shared Validations:
+- Run validator after M3, M4, M5; use link-checks on demand (`scripts/check_links.py`)
 
 ## 6) Validation
 - Markdown: `markdownlint --disable MD013`
@@ -89,6 +115,7 @@ Introduce two new MCU types to formalize backlog management and traceability:
   - Recognize `backlog` and `backlog-item`
   - Backlog: must include an Items Index section with links
   - Backlog Item: must include a Source References section with at least one link
+ - Key Consistency (sub-PLANs): `orchestration: false` is only valid with `plan_level: 1`; this POP uses `orchestration: true` with `plan_level: 2`
 
 ## 7) Testing
 - Focused tests:
@@ -110,9 +137,21 @@ Introduce two new MCU types to formalize backlog management and traceability:
 - Docs updated to explain creation and usage
 
 ## 10) Timeline
-- Day 0: Approve plan
-- Day 1: Implement specs/templates and base spec updates
-- Day 2: Update validator and docs; optional seed backlog
+- Day 0: Approve PLAN-of-PLAN (M1)
+- Day 1: M2 (P1) → M3 (P2, P3) → M4 (P4)
+- Day 2: M5 (P5, P6) → M6 (P7 optional)
+
+## Status Dashboard
+- Unified view across constituent PLANs (P1–P6):
+  - P1 Base Spec Update – Status: [ ], Owner: [ ], Link: [ ]
+  - P2 Backlog Spec – Status: [ ], Owner: [ ], Link: [ ]
+  - P3 Backlog Item Spec – Status: [ ], Owner: [ ], Link: [ ]
+  - P4 Templates – Status: [ ], Owner: [ ], Link: [ ]
+  - P5 Validator Support – Status: [ ], Owner: [ ], Link: [ ]
+  - P6 Docs Integration – Status: [ ], Owner: [ ], Link: [ ]
+
+## Conflict Resolution
+- Integration conflicts/contention are coordinated in this POP. Agent proposes options with pros/cons; Operator makes final decision.
 
 ## 11) Dependencies and Constraints
 - Keep `[LINK]` placeholders until instructed to resolve

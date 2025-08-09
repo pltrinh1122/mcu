@@ -4,6 +4,8 @@
 - Owner: Operator
 - Status: Draft
 - Scope: templates/MCU_BACKLOG_TEMPLATE.md, templates/MCU_BACKLOG_ITEM_TEMPLATE.md
+- Orchestration: false
+- Plan_Level: 1
 
 ## Objective
 Provide templates for backlog and backlog-item MCUs.
@@ -14,9 +16,11 @@ Provide templates for backlog and backlog-item MCUs.
 
 ## Validation
 - markdownlint (MD013 disabled)
+- Key Consistency: `orchestration: false` must pair with `plan_level: 1`
 
 ## Risks
 - Template drift with specs; mitigate by cross-referencing spec content
 
 ## Success Criteria
 - Both templates created and align with specs
+

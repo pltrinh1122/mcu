@@ -4,6 +4,8 @@
 - Owner: Operator
 - Status: Draft
 - Scope: README.md, reference/README.md
+- Orchestration: false
+- Plan_Level: 1
 
 ## Objective
 Document new backlog types and how to create/use them.
@@ -14,9 +16,11 @@ Document new backlog types and how to create/use them.
 
 ## Validation
 - markdownlint (MD013 disabled)
+- Key Consistency: `orchestration: false` must pair with `plan_level: 1`
 
 ## Risks
 - Incomplete instructions; mitigate with concise examples and links
 
 ## Success Criteria
 - Both READMEs updated and accurate
+

@@ -4,6 +4,8 @@
 - Owner: Operator
 - Status: Draft
 - Scope: scripts/validate_mcu.py
+- Orchestration: false
+- Plan_Level: 1
 
 ## Objective
 Add `backlog` and `backlog-item` types and minimal structure checks.
@@ -18,9 +20,11 @@ Add `backlog` and `backlog-item` types and minimal structure checks.
 ## Validation
 - `python -m py_compile scripts/validate_mcu.py`
 - Run validator against repo
+- Key Consistency: `orchestration: false` must pair with `plan_level: 1`
 
 ## Risks
 - Over-strict checks causing friction; mitigate by keeping checks minimal initially
 
 ## Success Criteria
 - Validator accepts both types and enforces minimal structure
+
