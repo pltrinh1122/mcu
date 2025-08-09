@@ -68,3 +68,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Compare metadata, content structure, and quality requirements.
   - Recommend whether to keep README as conventional repo doc or formalize as a specialized MCU.
 - References: `README.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`
+
+## [2025-08-09T18:42:21Z] Explore Layer for Defining Used MCU Artifacts
+- Scope: repository framework, layering
+- Decision/Instruction: Explore the right layer (e.g., `VIBE_WORK`) MCU type responsible for defining the set of used MCU artifacts (e.g., `VIBE_CODING`, `VIBE_NOTE`, `README`, etc.).
+- Rationale: Centralizing artifact definitions at the proper layer can improve discoverability, governance, and consistency across projects.
+- Actions/Next Steps:
+  - Draft a `VIBE_WORK` (or similar) MCU type concept with metadata to enumerate adopted artifacts and their roles.
+  - Compare against existing `reference`/`instruction` scopes to prevent overlap.
+  - Propose directory placement and template changes if adopted.
+- References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `README.md`
