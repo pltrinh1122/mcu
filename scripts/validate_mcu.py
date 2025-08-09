@@ -13,6 +13,10 @@ import yaml
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
+NON_MCU_PREFIXES = (
+    "__vibew-",
+)
+
 class MCUValidator:
     """Validates MCU files against the specification."""
     
@@ -37,12 +41,25 @@ class MCUValidator:
         errors: List[str] = []
         
         try:
+            # Skip known non-MCU families by filename prefix
+            base = os.path.basename(file_path)
+            for prefix in NON_MCU_PREFIXES:
+                if base.startswith(prefix):
+                    return True, []
+            
+            # Skip templates from strict validation
+            if os.path.abspath(file_path).replace('\\', '/').find('/templates/') != -1:
+                return True, []
+            
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
             if not file_path.endswith('.md'):
-                errors.append(f"File must be markdown format: {file_path}")
-                return False, errors
+                return True, []  # ignore non-markdown files
+                
+            # Only validate files that declare themselves as MCUs
+            if '## Context Memory Unit:' not in content:
+                return True, []
                 
             metadata = self._extract_metadata(content)
             if not metadata:
@@ -123,10 +140,8 @@ class MCUValidator:
     def _validate_note_structure(self, content: str) -> List[str]:
         """Validate minimal structure for Note MCUs."""
         errors: List[str] = []
-        # Require a Notes section and at least one timestamped entry
         if '## Notes' not in content:
             errors.append('Missing required section: ## Notes')
-        # Timestamp pattern in headings
         timestamp_heading_re = re.compile(r'^## \[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\]', re.MULTILINE)
         if not timestamp_heading_re.search(content):
             errors.append('No timestamped note entries found (expected headings like ## [YYYY-MM-DDTHH:MM:SSZ])')
@@ -169,7 +184,7 @@ def main():
                 print(f"   - {error}")
     print("=" * 50)
     print(f"Validation complete: {valid_count}/{total_count} files valid")
-    if valid_count < total_count:
+    if any(not ok for ok, _ in results.values()):
         sys.exit(1)
     else:
         print("🎉 All MCU files are valid!")

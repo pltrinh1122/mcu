@@ -8,7 +8,7 @@
 - **Version**: 1.0
 - **Project**: MCU
 - **Tool**: VIBE_CODING
-- **Category**: workflow
+- **Category**: governance
 - **Tags**: ["instruction", "ai-agent", "workflow", "rapid-development", "mcu"]
 
 ---
@@ -33,6 +33,14 @@
 
 ```bash
 Create → Validate → Test → Commit
+```
+
+### **Essential Requirements**
+```yaml
+type: instruction-agent
+audience: ai
+metadata: required
+quality: governance
 ```
 
 ### **AI-Agent Autonomous Actions**
@@ -67,7 +75,9 @@ Create → Validate → Test → Commit
 ✅ **Consistent standards** across all components  
 ✅ **Confidence in commits** through comprehensive testing
 
-## AI-Agent Verification Process
+## Detailed Reference
+
+### AI-Agent Verification Process
 
 ### **Dual Verification for VIBE_CODING**
 
