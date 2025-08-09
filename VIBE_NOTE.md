@@ -26,3 +26,12 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Consider analogous updates to enumerate `plan` and `specification` MCU types in the base spec (pending Operator approval).
   - Keep `[LINK]` placeholders as-is and do not modify `__vibew-*` files.
 - References: `__vibec-PLAN__vibe_note_mcu_extension.md`, `docs/MCU_SPECIFICATION.md`
+
+## [2025-08-09T16:18:55Z] Alignment Observations
+- Scope: collaboration, alignment
+- Decision/Instruction:
+  - MCU serves as scaffolding to enable Operator to keep up and stay aligned with Agent while collaborating.
+  - Human Operators have limited memory context, which is a primary cause for misalignment and for falling behind their Agent.
+- Rationale: Establish shared mental models and durable context to reduce misalignment risk.
+- Actions/Next Steps: Apply MCU structure consistently to shared artifacts to maintain alignment.
+- References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`
