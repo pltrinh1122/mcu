@@ -534,6 +534,7 @@ When the Operator requests implementation of VIBE_CODING instructions:
 10. **Document resource requirements** and dependencies
 11. **Status Dashboard at top**: Place a “0) Plan Status Dashboard” section at the very top of POP and PLAN documents with items formatted as `[STATUS] [Plan name] [Link]`.
 12. **Ongoing status updates**: Maintain the POP Status Dashboard and keep each PLAN's Status field current as progress is made. Exclude owners for brevity.
+13. **Status lifecycle**: Use `DRAFT → IN PROGRESS → COMPLETED → ACCEPTED`. `ACCEPTED` denotes final Operator review/acceptance of a `COMPLETED` PLAN/POP. Update dashboards to `[ACCEPTED]` upon acceptance and set the PLAN `Status: Accepted`.
 
 ### **When Timestamping Documents**
 
