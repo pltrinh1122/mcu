@@ -29,6 +29,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 
 <!-- Add new notes below this line using the template above -->
 
+<a id="note-2025-08-09T16-02-41Z"></a>
 ## [2025-08-09T16:02:41Z] MCU Type Observations
 - Scope: repository, MCU framework
 - Decision/Instruction: PLAN and similar artifacts are also MCU types; SPECIFICATION is also a type of MCU; any artifact consumable by both Operator and AI should be modeled as an MCU type.
@@ -39,6 +40,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Keep `[LINK]` placeholders as-is and do not modify `__vibew-*` files.
 - References: `__vibec-PLAN__vibe_note_mcu_extension.md`, `docs/MCU_SPECIFICATION.md`
 
+<a id="note-2025-08-09T16-18-55Z"></a>
 ## [2025-08-09T16:18:55Z] Alignment Observations
 - Scope: collaboration, alignment
 - Decision/Instruction:
@@ -48,6 +50,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Actions/Next Steps: Apply MCU structure consistently to shared artifacts to maintain alignment.
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`
 
+<a id="note-2025-08-09T16-20-31Z"></a>
 ## [2025-08-09T16:20:31Z] Foundational Artifacts Inquiry
 - Scope: repository, foundations
 - Decision/Instruction: Identify foundational artifacts required for effective Operator–Agent collaboration.
@@ -57,6 +60,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Decide if additional foundation is required (e.g., `README` alignment section, `CONTRIBUTING` alignment rules).
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`, `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_SPECIFICATION.md`
 
+<a id="note-2025-08-09T16-24-48Z"></a>
 ## [2025-08-09T16:24:48Z] Note Template Enhancement
 - Scope: VIBE_NOTE template
 - Decision/Instruction: The meta-label "Decision/Instruction" should be more general, e.g., "Body (decision/instruction/observation/etc.)"; consider a more appropriate, concise label.
@@ -64,6 +68,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Actions/Next Steps: Propose an updated template label in a follow-up change (pending Operator approval).
 - References: `VIBE_NOTE.md`
 
+<a id="note-2025-08-09T16-27-23Z"></a>
 ## [2025-08-09T16:27:23Z] Note Template Optimization for Operator Consumption
 - Scope: VIBE_NOTE template
 - Decision/Instruction: Consider optimizing the template to place the most important content first (e.g., the main body text), followed by supporting metadata fields.
@@ -71,6 +76,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Actions/Next Steps: Draft a revised template order (body-first) for review and approval.
 - References: `VIBE_NOTE.md`
 
+<a id="note-2025-08-09T18-37-49Z"></a>
 ## [2025-08-09T18:37:49Z] README as an MCU Type
 - Scope: repository structure, MCU types
 - Decision/Instruction: Explore converting `README.md` into an MCU type. How would it differ from other MCUs?
@@ -81,6 +87,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Recommend whether to keep README as conventional repo doc or formalize as a specialized MCU.
 - References: `README.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`
 
+<a id="note-2025-08-09T18-42-21Z"></a>
 ## [2025-08-09T18:42:21Z] Explore Layer for Defining Used MCU Artifacts
 - Scope: repository framework, layering
 - Decision/Instruction: Explore the right layer (e.g., `VIBE_WORK`) MCU type responsible for defining the set of used MCU artifacts (e.g., `VIBE_CODING`, `VIBE_NOTE`, `README`, etc.).
@@ -91,6 +98,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Propose directory placement and template changes if adopted.
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `README.md`
 
+<a id="note-2025-08-09T18-44-12Z"></a>
 ## [2025-08-09T18:44:12Z] VIBE_NOTE Usage and Roles
 - Scope: VIBE_NOTE governance
 - Decision/Instruction: Clarify VIBE_NOTE lifecycle and responsibilities.
@@ -102,6 +110,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Actions/Next Steps: Reflect this lifecycle in `VIBE_CODING.md` usage guidance and in any future Note MCU spec.
 - References: `VIBE_CODING.md`, `__vibec-PLAN__vibe_note_mcu_extension.md`
 
+<a id="note-2025-08-09T18-46-07Z"></a>
 ## [2025-08-09T18:46:07Z] MCU Quick-Start for Cursor (Guide)
 - Scope: onboarding, workspace setup
 - Decision/Instruction: Explore creating an "MCU Quick-Start for Cursor" GUIDE (as an MCU type) to set up an MCU framework in a new or existing workspace.
@@ -112,6 +121,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Propose placement (e.g., `guides/` dir or under `reference/`) and a template.
 - References: `README.md`, `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `templates/`
 
+<a id="note-2025-08-09T18-49-23Z"></a>
 ## [2025-08-09T18:49:23Z] PLAN Context Switching
 - Scope: workflow governance
 - Decision/Instruction: Decide whether context switching between PLANs is supported and how.
@@ -122,6 +132,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Outline limits: maximum concurrent active plans; Operator approval required for switching.
 - References: `__vibec-PLAN__*`, `__vibew-STATUS__*`, `VIBE_CODING.md`
 
+<a id="note-2025-08-09T19-17-57Z"></a>
 ## [2025-08-09T19:17:57Z] Reconcile Vibe Work and Vibe Project
 - Scope: layering, governance
 - Decision/Instruction: Reconcile relationship and boundaries between Vibe Work (operational layer) and Vibe Project (organizational/product layer).
@@ -132,6 +143,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Propose governance rules for handoffs and escalation across layers.
 - References: `__vibec-PLAN__vibe_note_mcu_extension.md`, `VIBE_CODING.md`, repo `README.md`
 
+<a id="note-2025-08-09T19-35-49Z"></a>
 ## [2025-08-09T19:35:49Z] Default Permissioning Labels for MCU Attributes
 - Scope: governance, permissions
 - Decision/Instruction: Evaluate default permissioning labels for MCU attributes to determine which require explicit Operator approval vs. which are implicitly updated by the Agent.
@@ -141,6 +153,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Integrate into base spec and VIBE_CODING governance once approved.
 - References: `docs/MCU_SPECIFICATION.md`, `VIBE_CODING.md`
 
+<a id="note-2025-08-09T19-38-56Z"></a>
 ## [2025-08-09T19:38:56Z] VIBE_BACKLOG MCU Type
 - Scope: backlog, planning
 - Decision/Instruction: Add a new MCU type, `VIBE_BACKLOG`, to track PLANs and corresponding STATUS. Each backlog item should reference source information (e.g., VIBE_NOTE entries) that are groomed into PLAN items.
@@ -151,6 +164,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Update validator to recognize `backlog` type or ignore if treated as non-MCU family.
 - References: `VIBE_CODING.md`, `__vibec-PLAN__*`, `__vibew-STATUS__*`, `docs/MCU_SPECIFICATION.md`
 
+<a id="note-2025-08-09T19-51-22Z"></a>
 ## [2025-08-09T19:51:22Z] SPECIFICATION MCU Type Relationship
 - Scope: types, relationships
 - Decision/Instruction: Explore a dedicated `specification` MCU type’s role and its relationships to other types (reference, instruction, instruction-agent, note, backlog?).
@@ -161,6 +175,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Recommend updates to `docs/MCU_SPECIFICATION.md` and per-type specs.
 - References: `docs/MCU_SPECIFICATION.md`, `reference/MCU_NOTE_SPECIFICATION.md`, `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_SPECIFICATION.md`
 
+<a id="note-2025-08-09T20-10-23Z"></a>
 ## [2025-08-09T20:10:23Z] Strategy/Analysis in PLAN and PLAN-of-PLAN
 - Scope: planning methodology
 - Decision/Instruction: Add a “Strategy/Analysis” section to PLAN and PLAN-of-PLAN documents to contextualize objectives (answer “Why?”), including constraints, alternatives considered, and rationale for choice.
@@ -170,6 +185,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Add guidance prompts (problem statement, options, trade-offs, selection rationale).
 - References: `VIBE_CODING.md`
 
+<a id="note-2025-08-09T20-52-48Z"></a>
 ## [2025-08-09T20:52:48Z] Business Rule Validation Scripts Organization
 - Scope: validation, tooling
 - Decision/Instruction: Consider organizing business rule validators per MCU family/type (e.g., `validate_pop.py`) or integrating as modules within `validate_mcu.py`.
