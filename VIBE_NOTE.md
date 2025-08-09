@@ -58,3 +58,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Rationale: Prioritize Operator readability and speed of comprehension during collaboration.
 - Actions/Next Steps: Draft a revised template order (body-first) for review and approval.
 - References: `VIBE_NOTE.md`
+
+## [2025-08-09T18:37:49Z] README as an MCU Type
+- Scope: repository structure, MCU types
+- Decision/Instruction: Explore converting `README.md` into an MCU type. How would it differ from other MCUs?
+- Rationale: If README is a persistent cross-audience artifact, modeling it as an MCU type may align governance, metadata, and validation.
+- Actions/Next Steps:
+  - Draft a proposal outlining a `readme` MCU type vs. using existing `reference` type with a special role.
+  - Compare metadata, content structure, and quality requirements.
+  - Recommend whether to keep README as conventional repo doc or formalize as a specialized MCU.
+- References: `README.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`
