@@ -27,6 +27,9 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 │   ├── MCU_INSTRUCTION_TEMPLATE.md
 │   ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
 │   └── README.md
+├── reference/                    # Reference MCU specifications
+│   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
+│   └── README.md
 └── tests/                       # Test files and review documents
     ├── MCU_REFERENCE_SPECIFICATION_FAQ.md
     ├── MCU_VIBE_CODING_FAQ.md
@@ -65,6 +68,7 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 3. **Instruction MCUs**: Use `instruction/MCU_INSTRUCTION_TEMPLATE.md`
 4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
+6. **Note MCUs**: Use `templates/MCU_NOTE_TEMPLATE.md` and follow `reference/MCU_NOTE_SPECIFICATION.md`
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications

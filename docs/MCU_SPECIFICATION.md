@@ -30,7 +30,7 @@
 ### **Essential MCU Requirements**
 ```yaml
 # Base MCU structure
-type: [reference|instruction|instruction-agent]
+type: [reference|instruction|instruction-agent|note]
 audience: [operator|ai|both]
 metadata: required
 quality: standards
@@ -94,7 +94,7 @@ metadata:
   context_unit_id: "[type]-[tool]-[date]-[sequence]"
   created_at: "ISO_TIMESTAMP"
   updated_at: "ISO_TIMESTAMP"
-  type: "[reference|instruction|instruction-agent]"
+  type: "[reference|instruction|instruction-agent|note]"
   version: "[VERSION]"
   project: "MCU"
   tool: "[TOOL_NAME]"
@@ -257,7 +257,8 @@ Type-specific MCU specifications extend this base process with specialized metri
 MCU_SPECIFICATION.md (Base)
 ├── MCU_REFERENCE_SPECIFICATION.md (Inherits + Extends)
 ├── INSTRUCTION_SPECIFICATION.md (Inherits + Extends)
-└── INSTRUCTION-AGENT_SPECIFICATION.md (Inherits + Extends)
+├── INSTRUCTION-AGENT_SPECIFICATION.md (Inherits + Extends)
+└── MCU_NOTE_SPECIFICATION.md (Inherits + Extends)
 ```
 
 ### **Extension Points**

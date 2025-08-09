@@ -29,40 +29,36 @@ class MCUValidator:
             'Tags'
         ]
         
-        self.valid_types = ['reference', 'instruction', 'instruction-agent', 'specification']
-        self.valid_categories = ['framework', 'specification', 'template', 'example']
+        self.valid_types = ['reference', 'instruction', 'instruction-agent', 'specification', 'note']
+        self.valid_categories = ['framework', 'specification', 'template', 'example', 'governance']
         
     def validate_file(self, file_path: str) -> Tuple[bool, List[str]]:
         """Validate a single MCU file."""
-        errors = []
-        warnings = []
+        errors: List[str] = []
         
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
-            # Check if file is markdown
             if not file_path.endswith('.md'):
                 errors.append(f"File must be markdown format: {file_path}")
                 return False, errors
                 
-            # Extract metadata section
             metadata = self._extract_metadata(content)
             if not metadata:
                 errors.append("No metadata section found")
                 return False, errors
                 
-            # Validate metadata fields
-            metadata_errors = self._validate_metadata(metadata)
-            errors.extend(metadata_errors)
+            errors.extend(self._validate_metadata(metadata))
             
-            # Validate content structure
-            structure_errors = self._validate_structure(content)
-            errors.extend(structure_errors)
+            mcu_type = (metadata.get('type') or metadata.get('Type') or '').strip().lower()
             
-            # Check for required sections
-            section_errors = self._validate_sections(content)
-            errors.extend(section_errors)
+            # Structure rules vary by type
+            if mcu_type == 'note':
+                errors.extend(self._validate_note_structure(content))
+            else:
+                errors.extend(self._validate_structure(content))
+                errors.extend(self._validate_sections(content))
             
             return len(errors) == 0, errors
             
@@ -72,140 +68,107 @@ class MCUValidator:
     
     def _extract_metadata(self, content: str) -> Optional[Dict]:
         """Extract metadata from MCU file."""
-        # Look for metadata section
-        metadata_match = re.search(r'## Context Memory Unit: ([^\n]+)', content)
-        if not metadata_match:
+        header_match = re.search(r'^## Context Memory Unit: (.+)$', content, re.MULTILINE)
+        if not header_match:
             return None
-            
-        # Extract context_unit_id from the header
-        context_unit_id = metadata_match.group(1)
-        
-        # Extract metadata lines
+        context_unit_id = header_match.group(1).strip()
         lines = content.split('\n')
-        metadata = {'context_unit_id': context_unit_id}
-        
+        metadata: Dict[str, str] = {'context_unit_id': context_unit_id}
         for line in lines:
             if line.startswith('- **') and '**:' in line:
                 key, value = line.split('**:', 1)
                 key = key.replace('- **', '').strip()
                 value = value.strip()
                 metadata[key] = value
-                
         return metadata
     
     def _validate_metadata(self, metadata: Dict) -> List[str]:
-        """Validate metadata fields."""
-        errors = []
-        
-        # Check required fields
+        errors: List[str] = []
         for field in self.required_metadata:
             if field not in metadata:
                 errors.append(f"Missing required metadata field: {field}")
-                
-        # Validate type field
-        if 'type' in metadata:
-            if metadata['type'] not in self.valid_types:
-                errors.append(f"Invalid type: {metadata['type']}. Must be one of {self.valid_types}")
-                
-        # Validate category field
-        if 'category' in metadata:
-            if metadata['category'] not in self.valid_categories:
-                errors.append(f"Invalid category: {metadata['category']}. Must be one of {self.valid_categories}")
-                
-        # Validate context_unit_id format
+        # type/category checks (case-insensitive)
+        mcu_type = (metadata.get('type') or metadata.get('Type') or '').strip().lower()
+        if mcu_type and mcu_type not in self.valid_types:
+            errors.append(f"Invalid type: {mcu_type}. Must be one of {self.valid_types}")
+        category = (metadata.get('category') or metadata.get('Category') or '').strip().lower()
+        if category and category not in self.valid_categories:
+            errors.append(f"Invalid category: {category}. Must be one of {self.valid_categories}")
+        # context_unit_id simple format check (allow variety but basic sanity)
         if 'context_unit_id' in metadata:
-            if not re.match(r'^[a-z-]+-\d{4}-\d{2}-\d{2}-\d{3}$', metadata['context_unit_id']):
-                errors.append("Invalid context_unit_id format. Expected: type-YYYY-MM-DD-XXX")
-                
+            if not re.match(r'^[a-z-]+-[a-z0-9-]+-\d{4}-\d{2}-\d{2}-\d{3,}$', metadata['context_unit_id']):
+                errors.append("Invalid context_unit_id format. Expected: type-[tool]-YYYY-MM-DD-SEQ")
         return errors
     
     def _validate_structure(self, content: str) -> List[str]:
-        """Validate content structure."""
-        errors = []
-        
-        # Check for required sections
+        errors: List[str] = []
         required_sections = [
             '## Executive Summary',
             '## Quick Reference',
             '## Detailed Reference'
         ]
-        
         for section in required_sections:
             if section not in content:
                 errors.append(f"Missing required section: {section}")
-                
         return errors
     
     def _validate_sections(self, content: str) -> List[str]:
-        """Validate section content."""
-        errors = []
-        
-        # Check for TL;DR in Executive Summary
-        if '## Executive Summary' in content:
-            if '**TL;DR**:' not in content:
-                errors.append("Missing TL;DR in Executive Summary")
-                
-        # Check for Quick Reference content
-        if '## Quick Reference' in content:
-            if '### **Essential' not in content:
-                errors.append("Missing Essential Requirements in Quick Reference")
-                
+        errors: List[str] = []
+        if '## Executive Summary' in content and '**TL;DR**:' not in content:
+            errors.append("Missing TL;DR in Executive Summary")
+        if '## Quick Reference' in content and '### **Essential' not in content:
+            errors.append("Missing Essential Requirements in Quick Reference")
         return errors
     
+    def _validate_note_structure(self, content: str) -> List[str]:
+        """Validate minimal structure for Note MCUs."""
+        errors: List[str] = []
+        # Require a Notes section and at least one timestamped entry
+        if '## Notes' not in content:
+            errors.append('Missing required section: ## Notes')
+        # Timestamp pattern in headings
+        timestamp_heading_re = re.compile(r'^## \[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\]', re.MULTILINE)
+        if not timestamp_heading_re.search(content):
+            errors.append('No timestamped note entries found (expected headings like ## [YYYY-MM-DDTHH:MM:SSZ])')
+        return errors
+
     def validate_directory(self, directory: str) -> Dict[str, Tuple[bool, List[str]]]:
-        """Validate all MCU files in a directory."""
-        results = {}
-        
-        # If directory is a file, validate just that file
+        results: Dict[str, Tuple[bool, List[str]]] = {}
         if os.path.isfile(directory):
             is_valid, errors = self.validate_file(directory)
             results[directory] = (is_valid, errors)
             return results
-            
-        # Walk directory for markdown files
-        for root, dirs, files in os.walk(directory):
+        for root, _, files in os.walk(directory):
             for file in files:
                 if file.endswith('.md'):
                     file_path = os.path.join(root, file)
                     is_valid, errors = self.validate_file(file_path)
                     results[file_path] = (is_valid, errors)
-                    
         return results
 
 def main():
-    """Main validation function."""
     validator = MCUValidator()
-    
     if len(sys.argv) < 2:
         print("Usage: python validate_mcu.py <directory>")
         sys.exit(1)
-        
     directory = sys.argv[1]
-    
     if not os.path.exists(directory):
         print(f"Directory not found: {directory}")
         sys.exit(1)
-        
     print(f"Validating MCU files in: {directory}")
     print("=" * 50)
-    
     results = validator.validate_directory(directory)
-    
-    valid_count = 0
+    valid_count = sum(1 for _, (ok, _) in results.items() if ok)
     total_count = len(results)
-    
     for file_path, (is_valid, errors) in results.items():
         if is_valid:
             print(f"✅ {file_path}")
-            valid_count += 1
         else:
             print(f"❌ {file_path}")
             for error in errors:
                 print(f"   - {error}")
-                
     print("=" * 50)
     print(f"Validation complete: {valid_count}/{total_count} files valid")
-    
     if valid_count < total_count:
         sys.exit(1)
     else:
