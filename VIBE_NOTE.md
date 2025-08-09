@@ -99,3 +99,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Decide on MCU type: dedicated `guide` type vs. `reference` with a Quick-Start role.
   - Propose placement (e.g., `guides/` dir or under `reference/`) and a template.
 - References: `README.md`, `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `templates/`
+
+## [2025-08-09T18:49:23Z] PLAN Context Switching
+- Scope: workflow governance
+- Decision/Instruction: Decide whether context switching between PLANs is supported and how.
+- Rationale: Multi-threaded work may require pausing/resuming plans without losing alignment.
+- Actions/Next Steps:
+  - Define allowed states: Active, Paused, Completed, Abandoned.
+  - Specify switch protocol: record pause reason, capture current state, next steps, and timestamp; update STATUS; add note in `VIBE_NOTE.md`.
+  - Outline limits: maximum concurrent active plans; Operator approval required for switching.
+- References: `__vibec-PLAN__*`, `__vibew-STATUS__*`, `VIBE_CODING.md`
