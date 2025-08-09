@@ -3,7 +3,7 @@
 ## Context Memory Unit: inst-agent-vibe-coding-mcu-2024-12-19-001
 
 - **Created**: 2024-12-19T10:00:00Z
-- **Updated**: 2024-12-19T10:00:00Z
+- **Updated**: 2025-08-09T16:09:06Z
 - **Type**: instruction-agent
 - **Version**: 1.0
 - **Project**: MCU
@@ -421,7 +421,7 @@ markdownlint filename.md --disable MD013
 - **Cleanup Assessment**: When AI proactively identifies files ready for cleanup
 - **Related Areas Scope**: Infer "related areas" scope and ask Operator for confirmation
 
-#### **Decision Points:**
+### **Decision Points:**
 
 - **Autonomous**: AI can proceed without Operator input for implicit tasks
 - **Handoff**: AI must hand control to Operator for explicit tasks and decision-making
