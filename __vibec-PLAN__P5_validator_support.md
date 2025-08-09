@@ -1,5 +1,10 @@
 # PLAN: P5 – Validator Support for Backlog Types
 
+## 0) Plan Status Dashboard
+- Status: Draft
+- Owner: Operator
+- Link: `scripts/validate_mcu.py`
+
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
 - Status: Draft

@@ -1,5 +1,10 @@
 # PLAN: P1 – Base Spec Update for Backlog Types
 
+## 0) Plan Status Dashboard
+- Status: Completed
+- Owner: Operator
+- Link: `docs/MCU_SPECIFICATION.md`
+
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
 - Status: Completed

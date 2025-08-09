@@ -7,6 +7,15 @@
 - Orchestration: true
 - Plan_Level: 2
 
+## 0) Plan Status Dashboard
+- Unified view across constituent PLANs (P1–P6):
+  - P1 Base Spec Update – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P1_base_spec_update.md`
+  - P2 Backlog Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P2_backlog_spec.md`
+  - P3 Backlog Item Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P3_backlog_item_spec.md`
+  - P4 Templates – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P4_templates.md`
+  - P5 Validator Support – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P5_validator_support.md`
+  - P6 Docs Integration – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P6_docs_integration.md`
+
 ## 1) Objective
 Coordinate the introduction of two new MCU types and their integration across the repository:
 - `VIBE_BACKLOG`: a collection-type MCU governing a set of backlog items
@@ -140,15 +149,6 @@ Shared Validations:
 - Day 0: Approve PLAN-of-PLAN (M1)
 - Day 1: M2 (P1) → M3 (P2, P3) → M4 (P4)
 - Day 2: M5 (P5, P6) → M6 (P7 optional)
-
-## Status Dashboard
-- Unified view across constituent PLANs (P1–P6):
-  - P1 Base Spec Update – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P1_base_spec_update.md`
-  - P2 Backlog Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P2_backlog_spec.md`
-  - P3 Backlog Item Spec – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P3_backlog_item_spec.md`
-  - P4 Templates – Status: Completed, Owner: Operator, Link: `__vibec-PLAN__P4_templates.md`
-  - P5 Validator Support – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P5_validator_support.md`
-  - P6 Docs Integration – Status: Draft, Owner: Operator, Link: `__vibec-PLAN__P6_docs_integration.md`
 
 ## Conflict Resolution
 - Integration conflicts/contention are coordinated in this POP. Agent proposes options with pros/cons; Operator makes final decision.
