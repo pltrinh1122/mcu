@@ -64,6 +64,37 @@ metadata:
     - Schema: id, name, exclusive (default true), preconditions, exit_criteria, depends_on (ids)
     - Assignment: active_workstreams[item_id] (enforced exclusive for now)
     - Concurrency: may be enabled later by setting exclusive=false per stream
+
+#### Default Workstreams (recommended)
+
+- Discovery
+  - exclusive: true
+  - preconditions: none
+  - exit_criteria: sources curated (item.source_track == Curated)
+- Definition
+  - exclusive: true
+  - preconditions: item.source_track == Curated
+  - exit_criteria: item.definition_track == AC-Ready
+- Planning
+  - exclusive: true
+  - preconditions: item.definition_track == AC-Ready
+  - exit_criteria: PLAN linked and accepted (plan_link set; plan_status == Accepted)
+- Delivery (Execution)
+  - exclusive: true
+  - preconditions: PLAN accepted (or Operator override)
+  - exit_criteria: item.execution_track == Completed
+- Validation
+  - exclusive: true
+  - preconditions: item.execution_track == Completed
+  - exit_criteria: item.validation_track == Explicit-Accepted
+- Release
+  - exclusive: true
+  - preconditions: item.validation_track == Explicit-Accepted
+  - exit_criteria: integration evidence shows deployed/monitored
+- Closure
+  - exclusive: true
+  - preconditions: item.validation_track == Explicit-Accepted
+  - exit_criteria: item.closure_track == Archived
 - Reporting (optional): counts by state, aging metrics, rollups
 
 ### Quality Standards

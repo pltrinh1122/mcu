@@ -19,6 +19,15 @@
 - Policy/prioritization scheme:
 - Signals/labels:
 
+## Workstreams (recommended defaults; edit as needed)
+- Discovery: exclusive=true; pre: none; exit: source_track == Curated
+- Definition: exclusive=true; pre: source_track == Curated; exit: definition_track == AC-Ready
+- Planning: exclusive=true; pre: definition_track == AC-Ready; exit: PLAN linked & accepted
+- Delivery (Execution): exclusive=true; pre: PLAN accepted; exit: execution_track == Completed
+- Validation: exclusive=true; pre: execution_track == Completed; exit: validation_track == Explicit-Accepted
+- Release: exclusive=true; pre: validation_track == Explicit-Accepted; exit: deployed/monitored
+- Closure: exclusive=true; pre: validation_track == Explicit-Accepted; exit: closure_track == Archived
+
 ## Items Index
 - [ ] [backlog-item-...](path/to/item)
 - [ ] [backlog-item-...](path/to/item)

@@ -23,6 +23,14 @@
 - PLAN: [link]
 - STATUS: [link]
 
-## Priority & Sizing (optional)
-- Priority:
-- Estimate:
+## Tracks (authoritative on item)
+- source_track: [Captured|Curated]
+- definition_track: [Triaged|Clarified|Sized|AC-Ready]
+- execution_track: [Not-Started|In-Progress|Blocked|Completed]
+- validation_track: [Implicit-Validated|Explicit-Accepted]
+- docs_track: [Docs-Added|Examples-Linked]
+- integration_evidence: [PR/Deploy links]
+
+## Workstreams (read-only, derived from backlog)
+- current_workstream_id: [optional]
+- completed_workstreams: [ids]
