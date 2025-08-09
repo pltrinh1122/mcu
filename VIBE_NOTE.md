@@ -44,3 +44,10 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Confirm baseline set: `VIBE_NOTE` (note MCU), `VIBE_CODING` (instruction-agent MCU), `MCU_SPECIFICATION` (base spec), `MCU_REFERENCE_SPECIFICATION` (reference spec), `MCU_INSTRUCTION-AGENT_SPECIFICATION` (agent spec), and a plan artifact (`__vibec-PLAN__*`).
   - Decide if additional foundation is required (e.g., `README` alignment section, `CONTRIBUTING` alignment rules).
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`, `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_SPECIFICATION.md`
+
+## [2025-08-09T16:24:48Z] Note Template Enhancement
+- Scope: VIBE_NOTE template
+- Decision/Instruction: The meta-label "Decision/Instruction" should be more general, e.g., "Body (decision/instruction/observation/etc.)"; consider a more appropriate, concise label.
+- Rationale: Improve template flexibility to capture observations and other content types alongside decisions/instructions.
+- Actions/Next Steps: Propose an updated template label in a follow-up change (pending Operator approval).
+- References: `VIBE_NOTE.md`
