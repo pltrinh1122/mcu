@@ -1,6 +1,6 @@
 # VIBE NOTE (OPERATOR)
 
-Explicit Operator notes for the repository. Each entry must include an ISO 8601 UTC timestamp.
+Explicit Operator notes for the repository. Each entry must include an ISO 8601 UTC timestamp. See `reference/MCU_NOTE_SPECIFICATION.md` for the Note MCU requirements.
 
 ## How to add a note
 

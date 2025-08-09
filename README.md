@@ -28,6 +28,7 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 │   ├── MCU_INSTRUCTION-AGENT_TEMPLATE.md
 │   └── README.md
 ├── reference/                    # Reference MCU specifications
+│   ├── MCU_REFERENCE_SPECIFICATION.md
 │   ├── MCU_NOTE_SPECIFICATION.md # Note MCU type specification
 │   └── README.md
 └── tests/                       # Test files and review documents

@@ -25,6 +25,11 @@ Reference MCUs serve as comprehensive knowledge repositories that:
 - **Audience**: Anyone creating reference documentation
 
 ### **REFERENCE_SPECIFICATION_FAQ.md**
+### **MCU_NOTE_SPECIFICATION.md**
+- **Purpose**: Defines standards for Note MCUs (Operator notes)
+- **Content**: Minimal metadata, lifecycle, timestamping, and auditability
+- **Audience**: Operators and AI collaborators
+
 - **Purpose**: Frequently asked questions about reference specifications
 - **Content**: Answers to common questions and implementation guidance
 - **Audience**: Users of the reference specification
