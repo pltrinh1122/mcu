@@ -1,9 +1,7 @@
 # PLAN: P4 – Backlog Templates
 
 ## 0) Plan Status Dashboard
-- Status: Completed
-- Owner: Operator
-- Link: `templates/MCU_BACKLOG_TEMPLATE.md`, `templates/MCU_BACKLOG_ITEM_TEMPLATE.md`
+- [COMPLETED] P4 – Backlog Templates [`templates/MCU_BACKLOG_TEMPLATE.md`](templates/MCU_BACKLOG_TEMPLATE.md), [`templates/MCU_BACKLOG_ITEM_TEMPLATE.md`](templates/MCU_BACKLOG_ITEM_TEMPLATE.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator

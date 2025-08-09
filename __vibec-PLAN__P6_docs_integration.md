@@ -1,9 +1,7 @@
 # PLAN: P6 – Documentation Integration for Backlog Types
 
 ## 0) Plan Status Dashboard
-- Status: Draft
-- Owner: Operator
-- Link: `README.md`, `reference/README.md`
+- [DRAFT] P6 – Docs Integration [`README.md`](README.md), [`reference/README.md`](reference/README.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator

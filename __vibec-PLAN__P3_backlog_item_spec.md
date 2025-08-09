@@ -1,9 +1,7 @@
 # PLAN: P3 – Backlog Item Specification
 
 ## 0) Plan Status Dashboard
-- Status: Completed
-- Owner: Operator
-- Link: `reference/MCU_BACKLOG_ITEM_SPECIFICATION.md`
+- [COMPLETED] P3 – Backlog Item Specification [`reference/MCU_BACKLOG_ITEM_SPECIFICATION.md`](reference/MCU_BACKLOG_ITEM_SPECIFICATION.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
