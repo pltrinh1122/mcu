@@ -35,3 +35,12 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Rationale: Establish shared mental models and durable context to reduce misalignment risk.
 - Actions/Next Steps: Apply MCU structure consistently to shared artifacts to maintain alignment.
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`
+
+## [2025-08-09T16:20:31Z] Foundational Artifacts Inquiry
+- Scope: repository, foundations
+- Decision/Instruction: Identify foundational artifacts required for effective Operator–Agent collaboration.
+- Rationale: Ensure minimum viable scaffolding is in place across repos.
+- Actions/Next Steps:
+  - Confirm baseline set: `VIBE_NOTE` (note MCU), `VIBE_CODING` (instruction-agent MCU), `MCU_SPECIFICATION` (base spec), `MCU_REFERENCE_SPECIFICATION` (reference spec), `MCU_INSTRUCTION-AGENT_SPECIFICATION` (agent spec), and a plan artifact (`__vibec-PLAN__*`).
+  - Decide if additional foundation is required (e.g., `README` alignment section, `CONTRIBUTING` alignment rules).
+- References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `reference/MCU_REFERENCE_SPECIFICATION.md`, `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_SPECIFICATION.md`
