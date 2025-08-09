@@ -49,11 +49,14 @@ metadata:
 ### Scope and Purpose
 - Govern a collection of `backlog-item` MCUs for a repository or component
 - Provide prioritization and status signaling; centralize links to items
+- Define storage layout: backlog index files reside in `BACKLOGS/` (default: `BACKLOGS/BACKLOG_MAIN.md`); all backlog items reside under `BACKLOGS/ITEMS/` as individual files
+ - Support multiple backlog index files in `BACKLOGS/` (e.g., `TEAM_ALPHA.md`, `ROADMAP_2025Q4.md`); when unspecified, `BACKLOGS/BACKLOG_MAIN.md` is the default
 
 ### Content Structure
 - Executive Summary (purpose and scope)
 - Backlog Overview (policy, prioritization scheme)
 - Items Index (links to `backlog-item` MCUs)
+  - Links MUST be relative paths to files under `ITEMS/` (e.g., `ITEMS/BLIT_SYS123_2025-08-09T23-59-59Z.md`)
 - Orchestration Metadata (owned by backlog):
   - Priority/Rank and ordering
   - Scheduling window/milestones; release/PI targets
@@ -102,18 +105,18 @@ metadata:
 - Clear prioritization cues (field or section)
 - Timestamp accuracy (ISO 8601 UTC)
 - No duplication of item-owned tracks (execution/definition/validation/docs). Backlog only references item evidence and computes rollups.
+ - Index link paths are relative and resolve to files under `BACKLOGS/ITEMS/`
 
 ---
 
 ## Integration
 
 ### Cross-References
-- Links to constituent `backlog-item` MCUs
+- Links to constituent `backlog-item` MCUs stored under `BACKLOGS/ITEMS/`
 - Optional links forward to PLAN/STATUS where applicable via items
 - Rollups derived from item tracks (e.g., In-Progress, Completed, Accepted) for dashboards
 
-### Validation
-- Minimal structural checks: Items Index present with at least one link when non-empty
+- Minimal structural checks: Items Index present with at least one link when non-empty; referenced items should be under `BACKLOGS/ITEMS/`
 - Optional integrity checks (advisory): if orchestration metadata present, ensure referenced items exist; do not require item-level execution fields here
 
 ---

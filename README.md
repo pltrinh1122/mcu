@@ -35,6 +35,9 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 │   └── MCU_BACKLOG_SPECIFICATION.md
 ├── backlog-item/                # Backlog Item MCU specification (type: backlog-item)
 │   └── MCU_BACKLOG_ITEM_SPECIFICATION.md
+├── BACKLOGS/                    # Backlog instances (indexes and items)
+│   ├── BACKLOG_MAIN.md          # Default backlog index file
+│   └── ITEMS/                   # All unique backlog items
 ├── instruction/                 # Instruction MCU specifications
 │   ├── MCU_INSTRUCTION_SPECIFICATION.md
 │   ├── README.md
@@ -80,8 +83,8 @@ This repository contains the Memory Context Units (MCUs), a standalone component
 4. **Instruction:Agent MCUs**: Use `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_TEMPLATE.md`
 5. **VIBE_CODING MCUs**: Use `instruction/instruction-agent/vibecoding/` for VIBE_CODING specific instructions
 6. **Note MCUs**: Use `templates/MCU_NOTE_TEMPLATE.md` and follow `reference/MCU_NOTE_SPECIFICATION.md`
-7. **Backlog MCUs**: Use `templates/MCU_BACKLOG_TEMPLATE.md` and follow `backlog/MCU_BACKLOG_SPECIFICATION.md`
-8. **Backlog Item MCUs**: Use `templates/MCU_BACKLOG_ITEM_TEMPLATE.md` and follow `backlog-item/MCU_BACKLOG_ITEM_SPECIFICATION.md`
+7. **Backlog MCUs**: Use `templates/MCU_BACKLOG_TEMPLATE.md` and follow `backlog/MCU_BACKLOG_SPECIFICATION.md`. Store backlog index files in `BACKLOGS/` (default: `BACKLOGS/BACKLOG_MAIN.md`).
+8. **Backlog Item MCUs**: Use `templates/MCU_BACKLOG_ITEM_TEMPLATE.md` and follow `backlog-item/MCU_BACKLOG_ITEM_SPECIFICATION.md`. Store items in `BACKLOGS/ITEMS/` (one file per item).
 
 ### **Quality Standards**
 - **Compliance**: All MCUs must follow their respective specifications

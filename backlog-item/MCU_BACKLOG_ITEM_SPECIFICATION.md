@@ -71,6 +71,7 @@ metadata:
 - If in execution, include PLAN link; if completed/ongoing, include STATUS link
 - Timestamp accuracy (ISO 8601 UTC)
 - No orchestration fields on item (priority, scheduling, dependency graph, rollup). Those are backlog-owned.
+ - Filename convention: concise and unique `BLIT_[systemID]_[timestamp].md`; timestamp uses colon-safe ISO 8601 with trailing Z (`YYYY-MM-DDTHH-MM-SSZ`); `[systemID]` must match `^[A-Za-z0-9_]+$`
 
 ---
 
@@ -80,6 +81,7 @@ metadata:
 - Backward: source notes or docs
 - Forward: links to PLAN and STATUS if applicable
 - Backlog link: reference the governing backlog that orchestrates this item (optional if single backlog in repo)
+ - Storage: items live under `BACKLOGS/ITEMS/` (one file per item)
 
 ### Validation
 - Minimal structural checks: Source References section with ≥1 link

@@ -34,3 +34,9 @@
 ## Workstreams (read-only, derived from backlog)
 - current_workstream_id: [optional]
 - completed_workstreams: [ids]
+
+## Storage
+- Place this file under `BACKLOGS/ITEMS/` (one file per item)
+
+## Filename Convention
+ - Use a concise, unique filename: `BLIT_[systemID]_[timestamp].md` (ISO 8601 UTC with trailing Z; colon-safe: `YYYY-MM-DDTHH-MM-SSZ`). `[systemID]` must be alphanumeric/underscore only (`^[A-Za-z0-9_]+$`).

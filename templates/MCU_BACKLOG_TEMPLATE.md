@@ -29,8 +29,12 @@
 - Closure: exclusive=true; pre: validation_track == Explicit-Accepted; exit: closure_track == Archived
 
 ## Items Index
-- [ ] [backlog-item-...](path/to/item)
-- [ ] [backlog-item-...](path/to/item)
+- [ ] [backlog-item-...](ITEMS/path-to-item.md)
+- [ ] [backlog-item-...](ITEMS/path-to-item.md)
+
+## Conventions
+- Place this index file in `BACKLOGS/` (default index: `BACKLOG_MAIN.md`).
+- Item links MUST be relative paths to `ITEMS/`.
 
 ## Reporting (optional)
 - Counts by state:
