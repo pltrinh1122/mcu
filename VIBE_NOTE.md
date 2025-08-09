@@ -78,3 +78,14 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Compare against existing `reference`/`instruction` scopes to prevent overlap.
   - Propose directory placement and template changes if adopted.
 - References: `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `README.md`
+
+## [2025-08-09T18:44:12Z] VIBE_NOTE Usage and Roles
+- Scope: VIBE_NOTE governance
+- Decision/Instruction: Clarify VIBE_NOTE lifecycle and responsibilities.
+  - Create: Operator or AI can create entries; AI should propose, Operator approves sensitive items.
+  - Update: New entries are appended; existing timestamps are not retroactively changed unless explicitly approved by Operator.
+  - Remove: Deletions require explicit Operator approval; AI may propose cleanup.
+  - Timestamping: Always use ISO 8601 UTC (e.g., `2025-08-09T18:44:12Z`).
+- Rationale: Ensure consistent, auditable collaboration and traceability.
+- Actions/Next Steps: Reflect this lifecycle in `VIBE_CODING.md` usage guidance and in any future Note MCU spec.
+- References: `VIBE_CODING.md`, `__vibec-PLAN__vibe_note_mcu_extension.md`
