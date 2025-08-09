@@ -17,7 +17,7 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 
 <!-- Add new notes below this line using the template above -->
 
-## [2025-08-09T00:00:00Z] MCU Type Observations
+## [2025-08-09T16:02:41Z] MCU Type Observations
 - Scope: repository, MCU framework
 - Decision/Instruction: PLAN and similar artifacts are also MCU types; SPECIFICATION is also a type of MCU; any artifact consumable by both Operator and AI should be modeled as an MCU type.
 - Rationale: Ensure consistent governance, metadata, validation, and discoverability across shared artifacts.

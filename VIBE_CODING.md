@@ -523,6 +523,24 @@ When the Operator requests implementation of VIBE_CODING instructions:
 9. **Provide rollback strategies** for complex changes
 10. **Document resource requirements** and dependencies
 
+### **When Timestamping Documents**
+
+Use ISO 8601 UTC timestamps for all time-stamped entries.
+
+```bash
+# Retrieve current UTC timestamp (Linux/macOS)
+date -u +%Y-%m-%dT%H:%M:%SZ
+
+# Example: capture into a variable for reuse in scripts
+UTC_NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo "$UTC_NOW"
+```
+
+Apply timestamps in headings like:
+
+```markdown
+## [2025-01-01T00:00:00Z] Short title
+```
+
 ### **File Naming Conventions**
 
 #### **Core Principle: Filesystem Command Optimization**
