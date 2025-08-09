@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: spec-backlog-item-2025-08-09-001
 - **Created**: 2025-08-09T20:26:34Z
-- **Updated**: 2025-08-09T21:59:28Z
+- **Updated**: 2025-08-09T22:10:36Z
 - **Type**: specification
 - **Version**: 1.0
 - **Project**: MCU
@@ -61,6 +61,10 @@ metadata:
   - docs_track: Docs-Added | Examples-Linked
   - integration_evidence: PR/Deploy links
 - Do not duplicate backlog-owned orchestration (priority, scheduling, dependencies, rollups). Link to backlog for those.
+ - Workstream annotations (read-only, future-proof):
+   - current_workstream_id (optional): set by backlog assignment
+   - completed_workstreams (optional set of ids): derived from backlog
+   - Note: Items MUST NOT own workstream assignment logic; fields are informational only.
 
 ### Quality Standards
 - At least one source reference present

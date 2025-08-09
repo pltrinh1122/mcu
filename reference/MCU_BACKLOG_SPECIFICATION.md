@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: spec-backlog-2025-08-09-001
 - **Created**: 2025-08-09T20:26:34Z
-- **Updated**: 2025-08-09T21:59:28Z
+- **Updated**: 2025-08-09T22:10:36Z
 - **Type**: specification
 - **Version**: 1.0
 - **Project**: MCU
@@ -60,6 +60,10 @@ metadata:
   - Dependencies (blocks/blocked-by graph)
   - Swimlane/team ownership
   - Program-level risk and aging signals
+  - Workstreams (future-proofed):
+    - Schema: id, name, exclusive (default true), preconditions, exit_criteria, depends_on (ids)
+    - Assignment: active_workstreams[item_id] (enforced exclusive for now)
+    - Concurrency: may be enabled later by setting exclusive=false per stream
 - Reporting (optional): counts by state, aging metrics, rollups
 
 ### Quality Standards
