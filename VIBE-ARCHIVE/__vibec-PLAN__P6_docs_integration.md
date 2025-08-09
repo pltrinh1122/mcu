@@ -1,11 +1,12 @@
 # PLAN: P6 – Documentation Integration for Backlog Types
+> Archived on 2025-08-09T21:43:16Z – reason: avoid clutter in working directory space
 
 ## 0) Plan Status Dashboard
-- [ACCEPTED] P6 – Docs Integration [`README.md`](README.md), [`reference/README.md`](reference/README.md)
+- [ARCHIVE] P6 – Docs Integration [`README.md`](README.md), [`reference/README.md`](reference/README.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
-- Status: Accepted
+- Status: ARCHIVE
 - Scope: README.md, reference/README.md
 - Orchestration: false
 - Plan_Level: 1

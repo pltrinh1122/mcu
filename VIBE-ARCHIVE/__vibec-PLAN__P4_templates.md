@@ -1,11 +1,12 @@
 # PLAN: P4 – Backlog Templates
+> Archived on 2025-08-09T21:43:16Z – reason: avoid clutter in working directory space
 
 ## 0) Plan Status Dashboard
-- [ACCEPTED] P4 – Backlog Templates [`templates/MCU_BACKLOG_TEMPLATE.md`](templates/MCU_BACKLOG_TEMPLATE.md), [`templates/MCU_BACKLOG_ITEM_TEMPLATE.md`](templates/MCU_BACKLOG_ITEM_TEMPLATE.md)
+- [ARCHIVE] P4 – Backlog Templates [`templates/MCU_BACKLOG_TEMPLATE.md`](templates/MCU_BACKLOG_TEMPLATE.md), [`templates/MCU_BACKLOG_ITEM_TEMPLATE.md`](templates/MCU_BACKLOG_ITEM_TEMPLATE.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
-- Status: Accepted
+- Status: ARCHIVE
 - Scope: templates/MCU_BACKLOG_TEMPLATE.md, templates/MCU_BACKLOG_ITEM_TEMPLATE.md
 - Orchestration: false
 - Plan_Level: 1

@@ -1,11 +1,12 @@
 # PLAN: P5 – Validator Support for Backlog Types
+> Archived on 2025-08-09T21:43:16Z – reason: avoid clutter in working directory space
 
 ## 0) Plan Status Dashboard
-- [ACCEPTED] P5 – Validator Support [`scripts/validate_mcu.py`](scripts/validate_mcu.py)
+- [ARCHIVE] P5 – Validator Support [`scripts/validate_mcu.py`](scripts/validate_mcu.py)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
-- Status: Accepted
+- Status: ARCHIVE
 - Scope: scripts/validate_mcu.py
 - Orchestration: false
 - Plan_Level: 1

@@ -1,8 +1,9 @@
 # PLAN: Plan-of-Plan – VIBE_BACKLOG and VIBE_BACKLOG_ITEM Introduction
+> Archived on 2025-08-09T21:38:23Z – reason: avoid clutter in working directory space
 
 - Created: 2025-08-09T19:52:30Z
 - Owner: Operator
-- Status: In Progress
+- Status: ARCHIVE
 - Scope: Orchestration of related plans (specs, templates, validator, docs)
 - Orchestration: true
 - Plan_Level: 2

@@ -2,7 +2,7 @@
 > Archived on 2025-08-09T21:43:16Z – reason: avoid clutter in working directory space
 
 ## 0) Plan Status Dashboard
-- [ARCHIVE] P2 – Backlog Specification [`backlog/MCU_BACKLOG_SPECIFICATION.md`](backlog/MCU_BACKLOG_SPECIFICATION.md)
+- [ARCHIVE] P2 – Backlog Specification [`reference/MCU_BACKLOG_SPECIFICATION.md`](reference/MCU_BACKLOG_SPECIFICATION.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
