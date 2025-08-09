@@ -1,5 +1,17 @@
 # VIBE NOTE (OPERATOR)
 
+## Context Memory Unit: note-vibe_note-2025-08-09-001
+- **Created**: 2025-08-09T19:26:40Z
+- **Updated**: 2025-08-09T19:26:40Z
+- **Type**: note
+- **Version**: 1.0
+- **Project**: MCU
+- **Tool**: VIBE_NOTE
+- **Category**: governance
+- **Tags**: ["note", "operator"]
+
+---
+
 Explicit Operator notes for the repository. Each entry must include an ISO 8601 UTC timestamp. See `reference/MCU_NOTE_SPECIFICATION.md` for the Note MCU requirements.
 
 ## How to add a note
