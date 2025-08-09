@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: spec-backlog-2025-08-09-001
 - **Created**: 2025-08-09T20:26:34Z
-- **Updated**: 2025-08-09T20:26:34Z
+- **Updated**: 2025-08-09T21:59:28Z
 - **Type**: specification
 - **Version**: 1.0
 - **Project**: MCU
@@ -54,12 +54,19 @@ metadata:
 - Executive Summary (purpose and scope)
 - Backlog Overview (policy, prioritization scheme)
 - Items Index (links to `backlog-item` MCUs)
-- Reporting (optional): counts by state, aging metrics
+- Orchestration Metadata (owned by backlog):
+  - Priority/Rank and ordering
+  - Scheduling window/milestones; release/PI targets
+  - Dependencies (blocks/blocked-by graph)
+  - Swimlane/team ownership
+  - Program-level risk and aging signals
+- Reporting (optional): counts by state, aging metrics, rollups
 
 ### Quality Standards
 - 100% items listed have valid links
 - Clear prioritization cues (field or section)
 - Timestamp accuracy (ISO 8601 UTC)
+- No duplication of item-owned tracks (execution/definition/validation/docs). Backlog only references item evidence and computes rollups.
 
 ---
 
@@ -68,9 +75,11 @@ metadata:
 ### Cross-References
 - Links to constituent `backlog-item` MCUs
 - Optional links forward to PLAN/STATUS where applicable via items
+- Rollups derived from item tracks (e.g., In-Progress, Completed, Accepted) for dashboards
 
 ### Validation
 - Minimal structural checks: Items Index present with at least one link when non-empty
+- Optional integrity checks (advisory): if orchestration metadata present, ensure referenced items exist; do not require item-level execution fields here
 
 ---
 
