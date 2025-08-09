@@ -109,3 +109,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Specify switch protocol: record pause reason, capture current state, next steps, and timestamp; update STATUS; add note in `VIBE_NOTE.md`.
   - Outline limits: maximum concurrent active plans; Operator approval required for switching.
 - References: `__vibec-PLAN__*`, `__vibew-STATUS__*`, `VIBE_CODING.md`
+
+## [2025-08-09T19:17:57Z] Reconcile Vibe Work and Vibe Project
+- Scope: layering, governance
+- Decision/Instruction: Reconcile relationship and boundaries between Vibe Work (operational layer) and Vibe Project (organizational/product layer).
+- Rationale: Clear delineation will reduce ambiguity in artifact ownership, lifecycle, and cross-repo integration.
+- Actions/Next Steps:
+  - Draft definitions: purposes, audiences, and responsibilities of each layer.
+  - Map artifacts to layers (e.g., `VIBE_CODING`, `VIBE_NOTE`, `README`) and define cross-links.
+  - Propose governance rules for handoffs and escalation across layers.
+- References: `__vibec-PLAN__vibe_note_mcu_extension.md`, `VIBE_CODING.md`, repo `README.md`
