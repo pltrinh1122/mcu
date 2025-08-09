@@ -550,6 +550,38 @@ sed -i "1s;^;> Archived on ${UTC_NOW} – reason: [ENTER_REASON]\n\n;" "$TARGET"
 git mv "$TARGET" "VIBE-ARCHIVE/$(basename "$TARGET")"
 ```
 
+### **When Managing Backlog and Backlog Items**
+
+#### Ownership Model
+
+- Backlog (orchestration-owned): priority/rank, scheduling windows/milestones, dependencies (blocks/blocked-by), swimlane/team ownership, workstreams (schema, assignment, exclusivity), program-level risk/aging, and rollup/aggregated statuses.
+- Backlog-Item (evidence-owned): source_track, definition_track, execution_track, validation_track, docs_track, integration evidence (PRs/deploys), links to PLAN/POP and STATUS, Source References.
+
+#### AI Autonomous Actions (Backlog-Item)
+
+- Create items from NOTE/ad-hoc input and link Source References.
+- Advance evidence tracks up to definition_track: AC-Ready (including triage, clarify, propose acceptance criteria, size).
+- Propose a PLAN stub and link it; do not start execution.
+- Run validator checks for item structure and links; suggest fixes.
+- Produce an advisory rollup for dashboards (computed), without writing orchestration fields.
+
+#### Operator Required Decisions (Backlog/Orchestration)
+
+- Set/modify priority, scheduling windows, dependencies, and workstream assignments.
+- Approve starting execution; approve acceptance (Explicit-Accepted) and archive.
+- Change POP/PLAN orchestration or create POP dependencies.
+
+#### Workstreams (Future-Proofing)
+
+- Defined on backlog with: id, name, exclusive (default true), preconditions, exit_criteria, depends_on.
+- Items may display read-only annotations (current_workstream_id, completed_workstreams) derived from backlog; items must not own workstream logic.
+- Concurrency may be enabled later by setting exclusive=false per stream; preconditions reference item tracks and completed workstreams.
+
+#### Guardrails
+
+- No orchestration fields are written on items by AI (priority, schedule, dependency graph, workstreams, rollups).
+- AI stops at AC-Ready without Operator approval to proceed to planning/execution.
+
 ### **When Timestamping Documents**
 
 Use ISO 8601 UTC timestamps for all time-stamped entries.
