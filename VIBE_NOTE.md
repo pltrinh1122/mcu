@@ -89,3 +89,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Rationale: Ensure consistent, auditable collaboration and traceability.
 - Actions/Next Steps: Reflect this lifecycle in `VIBE_CODING.md` usage guidance and in any future Note MCU spec.
 - References: `VIBE_CODING.md`, `__vibec-PLAN__vibe_note_mcu_extension.md`
+
+## [2025-08-09T18:46:07Z] MCU Quick-Start for Cursor (Guide)
+- Scope: onboarding, workspace setup
+- Decision/Instruction: Explore creating an "MCU Quick-Start for Cursor" GUIDE (as an MCU type) to set up an MCU framework in a new or existing workspace.
+- Rationale: Accelerate adoption by providing step-by-step setup tailored for Cursor.
+- Actions/Next Steps:
+  - Draft the GUIDE scope: prerequisites, directory creation, templates, validation/testing, commit practices.
+  - Decide on MCU type: dedicated `guide` type vs. `reference` with a Quick-Start role.
+  - Propose placement (e.g., `guides/` dir or under `reference/`) and a template.
+- References: `README.md`, `VIBE_CODING.md`, `docs/MCU_SPECIFICATION.md`, `templates/`
