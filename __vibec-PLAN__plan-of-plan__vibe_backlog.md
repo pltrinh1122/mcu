@@ -13,7 +13,7 @@
   - [COMPLETED] P2 – Backlog Specification [__vibec-PLAN__P2_backlog_spec.md](__vibec-PLAN__P2_backlog_spec.md)
   - [COMPLETED] P3 – Backlog Item Specification [__vibec-PLAN__P3_backlog_item_spec.md](__vibec-PLAN__P3_backlog_item_spec.md)
   - [COMPLETED] P4 – Backlog Templates [__vibec-PLAN__P4_templates.md](__vibec-PLAN__P4_templates.md)
-  - [DRAFT] P5 – Validator Support [__vibec-PLAN__P5_validator_support.md](__vibec-PLAN__P5_validator_support.md)
+  - [COMPLETED] P5 – Validator Support [__vibec-PLAN__P5_validator_support.md](__vibec-PLAN__P5_validator_support.md)
   - [DRAFT] P6 – Docs Integration [__vibec-PLAN__P6_docs_integration.md](__vibec-PLAN__P6_docs_integration.md)
 
 ## 1) Objective

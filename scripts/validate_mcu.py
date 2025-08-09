@@ -33,7 +33,7 @@ class MCUValidator:
             'Tags'
         ]
         
-        self.valid_types = ['reference', 'instruction', 'instruction-agent', 'specification', 'note']
+        self.valid_types = ['reference', 'instruction', 'instruction-agent', 'specification', 'note', 'backlog', 'backlog-item']
         self.valid_categories = ['framework', 'specification', 'template', 'example', 'governance']
         
     def validate_file(self, file_path: str) -> Tuple[bool, List[str]]:
@@ -73,6 +73,10 @@ class MCUValidator:
             # Structure rules vary by type
             if mcu_type == 'note':
                 errors.extend(self._validate_note_structure(content))
+            elif mcu_type == 'backlog':
+                errors.extend(self._validate_backlog_structure(content))
+            elif mcu_type == 'backlog-item':
+                errors.extend(self._validate_backlog_item_structure(content))
             else:
                 errors.extend(self._validate_structure(content))
                 errors.extend(self._validate_sections(content))
@@ -145,6 +149,25 @@ class MCUValidator:
         timestamp_heading_re = re.compile(r'^## \[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\]', re.MULTILINE)
         if not timestamp_heading_re.search(content):
             errors.append('No timestamped note entries found (expected headings like ## [YYYY-MM-DDTHH:MM:SSZ])')
+        return errors
+
+    def _validate_backlog_structure(self, content: str) -> List[str]:
+        """Validate minimal structure for Backlog MCUs."""
+        errors: List[str] = []
+        if '## Items Index' not in content:
+            errors.append('Missing required section: ## Items Index')
+        return errors
+
+    def _validate_backlog_item_structure(self, content: str) -> List[str]:
+        """Validate minimal structure for Backlog Item MCUs."""
+        errors: List[str] = []
+        if '## Source References' not in content:
+            errors.append('Missing required section: ## Source References')
+        else:
+            # Require at least one markdown link in the Source References section
+            # Rough check for a [text](link) pattern anywhere in the doc
+            if not re.search(r'\[[^\]]+\]\([^\)]+\)', content):
+                errors.append('No source references found (expected at least one [text](link))')
         return errors
 
     def validate_directory(self, directory: str) -> Dict[str, Tuple[bool, List[str]]]:
