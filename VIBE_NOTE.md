@@ -151,12 +151,11 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Update validator to recognize `backlog` type or ignore if treated as non-MCU family.
 - References: `VIBE_CODING.md`, `__vibec-PLAN__*`, `__vibew-STATUS__*`, `docs/MCU_SPECIFICATION.md`
 
-## [2025-08-09T19:51:22Z] SPECIFICATION MCU Type Relationship
-- Scope: types, relationships
-- Decision/Instruction: Explore a dedicated `specification` MCU type’s role and its relationships to other types (reference, instruction, instruction-agent, note, backlog?).
-- Rationale: Clarify whether specifications should govern templates and validators directly, define inheritance and extension points, and set cross-type constraints.
+## [2025-08-09T20:10:23Z] Strategy/Analysis in PLAN and PLAN-of-PLAN
+- Scope: planning methodology
+- Decision/Instruction: Add a “Strategy/Analysis” section to PLAN and PLAN-of-PLAN documents to contextualize objectives (answer “Why?”), including constraints, alternatives considered, and rationale for choice.
+- Rationale: Improves alignment, reduces rework, and clarifies trade-offs and success criteria.
 - Actions/Next Steps:
-  - Draft a mapping of which types inherit from which specification and what constraints they must satisfy.
-  - Determine cross-reference requirements (e.g., specs must reference base spec and relevant templates).
-  - Recommend updates to `docs/MCU_SPECIFICATION.md` and per-type specs.
-- References: `docs/MCU_SPECIFICATION.md`, `reference/MCU_NOTE_SPECIFICATION.md`, `instruction/instruction-agent/MCU_INSTRUCTION-AGENT_SPECIFICATION.md`
+  - Update `VIBE_CODING.md` (“When Developing Plans”) to include Strategy/Analysis as a required section.
+  - Add guidance prompts (problem statement, options, trade-offs, selection rationale).
+- References: `VIBE_CODING.md`
