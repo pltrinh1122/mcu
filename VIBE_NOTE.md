@@ -140,3 +140,13 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Draft a matrix proposing defaults, e.g., implicit: `Created`, `Updated`, `Tags`; explicit: `Type`, `Version`, `Project`, `Tool`, `Category`, cross-references.
   - Integrate into base spec and VIBE_CODING governance once approved.
 - References: `docs/MCU_SPECIFICATION.md`, `VIBE_CODING.md`
+
+## [2025-08-09T19:38:56Z] VIBE_BACKLOG MCU Type
+- Scope: backlog, planning
+- Decision/Instruction: Add a new MCU type, `VIBE_BACKLOG`, to track PLANs and corresponding STATUS. Each backlog item should reference source information (e.g., VIBE_NOTE entries) that are groomed into PLAN items.
+- Rationale: Provide traceability from Notes → Backlog → Plan → Status, improving governance and accountability.
+- Actions/Next Steps:
+  - Draft `MCU_BACKLOG_SPECIFICATION.md` and a corresponding template.
+  - Define metadata to link to source notes, plan IDs, and status documents.
+  - Update validator to recognize `backlog` type or ignore if treated as non-MCU family.
+- References: `VIBE_CODING.md`, `__vibec-PLAN__*`, `__vibew-STATUS__*`, `docs/MCU_SPECIFICATION.md`
