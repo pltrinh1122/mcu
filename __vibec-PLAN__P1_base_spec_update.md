@@ -1,11 +1,11 @@
 # PLAN: P1 – Base Spec Update for Backlog Types
 
 ## 0) Plan Status Dashboard
-- [COMPLETED] P1 – Base Spec Update [`docs/MCU_SPECIFICATION.md`](docs/MCU_SPECIFICATION.md)
+- [ACCEPTED] P1 – Base Spec Update [`docs/MCU_SPECIFICATION.md`](docs/MCU_SPECIFICATION.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
-- Status: Completed
+- Status: Accepted
 - Scope: docs/MCU_SPECIFICATION.md
 - Orchestration: false
 - Plan_Level: 1

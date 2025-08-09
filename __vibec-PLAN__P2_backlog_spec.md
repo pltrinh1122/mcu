@@ -1,11 +1,11 @@
 # PLAN: P2 – Backlog Specification
 
 ## 0) Plan Status Dashboard
-- [COMPLETED] P2 – Backlog Specification [`reference/MCU_BACKLOG_SPECIFICATION.md`](reference/MCU_BACKLOG_SPECIFICATION.md)
+- [ACCEPTED] P2 – Backlog Specification [`reference/MCU_BACKLOG_SPECIFICATION.md`](reference/MCU_BACKLOG_SPECIFICATION.md)
 
 - Created: 2025-08-09T20:26:34Z
 - Owner: Operator
-- Status: Completed
+- Status: Accepted
 - Scope: reference/MCU_BACKLOG_SPECIFICATION.md
 - Orchestration: false
 - Plan_Level: 1
