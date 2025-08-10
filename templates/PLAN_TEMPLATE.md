@@ -32,6 +32,12 @@
 ## Steps
 - Use `templates/PLAN_STEP_TEMPLATE.md` for each step
 
+> Note: PLAN `execution_track` is derived from Step Statuses:
+> - Completed: all Steps Completed
+> - Blocked: any Step Blocked (and not all Completed)
+> - In-Progress: any Step In-Progress, or mix of Completed and Not-Started
+> - Not-Started: all Steps Not-Started
+
 ## Acceptance Criteria
 - [criterion 1]
 - [criterion 2]

@@ -629,6 +629,15 @@ Each PLAN is composed of ordered Steps. A Step is the atomic action unit.
   - POP decomposes an initiative into multiple child PLANs and/or Steps.
   - Each BACKLOG_ITEM should link to exactly one PLAN or one POP.
 
+### PLAN state derivation from Steps
+
+- The PLAN `execution_track` is computed from its Steps' Status values.
+- Derivation (precedence when not all Completed):
+  - Completed: all Steps are Completed
+  - Blocked: any Step is Blocked (and not all Completed)
+  - In-Progress: any Step is In-Progress, or a mix of Completed and Not-Started
+  - Not-Started: all Steps are Not-Started
+
 Apply timestamps in headings like:
 
 ```markdown
