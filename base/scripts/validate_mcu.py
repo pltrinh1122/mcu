@@ -67,6 +67,11 @@ class MCUValidator:
                 return False, errors
                 
             errors.extend(self._validate_metadata(metadata))
+
+            # Additional filename policy checks for backlog items stored under BACKLOGS/ITEMS/
+            normalized_path = os.path.abspath(file_path).replace('\\', '/')
+            if '/BACKLOGS/ITEMS/' in normalized_path:
+                errors.extend(self._validate_backlog_item_filename(file_path))
             
             mcu_type = (metadata.get('type') or metadata.get('Type') or '').strip().lower()
             
@@ -168,6 +173,28 @@ class MCUValidator:
             # Rough check for a [text](link) pattern anywhere in the doc
             if not re.search(r'\[[^\]]+\]\([^\)]+\)', content):
                 errors.append('No source references found (expected at least one [text](link))')
+        return errors
+
+    def _validate_backlog_item_filename(self, file_path: str) -> List[str]:
+        """Validate backlog item filename follows BLIT_[systemID]_[YYYY-MM-DDTHH-MM-SSZ].md.
+
+        - systemID: strictly alphanumeric and underscore (no case enforcement)
+        - timestamp: colon-safe ISO 8601 UTC (YYYY-MM-DDTHH-MM-SSZ)
+        """
+        errors: List[str] = []
+        filename = os.path.basename(file_path)
+        # Regex groups: systemID, timestamp
+        m = re.match(r'^BLIT_([A-Za-z0-9_]+)_(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}Z)\.md$', filename)
+        if not m:
+            errors.append(
+                'Invalid backlog item filename. Expected pattern: BLIT_[systemID]_[YYYY-MM-DDTHH-MM-SSZ].md '
+                '(systemID: [A-Za-z0-9_]+; timestamp: colon-safe ISO with trailing Z)'
+            )
+            return errors
+        # Validate systemID chars explicitly (redundant with regex but keeps message clear)
+        system_id = m.group(1)
+        if not re.match(r'^[A-Za-z0-9_]+$', system_id):
+            errors.append('Invalid systemID in filename. Allowed: alphanumeric and underscore (^[A-Za-z0-9_]+$)')
         return errors
 
     def validate_directory(self, directory: str) -> Dict[str, Tuple[bool, List[str]]]:
