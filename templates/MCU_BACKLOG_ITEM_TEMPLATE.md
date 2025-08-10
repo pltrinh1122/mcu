@@ -34,6 +34,9 @@
 - validation_track: [Implicit-Validated|Explicit-Accepted]
 - docs_track: [Docs-Added|Examples-Linked]
 - integration_evidence: [PR/Deploy links]
+- defer_track: [Deferred|Permanently-Deferred]
+- defer_status: [free-text, e.g., next quarter]
+- defer_until: [YYYY-MM-DD]
 
 ## Workstreams (read-only, derived from backlog)
 - current_workstream_id: [optional]

@@ -1,0 +1,5 @@
+track,state,title,path,workstream,defer_status,defer_until
+definition_track,Triaged,MCU Type Observations — Discovery,BACKLOGS/ITEMS/BLIT_007f0101_2025-08-09T16-02-41Z.md,Discovery,,
+execution_track,Not-Started,MCU Type Observations — Discovery,BACKLOGS/ITEMS/BLIT_007f0101_2025-08-09T16-02-41Z.md,Discovery,,
+source_track,Captured,MCU Type Observations — Discovery,BACKLOGS/ITEMS/BLIT_007f0101_2025-08-09T16-02-41Z.md,Discovery,,
+validation_track,Implicit-Validated,MCU Type Observations — Discovery,BACKLOGS/ITEMS/BLIT_007f0101_2025-08-09T16-02-41Z.md,Discovery,,

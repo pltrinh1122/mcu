@@ -95,10 +95,10 @@ metadata:
   - exclusive: true
   - preconditions: item.validation_track == Explicit-Accepted
   - exit_criteria: integration evidence shows deployed/monitored
-- Closure
-  - exclusive: true
-  - preconditions: item.validation_track == Explicit-Accepted
-  - exit_criteria: item.closure_track == Archived
+- Defer (overlay)
+  - exclusive: false (overlay; does not block other workstreams by definition)
+  - preconditions: none
+  - exit_criteria: item.defer_track in {Deferred, Permanently-Deferred}; optional metadata via item.defer_status and item.defer_until
 - Reporting (optional): counts by state, aging metrics, rollups
 
 ### Quality Standards
