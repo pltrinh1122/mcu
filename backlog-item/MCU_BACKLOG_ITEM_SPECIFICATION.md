@@ -53,7 +53,7 @@ metadata:
 - Summary (title/objective/acceptance criteria)
 - Source References (links to `VIBE_NOTE` entries or docs) – at least one required
 - Lineage (optional): Derived-from (links to origin items), Superseded-by (links to successor items)
-- Execution Links (optional): PLAN id/path, STATUS id/path
+ - Execution Links (optional): PLAN id/path, POP id/path, STATUS id/path
 - Tracks (authoritative on item; parallel-capable):
   - source_track: Captured | Curated
   - definition_track: Triaged | Clarified | Sized | AC-Ready

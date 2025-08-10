@@ -25,6 +25,7 @@
 
 ## Execution Links (optional)
 - PLAN: [link]
+- POP: [link]
 - STATUS: [link]
 
 ## Tracks (authoritative on item)
