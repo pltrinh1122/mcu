@@ -19,6 +19,28 @@ This directory contains backlog index files and the collection of backlog items.
   - In the backlog index, annotate the original entry with "(superseded by: ...)" and add relative links to successor item(s).
   - Do not delete originals; they remain evidence.
 
+## Default SystemID generation (shell)
+Use this reproducible algorithm to derive a default `SYSTEMID` when creating item filenames. Pairs may override/personalize as needed.
+
+```bash
+# Derive default SYSTEMID (uppercase; strictly alphanumeric/underscore)
+if command -v hostid >/dev/null 2>&1; then
+  SYSTEMID=$(hostid)
+elif [ -r /etc/machine-id ]; then
+  SYSTEMID=$(cut -c1-8 /etc/machine-id)
+else
+  SYSTEMID=$(uname -n | tr -c 'A-Za-z0-9' '_' | cut -c1-16)
+fi
+SYSTEMID=$(echo "$SYSTEMID" | tr '[:lower:]' '[:upper:]')
+
+# Timestamp (colon-safe ISO 8601 UTC)
+TS=$(date -u +%Y-%m-%dT%H-%M-%SZ)
+
+# Filename
+ITEM="BACKLOGS/ITEMS/BLIT_${SYSTEMID}_${TS}.md"
+echo "$ITEM"
+```
+
 ## Examples
 - `BACKLOG_MAIN.md` → default backlog index
 - `ITEMS/BLIT_SYSABC_2025-08-09T23-59-59Z.md` → a backlog item

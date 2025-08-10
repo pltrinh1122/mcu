@@ -45,6 +45,20 @@
 ## Filename Convention
  - Use a concise, unique filename: `BLIT_[systemID]_[timestamp].md` (ISO 8601 UTC with trailing Z; colon-safe: `YYYY-MM-DDTHH-MM-SSZ`). `[systemID]` must be alphanumeric/underscore only (`^[A-Za-z0-9_]+$`).
 
+### Default SystemID (shell)
+Pairs may personalize `systemID`; default derivation:
+
+```bash
+if command -v hostid >/dev/null 2>&1; then
+  SYSTEMID=$(hostid)
+elif [ -r /etc/machine-id ]; then
+  SYSTEMID=$(cut -c1-8 /etc/machine-id)
+else
+  SYSTEMID=$(uname -n | tr -c 'A-Za-z0-9' '_' | cut -c1-16)
+fi
+SYSTEMID=$(echo "$SYSTEMID" | tr '[:lower:]' '[:upper:]')
+```
+
 ## Disposition (optional, for split/merge outcomes)
 - Disposition: [Superseded (Split)|Superseded (Merged)|Superseded (Bundled)]
 - Notes: [brief explanation]

@@ -73,6 +73,8 @@ metadata:
 - Timestamp accuracy (ISO 8601 UTC)
 - No orchestration fields on item (priority, scheduling, dependency graph, rollup). Those are backlog-owned.
  - Filename convention: concise and unique `BLIT_[systemID]_[timestamp].md`; timestamp uses colon-safe ISO 8601 with trailing Z (`YYYY-MM-DDTHH-MM-SSZ`); `[systemID]` must match `^[A-Za-z0-9_]+$`
+ - Default `systemID` derivation (recommended algorithm):
+   - Prefer `hostid`; else first 8 of `/etc/machine-id`; else sanitized `uname -n` (uppercase; non-alphanumerics as underscore; capped length)
  - If an item is split/merged/bundled, original item records a Disposition and Superseded-by links; successor items include Derived-from link(s)
 
 ---

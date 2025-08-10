@@ -20,3 +20,4 @@ Default backlog index for the repository. Lists and orchestrates `BACKLOG_ITEMS`
 
 ## Notes
 - This file serves as the default backlog index. Additional backlog indexes may be created alongside this file in `BACKLOGS/`.
+- [ ] [MCU Type Observations](ITEMS/BLIT_007f0101_2025-08-09T16-02-41Z.md)
