@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: note-vibe-note-2025-08-09-001
 - **Created**: 2025-08-09T19:26:40Z
-- **Updated**: 2025-08-10T00:24:25Z
+- **Updated**: 2025-08-10T00:31:18Z
 - **Type**: note
 - **Version**: 1.0
 - **Project**: MCU
@@ -210,4 +210,14 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Propose where to host (reference vs specification) and cross-links
   - Define update process to follow MCU_REFERENCE evolutions
 - References: `reference/MCU_REFERENCE_SPECIFICATION.md`, `VIBE_CODING.md`
+
+<a id="note-2025-08-10T01-44-20Z"></a>
+## [2025-08-10T01:44:20Z] PLAN sharing guidance
+- Body: The only PLAN content that we would consider sharing would be the unique and new sequence of STEP, i.e., an optimized way to solve a specific problem (e.g., PLAN for refactoring Python vs. PLAN for editing books). We should consider a script or ability to convert the current PLAN into a "template" for re-use and not to reuse the current PLAN itself.
+- Scope: planning, reuse
+- Actions/Next Steps:
+  - Identify candidate PLANs whose Steps are generally reusable
+  - Add a converter to extract Steps into `templates/` as reusable patterns
+  - Document guidance to link templates, not copy full PLANs
+- References: `templates/PLAN_TEMPLATE.md`, `templates/PLAN_STEP_TEMPLATE.md`, `VIBE_CODING.md`
 
