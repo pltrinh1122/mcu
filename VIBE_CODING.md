@@ -903,6 +903,27 @@ find . -name "__vibec-DEBUG__*"
 
 **Note**: No default integration assumed. Operator and AI will determine what's needed for each project.
 
+## RACI Governance for POP, PLAN, and Steps
+
+### Role fields
+- Accountable (A): single party_id responsible for overall outcome
+- Responsible (R): parties who execute the work
+- Consulted (C) (optional): parties consulted for input
+- Informed (I) (optional): parties kept informed
+
+### Cardinality and placement
+- POP: A = 1; R = 1+ (across child PLANs); C/I optional
+- PLAN: A = 1; R = 1 (single lead); C/I optional
+- STEP: A = 1; R = 1 (single lead); Collaborators[] optional for pairing; C/I optional
+
+### Inter-Pair collaboration guidance
+- STEP: keep within a single Pair (A=1, R=1). For inter-Pair involvement use C/I or short, time-boxed pairing via Collaborators with explicit intent.
+- PLAN: acceptable locus for inter-Pair collaboration (A=1; R=1); use C/I for additional Pairs; split Steps so each Pair owns distinct Steps.
+- POP: A=1; may coordinate multiple Responsible parties across child PLANs.
+
+### Party identifiers
+- party_id format: `^[A-Za-z0-9_]+$` (stable identifier); registry may be external or repo-local.
+
 ## Risk Assessment
 
 ### **Risk Classification by Catastrophic Potential and Recoverability**

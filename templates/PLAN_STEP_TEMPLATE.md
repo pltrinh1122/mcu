@@ -34,6 +34,13 @@
 ## Status
 - [Not-Started|In-Progress|Blocked|Completed]
 
+## RACI
+- Accountable: [party_id]
+- Responsible: [party_id]
+- Collaborators: [party_id, ...] (optional)
+- Consulted: [party_id, ...] (optional)
+- Informed: [party_id, ...] (optional)
+
 ## Assignee(s)
 - [party_id or team]
 
