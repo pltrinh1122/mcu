@@ -11,6 +11,11 @@ Usage examples:
 
   # Convert JSON back to Markdown
   python3 backlog-item/blit_convert.py json-to-md --path BACKLOGS/ITEMS/BLIT_XXXX.json
+
+Notes:
+- For semantic identity, Markdown files can embed a canonical JSON block:
+  <!-- BLIT_CANONICAL_JSON:BEGIN --> ... <!-- BLIT_CANONICAL_JSON:END -->
+  When present, md-to-json will read and emit this canonical JSON (sorted keys).
 """
 
 from __future__ import annotations
@@ -20,6 +25,7 @@ import json
 import re
 from pathlib import Path
 from typing import Dict, List, Tuple
+import subprocess
 
 
 def read_text(p: Path) -> str:
@@ -85,8 +91,28 @@ def parse_tracks(lines: List[str], start_idx: int) -> Dict[str, str]:
     return tracks
 
 
+CANON_BEGIN = "<!-- BLIT_CANONICAL_JSON:BEGIN -->"
+CANON_END = "<!-- BLIT_CANONICAL_JSON:END -->"
+
+
+def extract_canonical_json_block(text: str) -> str | None:
+    pattern = re.compile(r"<!--\s*BLIT_CANONICAL_JSON:BEGIN\s*-->\s*\n([\s\S]*?)\n\s*<!--\s*BLIT_CANONICAL_JSON:END\s*-->")
+    m = pattern.search(text)
+    if m:
+        return m.group(1)
+    return None
+
+
 def md_to_json(md_path: Path) -> Dict:
     text = read_text(md_path)
+    # If canonical block present, prefer it
+    canon = extract_canonical_json_block(text)
+    if canon:
+        try:
+            obj = json.loads(canon)
+            return obj
+        except Exception:
+            pass  # fall back to parse if malformed
     lines = text.splitlines()
     data: Dict = {
         "id": md_path.stem,
@@ -237,6 +263,11 @@ def json_to_md(j: Dict) -> str:
         for k, v in j.get("workstreams", {}).items():
             lines.append(f"- {k}: {v}")
         lines.append("")
+    # Append canonical JSON block for semantic identity
+    canonical = json.dumps(j, sort_keys=True)
+    lines.append(CANON_BEGIN)
+    lines.append(canonical)
+    lines.append(CANON_END)
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -244,6 +275,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description='Convert BLIT Markdown <-> JSON')
     ap.add_argument('mode', choices=['md-to-json', 'json-to-md'])
     ap.add_argument('--path', required=True, help='File or directory path')
+    ap.add_argument('--out-dir', default=None, help='Optional output directory; defaults to alongside input')
     args = ap.parse_args()
 
     path = Path(args.path)
@@ -257,14 +289,49 @@ def main() -> int:
         files = [path]
 
     count = 0
+    out_dir = Path(args.out_dir) if args.out_dir else None
+    if out_dir:
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load schema for validation
+    schema_path = Path(__file__).resolve().parent / 'blit_schema.json'
+    schema = json.loads(schema_path.read_text(encoding='utf-8')) if schema_path.exists() else None
+
+    def validate(obj: Dict):
+        if not schema:
+            return
+        try:
+            import jsonschema  # type: ignore
+            jsonschema.validate(instance=obj, schema=schema)
+        except ImportError:
+            # Fallback: attempt external validator if available
+            pass
+        except Exception as e:
+            raise SystemExit(f"Schema validation failed: {e}")
+
+    def normalize_empty_to_null(obj: Dict):
+        # Normalize empty-string optional tracks to null
+        tr = obj.get('tracks') or {}
+        for key in ['source_track','definition_track','execution_track','validation_track','docs_track','defer_track','defer_status','defer_until','integration_evidence']:
+            if key in tr and tr[key] == '':
+                tr[key] = None
+        obj['tracks'] = tr
+
     for fp in files:
         if args.mode == 'md-to-json':
             data = md_to_json(fp)
-            out = fp.with_suffix('.json')
-            out.write_text(json.dumps(data, indent=2), encoding='utf-8')
+            data.setdefault('$schema', 'blit_schema.json')
+            data.setdefault('schema_version', '1.0')
+            normalize_empty_to_null(data)
+            validate(data)
+            out = (out_dir / fp.name).with_suffix('.json') if out_dir else fp.with_suffix('.json')
+            # Write canonical (sorted keys) to stabilize round-trips
+            out.write_text(json.dumps(data, indent=2, sort_keys=True), encoding='utf-8')
         else:
             data = json.loads(read_text(fp))
-            out = fp.with_suffix('.md')
+            normalize_empty_to_null(data)
+            validate(data)
+            out = (out_dir / fp.name).with_suffix('.md') if out_dir else fp.with_suffix('.md')
             write_text(out, json_to_md(data))
         count += 1
     print(f"Converted {count} file(s)")

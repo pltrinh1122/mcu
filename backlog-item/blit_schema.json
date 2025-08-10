@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "blit_schema.json",
+  "title": "BLIT Backlog Item",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "title",
+    "context_unit_id",
+    "metadata",
+    "summary",
+    "source_references",
+    "execution_links",
+    "tracks"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema_version": { "type": "string" },
+    "id": { "type": "string", "pattern": "^BLIT_[A-Za-z0-9_]+_\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$" },
+    "title": { "type": "string" },
+    "context_unit_id": {
+      "type": "string",
+      "pattern": "^backlog-item-[a-z0-9-]+-\\d{4}-\\d{2}-\\d{2}-\\d+$"
+    },
+    "metadata": { "type": "object", "additionalProperties": true },
+    "summary": {
+      "type": "object",
+      "required": ["objective", "acceptance_criteria"],
+      "properties": {
+        "objective": { "type": "string" },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "href"],
+        "properties": {
+          "text": { "type": "string" },
+          "href": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "execution_links": {
+      "type": "object",
+      "properties": {
+        "plan": { "type": "string" },
+        "pop": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "tracks": {
+      "type": "object",
+      "properties": {
+        "source_track": { "type": ["string", "null"], "enum": ["Captured", "Curated", null, ""] },
+        "definition_track": { "type": ["string", "null"], "enum": ["Triaged", "Clarified", "Sized", "AC-Ready", null, ""] },
+        "execution_track": { "type": ["string", "null"], "enum": ["Not-Started", "In-Progress", "Blocked", "Completed", null, ""] },
+        "validation_track": { "type": ["string", "null"], "enum": ["Implicit-Validated", "Explicit-Accepted", null, ""] },
+        "docs_track": { "type": ["string", "null"], "enum": ["Docs-Added", "Examples-Linked", null, ""] },
+        "integration_evidence": { "type": ["string", "null"] },
+        "defer_track": { "type": ["string", "null"], "enum": ["Deferred", "Permanently-Deferred", null, ""] },
+        "defer_status": { "type": ["string", "null"] },
+        "defer_until": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+      },
+      "additionalProperties": true
+    },
+    "workstreams": { "type": "object", "additionalProperties": true }
+  }
+}
+
