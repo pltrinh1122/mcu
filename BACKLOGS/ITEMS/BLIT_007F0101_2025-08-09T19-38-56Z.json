@@ -1,0 +1,49 @@
+{
+  "id": "BLIT_007F0101_2025-08-09T19-38-56Z",
+  "title": "VIBE_BACKLOG MCU Type \u2014 Discovery",
+  "context_unit_id": "backlog-item-mcu-2025-08-09-001",
+  "metadata": {
+    "Created": "2025-08-10T03:51:45Z",
+    "Updated": "2025-08-10T03:51:45Z",
+    "Type": "backlog-item",
+    "Version": "1.0",
+    "Project": "MCU",
+    "Tool": "BACKLOG",
+    "Category": "governance",
+    "Tags": "[\"backlog-item\", \"discovery\"]"
+  },
+  "summary": {
+    "objective": "VIBE_BACKLOG MCU Type",
+    "acceptance_criteria": [
+      "- Source reference to VIBE_NOTE entry is linked",
+      "- Problem statement and initial scope drafted",
+      "- Proposed next steps identified (triage: right-sized vs split/bundle)"
+    ]
+  },
+  "source_references": [
+    {
+      "text": "VIBE_NOTE: 2025-08-09T19-38-56Z",
+      "href": "../../VIBE_NOTE.md#note-2025-08-09T19-38-56Z"
+    }
+  ],
+  "execution_links": {
+    "plan": "",
+    "pop": "",
+    "status": ""
+  },
+  "tracks": {
+    "source_track": "Captured",
+    "definition_track": "Triaged",
+    "execution_track": "Not-Started",
+    "validation_track": "Implicit-Validated",
+    "docs_track": "",
+    "integration_evidence": "",
+    "defer_track": "",
+    "defer_status": "",
+    "defer_until": ""
+  },
+  "workstreams": {
+    "current_workstream_id": "",
+    "completed_workstreams": ""
+  }
+}

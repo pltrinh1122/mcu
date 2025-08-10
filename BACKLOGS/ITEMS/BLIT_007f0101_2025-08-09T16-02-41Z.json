@@ -1,0 +1,46 @@
+{
+  "id": "BLIT_007f0101_2025-08-09T16-02-41Z",
+  "title": "MCU Type Observations \u2014 Discovery",
+  "context_unit_id": "backlog-item-mcu-2025-08-09-001",
+  "metadata": {
+    "Created": "2025-08-10T00:02:47Z",
+    "Updated": "2025-08-10T00:02:47Z",
+    "Type": "backlog-item",
+    "Version": "1.0",
+    "Project": "MCU",
+    "Tool": "BACKLOG",
+    "Category": "governance",
+    "Tags": "[\"backlog-item\", \"discovery\"]"
+  },
+  "summary": {
+    "objective": "Assess and formalize which artifacts should be modeled as MCU types (including PLAN and SPECIFICATION) for consistent governance and validation.",
+    "acceptance_criteria": [
+      "- Source reference to VIBE_NOTE entry is linked",
+      "- Problem statement and initial scope drafted",
+      "- Proposed next steps identified (triage: right-sized vs split/bundle)"
+    ]
+  },
+  "source_references": [
+    {
+      "text": "VIBE_NOTE: 2025-08-09T16-02-41Z",
+      "href": "../../VIBE_NOTE.md#note-2025-08-09T16-02-41Z"
+    }
+  ],
+  "execution_links": {
+    "plan": "",
+    "pop": "",
+    "status": ""
+  },
+  "tracks": {
+    "source_track": "Captured",
+    "definition_track": "Triaged",
+    "execution_track": "Not-Started",
+    "validation_track": "Implicit-Validated",
+    "docs_track": "",
+    "integration_evidence": ""
+  },
+  "workstreams": {
+    "current_workstream_id": "",
+    "completed_workstreams": ""
+  }
+}
