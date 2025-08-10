@@ -606,6 +606,29 @@ date -u +%Y-%m-%dT%H:%M:%SZ
 UTC_NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ); echo "$UTC_NOW"
 ```
 
+### Plan Steps (formal definition)
+
+Each PLAN is composed of ordered Steps. A Step is the atomic action unit.
+
+- Required fields per Step:
+  - Description: Clear statement of what will be done and why
+  - Preconditions: Concrete conditions required to start
+  - Actions: Precise tasks/commands/changes to execute
+  - Deliverables: Outputs/evidence the Step must produce
+  - Acceptance Criteria: Conditions/tests to verify success
+  - Status: One of [Not-Started | In-Progress | Blocked | Completed]
+
+- Recommended fields per Step:
+  - Assignee(s): Responsible party_id or team
+  - Dependencies: Upstream items/PRs/approvals this Step needs
+  - Estimate/Target Date: Timebox or due date
+  - Links: References to notes, issues, PRs, tests, docs
+  - Risk/Rollback: Known risks and recovery/rollback plan
+
+- POP vs PLAN:
+  - POP decomposes an initiative into multiple child PLANs and/or Steps.
+  - Each BACKLOG_ITEM should link to exactly one PLAN or one POP.
+
 Apply timestamps in headings like:
 
 ```markdown
