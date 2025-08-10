@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: note-vibe-note-2025-08-09-001
 - **Created**: 2025-08-09T19:26:40Z
-- **Updated**: 2025-08-10T00:31:18Z
+- **Updated**: 2025-08-10T03:58:40Z
 - **Type**: note
 - **Version**: 1.0
 - **Project**: MCU
@@ -220,4 +220,21 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Add a converter to extract Steps into `templates/` as reusable patterns
   - Document guidance to link templates, not copy full PLANs
 - References: `templates/PLAN_TEMPLATE.md`, `templates/PLAN_STEP_TEMPLATE.md`, `VIBE_CODING.md`
+
+<a id="note-2025-08-10T04-36-13Z"></a>
+## [2025-08-10T04:36:13Z] BLIT Converter Test Coverage Plan
+- Body: Expand unit tests for `blit_convert.py` beyond a single sample to cover schema variance and edge-cases.
+- Scope: testing, validation
+- Actions/Next Steps:
+  - Required/optional fields: missing keys, extra keys (additionalProperties), empty strings → null normalization.
+  - Tracks variants: each track state, all unset, mixed null/"".
+  - Source references: multiple links, unusual URLs, missing section handling.
+  - Execution links: PLAN/POP/STATUS present/absent permutations.
+  - Titles/content: Unicode, long strings, special characters.
+  - Canonical JSON block: present/absent; round-trip preserves block; schema_version mismatch behavior.
+  - Filenames/SystemID: valid/invalid patterns; case sensitivity.
+  - Modes & paths: --out-dir, single-file vs directory inputs.
+  - Real-data suite: round-trip all `BACKLOGS/ITEMS/BLIT_*.md` and assert semantic equality.
+  - Negative cases: invalid schema fails; malformed markdown handled gracefully.
+- References: `backlog-item/blit_convert.py`, `backlog-item/blit_schema.json`, `backlog-item/test_blit_convert.py`
 
