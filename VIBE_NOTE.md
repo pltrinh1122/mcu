@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: note-vibe-note-2025-08-09-001
 - **Created**: 2025-08-09T19:26:40Z
-- **Updated**: 2025-08-09T19:26:40Z
+- **Updated**: 2025-08-10T00:12:24Z
 - **Type**: note
 - **Version**: 1.0
 - **Project**: MCU
@@ -194,3 +194,10 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Draft module structure (e.g., `validators/policy/pop.py`) and an entrypoint pattern in `validate_mcu.py`.
   - Evaluate performance and usability impacts.
 - References: `scripts/validate_mcu.py`
+<a id="note-2025-08-10T00-12-24Z"></a>
+## [2025-08-10T00:12:24Z] Explore alternative structure for validate_mcu.py
+- Body: Should we keep it as a single monolithic .py file, or modularize?
+- Scope: validation tooling, repository scripts
+- Actions/Next Steps: Draft options (monolithic vs modular), outline pros/cons, propose migration path if modular
+- References: 
+
