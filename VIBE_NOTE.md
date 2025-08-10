@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: note-vibe-note-2025-08-09-001
 - **Created**: 2025-08-09T19:26:40Z
-- **Updated**: 2025-08-10T00:12:24Z
+- **Updated**: 2025-08-10T00:24:25Z
 - **Type**: note
 - **Version**: 1.0
 - **Project**: MCU
@@ -200,4 +200,14 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
 - Scope: validation tooling, repository scripts
 - Actions/Next Steps: Draft options (monolithic vs modular), outline pros/cons, propose migration path if modular
 - References: 
+
+<a id="note-2025-08-10T01-19-21Z"></a>
+## [2025-08-10T01:19:21Z] RACI-MCU for Operator–Agent and Inter-Pair Collaboration
+- Body: Need a "RACI-MCU" to define and govern Operator and Agent collaboration (Pair) as well as inter-Pair collaboration. Leverage the MCU_REFERENCE to track the evolution of RACI and other roles and responsibilities for us to ride the updates.
+- Scope: governance, roles & responsibilities
+- Actions/Next Steps:
+  - Draft RACI-MCU scope and initial roles matrix
+  - Propose where to host (reference vs specification) and cross-links
+  - Define update process to follow MCU_REFERENCE evolutions
+- References: `reference/MCU_REFERENCE_SPECIFICATION.md`, `VIBE_CODING.md`
 
