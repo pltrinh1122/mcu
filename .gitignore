@@ -1,0 +1,19 @@
+# Python caches
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+.venv/
+venv/
+
+# Editors
+*.swp
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
