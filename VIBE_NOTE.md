@@ -2,7 +2,7 @@
 
 ## Context Memory Unit: note-vibe-note-2025-08-09-001
 - **Created**: 2025-08-09T19:26:40Z
-- **Updated**: 2025-08-10T03:58:40Z
+- **Updated**: 2025-08-10T04:01:38Z
 - **Type**: note
 - **Version**: 1.0
 - **Project**: MCU
@@ -237,4 +237,14 @@ Explicit Operator notes for the repository. Each entry must include an ISO 8601 
   - Real-data suite: round-trip all `BACKLOGS/ITEMS/BLIT_*.md` and assert semantic equality.
   - Negative cases: invalid schema fails; malformed markdown handled gracefully.
 - References: `backlog-item/blit_convert.py`, `backlog-item/blit_schema.json`, `backlog-item/test_blit_convert.py`
+
+<a id="note-2025-08-10T04-39-49Z"></a>
+## [2025-08-10T04:39:49Z] blit_convert --test option
+- Body: Enhance `blit_convert.py` with a `--test` flag that accepts an input `.md` or `.json` and validates semantic equality post-conversion (round-trip), failing with non-zero exit code on mismatch.
+- Scope: tooling, testing
+- Actions/Next Steps:
+  - Implement `--test` for both directions (md→json→md and json→md→json)
+  - Support `--out-dir` for temporary outputs; default to a temp folder
+  - Print a concise diff of semantic objects when unequal
+- References: `backlog-item/blit_convert.py`, `backlog-item/test_blit_convert.py`
 
